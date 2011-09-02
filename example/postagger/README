@@ -1,0 +1,32 @@
+This directory includes a sample application written to demonstrate the power of
+python binding of maxent toolkit.
+
+It implements a simple Maximum Entropy part of speech tagger. The
+tagger is designed for English language.  However, it is easy to extend the
+code to handle other languages (such as Chinese).
+
+The tagger is documented in the manual of the toolkit. Please note that the
+code here was written a long time ago, and is not actively maintained.
+Therefore it may not work with the latest release of C++ core.
+
+For inpatients:
+The training data is plain text file with one sentence per line. The sentence
+looks like:
+They/PRP will/MD remain/VB on/IN a/DT lower-priority/JJ list/NN that/WDT includes/VBZ 17/CD other/JJ countries/NNS ./.
+
+To train a tagging model called tagger.model with 100 iterations:
+
+$ ./postrainer.py tagger.model -f train.data --iters 100
+
+This will produces a file called "tagger.model".
+
+To tag new sentences (in test.data, one sentence per line) with a previously
+trained model:
+
+$ ./maxent_tagger.py -m tagger.model test.data
+
+The result will be printed to stdout.
+
+A pre-trained model (trained on 00-18 section of WSJ corpus) named
+"tagger.model" can be obtained from the homepage of the toolkit. 
+

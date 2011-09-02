@@ -1,0 +1,46 @@
+SubDir TOP src ;
+
+#LINKLIBS on maxent = $(LINKLIBS) $(FLIBS) ;
+LINKLIBS on maxent = $(LINKLIBS) ;
+
+if $(TARGET_DIR) 
+{
+    LOCATE_TARGET = $(TARGET_DIR) ;
+}
+
+OPT_FILES = ;
+if $(HAVE_FORTRAN)
+{
+    OPT_FILES += lbfgs.f lbfgstrainer.cpp ;
+    #Echo Building with Fortran LBFGS optimization module. ;
+} else {
+     Echo [Warning] Fortran compiler not available,  LBFGS module will not be built. ;
+}
+ 
+
+Library libmaxent : display.cpp modelfile.cpp trainer.cpp
+    gistrainer.cpp maxentmodel.cpp mmapfile.c lbfgs_wrapper.c
+    $(OPT_FILES) ;
+
+GETOPT_FILES = ;
+if $(OS) = NT || $(OS) = MINGW || $(HOST_OS) = mingw32 || $(HAVE_GETOPT_LONG) = "no"
+{
+    # the implementation of getopt_long on some win32 platforms is buggy
+    # so we use our own getopt replacement from GNU C lib
+    GETOPT_FILES += getopt.c getopt1.c ;
+}
+
+Main maxent : maxent.cpp maxent_cmdline.c f77_dummy_main.cpp $(GETOPT_FILES) ;
+LinkLibraries maxent : libmaxent ;
+
+#Link maxent : libmaxent maxent $(FLIBS) ;
+#LinkLibraries maxent : libmaxent ;
+
+# install instructions
+InstallBin $(BINDIR) : maxent ;
+InstallLib $(LIBDIR) : libmaxent$(SUFLIB) ;
+InstallFile $(STDHDRS)/maxent : maxentmodel.hpp ;
+InstallFile $(STDHDRS)/maxent : itemmap.hpp ;
+InstallFile $(STDHDRS)/maxent : meevent.hpp ;
+InstallFile $(STDHDRS)/maxent : hash_map.hpp ;
+InstallFile $(STDHDRS)/maxent : ext_algorithm.hpp ;

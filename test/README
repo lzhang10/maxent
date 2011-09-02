@@ -1,0 +1,10 @@
+This directory contains test suites for the package. All test programs are
+named in "text_xxx" pattern. Normally this directory is not built. If you want
+to build these test programs, just type `make unittest' at the top source tree.
+You need to install the unit test lib of boost (www.boost.org) before building
+these programs.
+
+A python script `runall.py' is provided, which will run all available tests
+and report the result.
+
+

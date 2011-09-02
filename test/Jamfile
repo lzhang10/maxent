@@ -1,0 +1,36 @@
+#TODO: get HAVE_FORTRAM variable work
+SubDir TOP test ;
+
+SubDirHdrs $(TOP)/src ;
+
+#LINKLIBS = $(LINKLIBS) ;
+
+Main test_display : test_display.cpp ;
+LinkLibraries test_display : libmaxent ;
+
+Main test_event : test_event.cpp ;
+LinkLibraries test_event : libmaxent ;
+
+Main test_itemmap : test_itemmap.cpp ;
+LinkLibraries test_itemmap : libmaxent ;
+
+Main test_gistrainer : test_gistrainer.cpp ;
+LinkLibraries test_gistrainer : libmaxent ;
+
+Main test_modelfile : test_modelfile.cpp ;
+LinkLibraries test_modelfile : libmaxent ;
+
+Main test_mmapfile : test_mmapfile.cpp ;
+LinkLibraries test_mmapfile : libmaxent ;
+
+#LINKLIBS = $(OLDLINKLIBS) $(FLIBS) -lboost_unit_test_framework ;
+
+#if $(HAVE_FORTRAM)
+#{
+    Main test_lbfgstrainer : test_lbfgstrainer.cpp ;
+    LinkLibraries test_lbfgstrainer : libmaxent ;
+#}
+
+Main test_maxentmodel : test_maxentmodel.cpp ;
+LinkLibraries test_maxentmodel : libmaxent ;
+

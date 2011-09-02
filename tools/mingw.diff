@@ -1,0 +1,13 @@
+--- jam-2.5/Makefile	Wed Apr 23 12:45:50 2003
++++ jam-2.5/Makefile.mingw	Sat Apr 24 22:11:31 2004
+@@ -40,8 +40,8 @@
+ #CFLAGS = -D__cygwin__
+ 
+ # MingW32
+-#CC = gcc
+-#CFLAGS = -DMINGW
++CC = gcc
++CFLAGS = -DMINGW
+ 
+ # MPEIX
+ #CC = gcc

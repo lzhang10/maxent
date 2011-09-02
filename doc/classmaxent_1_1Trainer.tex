@@ -1,0 +1,40 @@
+\section{maxent::Trainer Class Reference}
+\label{classmaxent_1_1Trainer}\index{maxent::Trainer@{maxent::Trainer}}
+{\bf Trainer} class provides an abstract interface to various training algorithms.  
+
+
+{\tt \#include $<$trainer.hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+void {\bf set\_\-training\_\-data} (shared\_\-ptr$<$ MEEvent\-Space $>$ es, shared\_\-ptr$<$ Params\-Type $>$ params, size\_\-t n\_\-theta, shared\_\-array$<$ double $>$ theta, shared\_\-array$<$ double $>$ sigma, size\_\-t n\_\-outcomes, shared\_\-ptr$<$ MEEvent\-Space $>$ heldout\_\-es=shared\_\-ptr$<$ MEEvent\-Space $>$())
+\begin{CompactList}\small\item\em Setting training data directly. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+{\bf Trainer} class provides an abstract interface to various training algorithms. 
+
+Usually you need not use this class explicitly. {\bf Maxent\-Model::train}() provides a wrapper for the underline {\bf Trainer} instances. 
+
+
+
+\subsection{Member Function Documentation}
+\index{maxent::Trainer@{maxent::Trainer}!set_training_data@{set\_\-training\_\-data}}
+\index{set_training_data@{set\_\-training\_\-data}!maxent::Trainer@{maxent::Trainer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void maxent::Trainer::set\_\-training\_\-data (shared\_\-ptr$<$ MEEvent\-Space $>$ {\em events}, shared\_\-ptr$<$ Params\-Type $>$ {\em params}, size\_\-t {\em n\_\-theta}, shared\_\-array$<$ double $>$ {\em theta}, shared\_\-array$<$ double $>$ {\em sigma}, size\_\-t {\em n\_\-outcomes}, shared\_\-ptr$<$ MEEvent\-Space $>$ {\em heldout\_\-events} = shared\_\-ptr$<$MEEvent\-Space$>$())}\label{classmaxent_1_1Trainer_a3}
+
+
+Setting training data directly. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em events}]A vector of Event objects consist of training event space. \item[{\em params}]The internal params. \item[{\em n\_\-theta}]The number of $\theta_i $ parameters. \item[{\em sigma}]Coefficients in Gaussian Prior Smoothing. \item[{\em correct\_\-constant}]Correct constant used in GIS algorithm. \item[{\em n\_\-outcomes}]Number of outcomes. \item[{\em heldout\_\-events}]A vector of Event objects consist of heldout event space. this parameter can be safely ignored. \end{description}
+\end{Desc}
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+trainer.hpp\item 
+trainer.cpp\end{CompactItemize}

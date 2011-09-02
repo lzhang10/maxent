@@ -1,0 +1,25 @@
+package "maxent"
+version "devel"
+
+purpose "A command line utility to train (test) a maxent model from a file."
+
+option "verbose" v "verbose mode" flag off
+option "model" m "set model filename" string no
+option "binary" b "save model in binary format" flag off
+option "output" o "prediction output filename" string no
+option "detail" - "output full distribution in prediction mode" flag off
+option "iter" i "iterations for training algorithm" int default="30" no
+option "gaussian" g "set Gaussian prior, disable if 0" float default="0.0" no
+option "cutoff" c "set event cutoff" int default="1" no
+option "heldout" - "specify heldout data for training" string no
+option "random" r "randomizing data in cross validation" flag off
+option "nommap" - "do not use mmap() to read data (slow)" flag off
+
+defgroup "MODE"
+groupoption "predict" p "prediction mode, default is training mode" group="MODE"
+groupoption "cv" n "N-fold cross-validation mode" int default="0" group="MODE"
+
+defgroup "Parameter Estimate Method"
+groupoption "lbfgs" - "use L-BFGS parameter estimation (default)" group="Parameter Estimate Method"
+groupoption "gis" - "use GIS parameter estimation" group="Parameter Estimate Method"
+

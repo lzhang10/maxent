@@ -1,0 +1,3723 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass book
+\begin_preamble
+\setlength{\paperwidth}{444.5cm}
+\setlength{\paperheight}{21.5cm}
+\setlength{\topmargin}{-0.5cm}
+\setlength{\oddsidemargin}{-0.5cm}
+\setlength{\evensidemargin}{-0.5cm}
+\setlength{\marginparwidth}{0cm}
+\setlength{\hoffset}{-0.5cm}
+\setlength{\voffset}{-0.5cm}
+\setlength{\textwidth}{18cm}
+\setlength{\textheight}{24cm}
+\usepackage{html}
+\usepackage{listings}
+\usepackage{fancyvrb}
+\usepackage{fancyhdr}
+\usepackage{doxygen}
+\end_preamble
+\options  openany
+\language english
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage a4
+\use_geometry 0
+\use_amsmath 0
+\use_natbib 1
+\use_numerical_citations 0
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+
+\series bold 
+Maximum Entropy Modeling Toolkit 
+\newline 
+for Python and C++
+\layout Author
+
+Zhang Le
+\newline 
+ejoy@xinhuanet.com
+\newline 
+ 
+\layout Standard
+
+
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+pagebreak
+\end_inset 
+
+
+\begin_inset LatexCommand \tableofcontents{}
+
+\end_inset 
+
+
+\layout Chapter
+
+What is it
+\layout Standard
+
+This package provides a Maximum Entropy Modeling toolkit written in C++
+ with Python binding.
+ In particular, it includes: 
+\layout Itemize
+
+Conditional Maximum Entropy Model 
+\layout Itemize
+
+L-BFGS Parameter Estimation 
+\layout Itemize
+
+GIS Parameter Estimation 
+\layout Itemize
+
+Gaussian Prior Smoothing 
+\layout Itemize
+
+C++ API 
+\layout Itemize
+
+Python Extension module
+\layout Itemize
+
+Document and Tutorial ;-) 
+\layout Standard
+
+If you do not know what Maximum Entropy Model (MaxEnt) is, please refer
+ to chapter 
+\begin_inset LatexCommand \ref{chap:intro}
+
+\end_inset 
+
+ for a brief introduction or section 
+\begin_inset LatexCommand \ref{sec:reading}
+
+\end_inset 
+
+ for some recommended papers.
+\layout Standard
+
+This manual always refers to the features existed in the latest version.
+ Changes between different releases are documented elsewhere in 
+\family typewriter 
+NEWS
+\family default 
+ (major changes) and 
+\family typewriter 
+ChangeLog
+\family default 
+ (minor changes).
+\layout Section
+
+License
+\layout Standard
+
+This software grew out of an early attempt to port the Java maxent package
+ (http://maxent.sourceforge.net) into C++.
+ Therefore it obeys the same license of the java maxent package.
+ The library is freeware and is licensed under the LGPL license (see LICENSE
+ file for more detail, or visit 
+\begin_inset LatexCommand \url{http://www.gnu.org/copyleft/lesser.html}
+
+\end_inset 
+
+).
+ It is distributed with full source code and document.
+ Contributions and bug reports are always welcome.
+ 
+\layout Section
+
+Todo List
+\layout Itemize
+
+orange binding (beta quality, see 
+\family typewriter 
+python/orange/
+\family default 
+)
+\layout Itemize
+
+IFS feature selection 
+\layout Itemize
+
+Field Induction Algorithm 
+\layout Itemize
+
+Non-conditional Maximum Entropy Model (Random Fields) 
+\layout Itemize
+
+Include more materials on MaxEnt in the document 
+\layout Itemize
+
+Re-written in ANSI C 
+\layout Itemize
+
+Common Lisp binding
+\layout Section
+
+Known Problem
+\layout Standard
+
+Sometimes the L-BFGS training can stop with an error if you use a small
+ Gaussian prior value (-g).
+ It seems this problem only occurs on small training data.
+ However, the possible reason for this problem is still under investigation.
+ 
+\layout Chapter
+
+Building and Installation
+\layout Section
+
+System Requirement
+\layout Standard
+
+Currently, this toolkit is known to work on several major operating systems
+ including POSIX environment like GNU/Linux, FreeBSD, NetBSD, SunOS and
+ Win32 (Mac OS X is not supported yet).
+ To compile the toolkit from source code you need a decent C++ compiler.
+ The following C++ compilers have been tested: 
+\layout Itemize
+
+GNU C++ compiler version 3.2 or higher (GCC 2.9x is not supported), including
+ Cygwin on Win32 
+\layout Itemize
+
+MinGW with GCC 3.2 on Win32 
+\layout Itemize
+
+Borland Free C++ Compiler 5.5 with STLPort 4.5.3 
+\layout Itemize
+
+Microsoft Visual C++ 7.1 Command line tool chain 
+\layout Itemize
+
+Microsoft Visual C++ 7.1 with STLPort 
+\layout Itemize
+
+Intel C++ 8.0 on Win32 with MSVC7.1's STL 
+\layout Itemize
+
+Intel Fortran Compiler for Win32 (for compiling L-BFGS module) 
+\layout Standard
+
+Here is a list of required software in order to build this toolkit successfully:
+ 
+\layout Itemize
+
+Jam building system for building the whole package (included) 
+\layout Itemize
+
+A decent C++ compiler with STL, see the above list 
+\layout Itemize
+
+Boost C++ library (included) 
+\layout Itemize
+
+Fortran compiler (g77 is preferred) to compile L-BFGS routine (optional).
+ L-BFGS module will be disabled if no Fortran compiler is available 
+\layout Itemize
+
+zlib library (optional) 
+\layout Standard
+
+Jam (
+\begin_inset LatexCommand \url{http://www.perforce.com}
+
+\end_inset 
+
+) is a great make(1) replacement that makes building simple things simple
+ and building complicated things manageable.
+ It is a compact, portable and more powerful alternative to the 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\emph on 
+make
+\emph default 
+
+\begin_inset Quotes erd
+\end_inset 
+
+ utility (much better indeed).
+ A recent version of Jam source code is included in 
+\family typewriter 
+tools/
+\family default 
+ directory and will be built automatically during building.
+\layout Standard
+
+Boost (
+\begin_inset LatexCommand \url{http://www.boost.org}
+
+\end_inset 
+
+) is a collection of high quality C++ template library.
+ In particular, please check whether boost's 
+\family typewriter 
+include/
+\family default 
+ directory is in your compiler's cpp search path (normally in 
+\family typewriter 
+/usr/local/include/boost
+\family default 
+).
+\layout Standard
+
+The boost lib shipped with this package is a subset of the full boost lib:
+ only headers used during compilation with gcc on Linux/FreeBSD/NetBSD/SunOS/Cyg
+win/MingW32 are included
+\begin_inset Foot
+collapsed true
+
+\layout Standard
+
+They are extracted with the 
+\family typewriter 
+script/boostheaders.py
+\family default 
+ utility.
+\end_inset 
+
+.
+ This should work well on most platforms.
+ However, if you plan to build this package on other platforms or use compilers
+ other than gcc, please download the full version of boost lib and place
+ the boost 
+\family typewriter 
+include/
+\family default 
+ directory in your compiler's cpp searching path.
+\layout Standard
+
+zlib is used to create compressed binary model.
+ Compressed binary model is much smaller than plain text model and takes
+ significantly less time to load at runtime.
+\layout Section
+
+Building C++ Library
+\layout Standard
+
+Before building the core part of the library, please check the software
+ list in previous section and make sure all of the required items have been
+ installed and configured properly on your system.
+\layout Subsection
+
+Building on Unix Platform (Linux/*BSD/SunOS etc.)
+\layout Standard
+
+This software has been tested under GNU/Linux (kernel 2.4), FreeBSD 4.8/4.9,
+ NetBSD 1.62, SunOS 5.9 with GCC 3.2/3.3/3.4.
+ It may work on other unix systems as well (Including Cygwin on win32).
+\layout Standard
+
+First unpack the tarball and put the extracted files into a temporary directory:
+\layout LyX-Code
+
+tar zxf maxent-versoin-number.tar.gz
+\layout Standard
+
+Enter the maxent-verson-number sub-directory and run 
+\family typewriter 
+configure
+\family default 
+ script to configure the package: 
+\layout LyX-Code
+
+$ ./configure
+\layout Standard
+
+NOTE: the leading character is used to represent a shell prompt.
+ DO NOT actually type that in!
+\layout Standard
+
+The 
+\family typewriter 
+configure
+\family default 
+ script will try to figure out your machine's configuration automatically,
+ including the correct compiler to use, whether Fortran compiler is availiable,
+ and whether Boost is installed or not, and so on.
+\layout Standard
+
+If no error message is printed, you can now type 
+\family typewriter 
+make
+\family default 
+ to start building 
+\begin_inset Foot
+collapsed true
+
+\layout Standard
+
+The Makefile just forwards the building requests to Jam so actually the
+ building is controled by Jam.
+\end_inset 
+
+: 
+\layout LyX-Code
+
+$ make
+\layout Standard
+
+This will build the library in optimized mode (default).
+ Building C++ library may take a while.
+ You'd better get a cup of tea if your machine is not very fast.
+\layout Standard
+
+Optionally, you can build and run a series of test suites to make sure nothing
+ goes wrong: 
+\layout LyX-Code
+
+$ make unittest
+\layout Standard
+
+Then enter test/ directory and run 
+\family typewriter 
+runall.py
+\family default 
+ script.
+ If all tests are passed, it's time to install the library (as root): 
+\layout LyX-Code
+
+# make install
+\layout Standard
+
+By default, the package will be installed under the 
+\family typewriter 
+/usr/local
+\family default 
+ directory tree.
+ You can override the default prefix to /usr by setting: 
+\layout LyX-Code
+
+$ ./configure --prefix=/usr
+\layout Standard
+
+If you want to debug the library, 
+\family typewriter 
+--enable-debug
+\family default 
+ will build the debug version of the package with debugging symbol included.
+ The 
+\family typewriter 
+--disable-system-boost-lib
+\family default 
+ option will force to use the boost lib shipped with this package.
+ This is helpful if the boost lib installed on your machine does not work.
+ Running 
+\family typewriter 
+./configure --help
+\family default 
+ will give you a list of options for the 
+\family typewriter 
+configure
+\family default 
+ script.
+ 
+\layout Subsection
+
+Building on Win32 Platform (BCC/MSVC/Intel C++ etc.)
+\layout Standard
+
+This software can be built under win32 with various C++ and Fortran Compilers.
+ You need to get the 
+\family typewriter 
+jam.exe
+\family default 
+ (available from the download page of this package) if you want to build
+ the software with compiler other than GCC.
+\layout Subsubsection
+
+Cygwin and MinGW
+\layout Standard
+
+Cygwin (
+\begin_inset LatexCommand \url{http://www.cygwin.com/}
+
+\end_inset 
+
+) provides a working (but slow) POSIX layer on top of Win32 API.
+ If you have cygwin installed you can build the package out of the box.
+ Please refer to the unix building section for detail instructions.
+\layout Standard
+
+MinGW (
+\begin_inset LatexCommand \url{http://www.mingw.org}
+
+\end_inset 
+
+) is the win32 port of GCC Compilers.
+ Beside the core gcc-win32 tool chain, MinGW provides a sub system called
+ MSYS that includes some essential tools to run a shell box.
+ You should install both MinGW and MSYS in order to compile the toolkit
+ painlessly on win32.
+ The detail building steps are the same as building on unix, except the
+ process is a bit slower.
+ 
+\layout Subsubsection
+
+Borland C++ with STLPort
+\layout Standard
+
+This software can be built with the free C++ compiler released by Borland
+ (current version is 5.5, which can be found at:
+\begin_inset LatexCommand \url{http://www.borland.com/bcppbuilder/freecompiler/}
+
+\end_inset 
+
+).
+ However, since the default STL shipped with BCC5.5 does not include support
+ for 
+\family typewriter 
+hash_map
+\family default 
+, you need to install STLPort (
+\begin_inset LatexCommand \url{http://www.stlport.com}
+
+\end_inset 
+
+).
+ It is important to note that the latest version of STLPort fail to build
+ on BCC5.5.
+ You must use STLPort version 4.5.3 instead.
+\layout Standard
+
+Building steps for Borland C++ 5.5: 
+\layout Itemize
+
+Make sure you have installed STLPort for Borland C++ (setting STLPort's
+ directory in bcc32.cfg and ilink32.cfg).
+ 
+\layout Itemize
+
+Set environment variable 
+\family typewriter 
+BCCROOT
+\family default 
+ to your Borland C++ installation 
+\layout Itemize
+
+Type 
+\series bold 
+jam
+\series default 
+ at the top src directory to build.
+ 
+\layout Subsubsection
+
+Microsoft Visual C++
+\layout Standard
+
+Microsoft's Visual C++ is the most widely used commercial C++ compiler on
+ Win32 platform.
+ In response to popular requests now this toolkit can be built with MSVC7
+ (MSVC6 may work, but not tested yet).
+ MSVC7 is a major improvement over MSVC6 in terms of confirmation to ISO
+ C++ standard 
+\begin_inset Foot
+collapsed true
+
+\layout Standard
+
+Sadly, msvc7 is still not an ISO C99 compliant compiler.
+\end_inset 
+
+.
+ A 
+\family typewriter 
+hash_map
+\family default 
+ class is included in MSVC7's default STL so the software can be compiled
+ out of the box.
+ However, it is strongly recommended to use STLPort (
+\begin_inset LatexCommand \url{http://www.stlport.com}
+
+\end_inset 
+
+) instead of MSVC7's default STL since the former is much faster.
+\layout Standard
+
+Building steps for MSVC: 
+\layout Itemize
+
+Set environment variable 
+\family typewriter 
+MSVCDIR
+\family default 
+ (not 
+\family typewriter 
+MSVCDir
+\family default 
+) to your Visiual C++ installation under command prompt (you need to edit
+ and run 
+\family typewriter 
+vcvar32.bat
+\family default 
+).
+ 
+\layout Itemize
+
+Type 
+\series bold 
+jam
+\series default 
+ at the top src directory to build.
+ 
+\layout Standard
+
+The above steps were tested with the command line version of MSVC7.1 (freely
+ available from microsoft's website, see 
+\begin_inset LatexCommand \url{http://msdn.microsoft.com/visualc/vctoolkit2003/}
+
+\end_inset 
+
+) on a Windows 2000 box.
+ No attempt was made to support compilation under the commercial heavy weight
+ Visual Studio 2003 IDE.
+ 
+\layout Subsubsection
+
+Intel C++
+\layout Standard
+
+The software is known to work with Intel C++ Compiler on Win32 platform.
+ Intel C++ needs Microsoft Visual C++'s header and lib files so you need
+ to install Visual C++ first.
+\layout Standard
+
+Building steps for Intel C++: 
+\layout Itemize
+
+Enter command prompt for Intel C++ Environment (you need to edit and run
+ 
+\family typewriter 
+vcvar32.bat
+\family default 
+).
+ 
+\layout Itemize
+
+Type 
+\series bold 
+jam
+\series default 
+ at the top src directory to build.
+ 
+\layout Standard
+
+The above steps were tested with Intel C++ 8.0 with the command line version
+ of MSVC7.1 (freely available from microsoft's website, see 
+\begin_inset LatexCommand \url{http://msdn.microsoft.com/visualc/vctoolkit2003/}
+
+\end_inset 
+
+).
+ No attempt was made to support compilation under the commercial heavy weight
+ Visual Studio 2003 IDE.
+\layout Subsection
+
+About Fortran Compiler
+\layout Standard
+
+One of the core numerical routine that implements L-BFGS algorithm was written
+ in Fortran (
+\family typewriter 
+lbfgs.f
+\family default 
+).
+ This means in order to use that algorithm on Win32 you need to have a Fortran
+ compiler.
+ Intel Fortran 8.0 compiler was known to work well.
+ The only thing you need to do is uncommenting the line 
+\family typewriter 
+# USE_FORTRAN = 1 ;
+\family default 
+ near the top of the file 
+\family typewriter 
+Jamrules
+\family default 
+.
+\layout Standard
+
+Alternatively, you can manually compile the L-BFGS module from command line
+ by calling 
+\family typewriter 
+ifort -c -O3 lbfgs.f
+\family default 
+, which should generate an object file 
+\family typewriter 
+lbfgs.obj
+\family default 
+.
+\layout Standard
+
+If you do not own a Fortran compiler, L-BFGS module will not be built by
+ default, hence only GIS algorithm is availiable.
+ 
+\layout Section
+
+Building Python Extension
+\layout Standard
+
+Much of the power of this toolkit comes from its Python extension module.
+ It combines the speed of C++ and the flexibility of Python in a Python
+ extension module named 
+\emph on 
+maxent
+\emph default 
+.
+ The python wrapper code is based on the C++ interface generated by SWIG
+ (
+\begin_inset LatexCommand \url{http://www.swig.org/}
+
+\end_inset 
+
+), and is faster and much easier to build than the previously used Boost.Python
+ lib.
+ This section will guide you through the steps needed to build Python maxent
+ module.
+ All you need is a working Python distribution, Python 2.3 or higher is preferred.
+\layout Standard
+
+First make sure you have built the C++ maxent lib.
+ Then enter the 
+\family typewriter 
+python/
+\family default 
+ sub-directory and use the following command to build the maxent module:
+ 
+\layout LyX-Code
+
+$ python setup.py build
+\layout Standard
+
+If no error occurs then proceed with (as root):
+\layout LyX-Code
+
+# python setup.py install
+\layout Standard
+
+Optionally, you may want to run some test routines to see if it really works:
+ enter 
+\family typewriter 
+../test/
+\family default 
+ directory and run:
+\layout LyX-Code
+
+$ python test_pyext.py
+\layout Standard
+
+If all unit tests passed, the python binding is read for use.
+ That's all, you have finished building python maxent extension.
+\layout Standard
+
+To build the extension on Win32 machines, please read the file 
+\family typewriter 
+python/README
+\family default 
+ and follow the instruction there.
+ However, for win32 users it's always more convenient to download and install
+ a pre-built setup program (can be found on the toolkit's homepage) to install
+ the python extension module.
+ 
+\layout Chapter
+
+Introduction to Maximum Entropy Modeling
+\layout Standard
+
+
+\begin_inset LatexCommand \label{chap:intro}
+
+\end_inset 
+
+ This section provides a brief introduction to Maximum Entropy Modeling.
+ It is by no means complete, the reader is refer to 
+\begin_inset Quotes eld
+\end_inset 
+
+further reading
+\begin_inset Quotes erd
+\end_inset 
+
+ at the end of this section to catch up what is missing here.
+ You can skip this section if you have already been familiar with maxent
+ and go directly to the tutorial section to see how to use this toolkit.
+ However, if you never heard Maximum Entropy Model before, please read on.
+\layout Standard
+
+Maximum Entropy (ME or maxent for short) model is a general purpose machine
+ learning framework that has been successfully applied in various fields
+ including spatial physics, computer vision, and Natural Language Processing
+ (NLP).
+ This introduction will focus on the application of maxent model to NLP
+ tasks.
+ However, it is straightforward to extend the technique described here to
+ other domains.
+\layout Section
+
+The Modeling Problem
+\layout Standard
+
+The goal of statistical modeling is to construct a model that best accounts
+ for some training data.
+ More specific, for a given empirical probability distribution 
+\begin_inset Formula $\tilde{p}$
+\end_inset 
+
+, we want to build a model 
+\begin_inset Formula $p$
+\end_inset 
+
+ as close to 
+\begin_inset Formula $\tilde{p}$
+\end_inset 
+
+ as possible.
+\layout Standard
+
+Of course, given a set of training data, there are numerous ways to choose
+ a model 
+\begin_inset Formula $p$
+\end_inset 
+
+ that accounts for the data.
+ It can be shown that the probability distribution of the form 
+\begin_inset LatexCommand \ref{eq:me}
+
+\end_inset 
+
+ is the one that is closest to 
+\begin_inset Formula $\tilde{p}$
+\end_inset 
+
+ in the sense of Kullback-Leibler divergence, when subjected to a set of
+ feature constraints: 
+\begin_inset Formula \begin{equation}
+p(y\mid x)=\frac{1}{Z(x)}\exp\left[\sum_{i=1}^{k}\lambda_{i}f_{i}(x,y)\right]\label{eq:me}\end{equation}
+
+\end_inset 
+
+ here 
+\begin_inset Formula $p(y\mid x)$
+\end_inset 
+
+ denotes the conditional probability of predicting an 
+\emph on 
+outcome
+\emph default 
+ 
+\begin_inset Formula $y$
+\end_inset 
+
+ on seeing the 
+\emph on 
+context
+\emph default 
+ 
+\begin_inset Formula $x$
+\end_inset 
+
+.
+ 
+\begin_inset Formula $f_{i}(x,y)'s$
+\end_inset 
+
+ are feature functions (described in detail later), 
+\begin_inset Formula $\lambda_{i}'s$
+\end_inset 
+
+ are the weighting parameters for 
+\begin_inset Formula $f_{i}(x,y)'s$
+\end_inset 
+
+.
+ 
+\begin_inset Formula $k$
+\end_inset 
+
+ is the number of features and 
+\begin_inset Formula $Z(x)$
+\end_inset 
+
+ is a normalization factor (often called partition function) to ensure that
+ 
+\begin_inset Formula $\sum_{y}p(y|x)=1$
+\end_inset 
+
+.
+\layout Standard
+
+ME model represents evidence with binary functions
+\begin_inset Foot
+collapsed true
+
+\layout Standard
+
+Actually, ME model can have non-negative integer or real feature values.
+ We restrict our discussion to binary value feature here, which is the most
+ common feature type used in NLP.
+ This toolkit fully supports non-negative real feature values.
+\end_inset 
+
+ known as 
+\emph on 
+contextual predicates
+\emph default 
+ in the form: 
+\begin_inset Formula \begin{equation}
+f_{cp,y'}(x,y)=\left\{ \begin{array}{ll}
+1 & \mbox{if }y=y'\mbox{ and }cp(x)=true\\
+0 & \mbox{otherwise}\end{array}\right.\end{equation}
+
+\end_inset 
+
+ where 
+\begin_inset Formula $cp$
+\end_inset 
+
+ is the 
+\emph on 
+contextual predicate
+\emph default 
+ that maps a pair of 
+\emph on 
+outcome
+\emph default 
+ 
+\begin_inset Formula $y$
+\end_inset 
+
+ and 
+\emph on 
+context
+\emph default 
+ 
+\begin_inset Formula $x$
+\end_inset 
+
+ to 
+\begin_inset Formula $\{ true,false\}$
+\end_inset 
+
+.
+\layout Standard
+
+The modeler can choose arbitrary feature functions in order to reflect the
+ characteristic of the problem domain as faithfully as possible.
+ The ability of freely incorporating various problem-specific knowledge
+ in terms of feature functions gives ME models the obvious advantage over
+ other learn paradigms, which often suffer from strong feature independence
+ assumption (such as naive bayes classifier).
+\layout Standard
+
+For instance, in part-of-speech tagging, a process that assigns part-of-speech
+ tags to words in a sentence, a useful feature may be: 
+\begin_inset Formula \[
+f_{previous\_ tag\_ is\_ DETERMINER,NOUN}(x,y)=\left\{ \begin{array}{ll}
+1 & \mbox{if }y=NOUN\mbox{ and }previous\_ tag\_ is\_ DETERMINER(x)=true\\
+0 & \mbox{otherwise}\end{array}\right.\]
+
+\end_inset 
+
+ which is 
+\emph on 
+activated
+\emph default 
+ when previous tag is DETERMINER and current word's tag is NOUN.
+\layout Standard
+
+In Text Categorization task, a feature may look like: 
+\begin_inset Formula \[
+f_{document\_ has\_ ROMANTIC,love\_ story}(x,y)=\left\{ \begin{array}{ll}
+1 & \mbox{if }y=love_{s}tory\mbox{ and }document\_ contains\_ ROMANTIC(x)=true\\
+0 & \mbox{otherwise}\end{array}\right.\]
+
+\end_inset 
+
+ which is 
+\emph on 
+activated
+\emph default 
+ when the term ROMANTIC is found in a document labeled as type:love_story.
+\layout Standard
+
+Once a set of features is chosen by the modeler, we can construct the correspond
+ing maxent model by adding features as constraints to the model and adjust
+ weights of these features.
+ Formally, We require that: 
+\begin_inset Formula \[
+E_{\tilde{p}}<f_{i}>=E_{p}<f_{i}>\]
+
+\end_inset 
+
+ Where 
+\begin_inset Formula $E_{\tilde{p}}<f_{i}>=\sum_{x}\tilde{p}(x,y)f_{i}(x,y)$
+\end_inset 
+
+ is the empirical expectation of feature 
+\begin_inset Formula $f_{i}(x,y)$
+\end_inset 
+
+ in the training data and 
+\begin_inset Formula $E_{p}<f_{i}>=\sum_{x}p(x,y)f_{i}(x,y)$
+\end_inset 
+
+ is the feature expectation with respect to the model distribution 
+\begin_inset Formula $p$
+\end_inset 
+
+.
+ Among all the models subjected to these constraints there is one with the
+ Maximum Entropy, usually called the Maximum Entropy Solution.
+ 
+\layout Section
+
+Parameter Estimation
+\layout Standard
+
+Given an exponential model with 
+\begin_inset Formula $n$
+\end_inset 
+
+ features and a set of training data (empirical distribution), we need to
+ find the associated real-value weight for each of the 
+\begin_inset Formula $n$
+\end_inset 
+
+ feature which maximize the model's log-likelihood: 
+\begin_inset Formula \begin{equation}
+L(p)=\sum_{x,y}\tilde{p}(x,y)\log p(y\mid x)\label{eq:pseudo_loglikelihood}\end{equation}
+
+\end_inset 
+
+ Selecting an optimal model subjected to given contains from the exponential
+ (log-linear) family is not a trivial task.
+ There are two popular iterative scaling algorithms specially designed to
+ estimate parameters of ME models of the form 
+\begin_inset LatexCommand \ref{eq:me}
+
+\end_inset 
+
+: Generalized Iterative Scaling 
+\begin_inset LatexCommand \citep{darroch1972annals}
+
+\end_inset 
+
+ and Improved Iterative Scaling 
+\begin_inset LatexCommand \citep{dellapietra97inducing}
+
+\end_inset 
+
+.
+\layout Standard
+
+Recently, another general purpose optimize method 
+\emph on 
+Limited-Memory Variable Metric
+\emph default 
+ (L-BFGS for short) method has been found to be especially effective for
+ maxent parameters estimating problem 
+\begin_inset LatexCommand \citep{malouf-comparison}
+
+\end_inset 
+
+.
+ L-BFGS is the default parameter estimating method in this toolkit.
+ 
+\layout Section
+
+Further Reading
+\layout Standard
+
+
+\begin_inset LatexCommand \label{sec:reading}
+
+\end_inset 
+
+ This section lists some recommended papers for your further reference.
+ 
+\layout Itemize
+
+Maximum Entropy Approach to Natural Language Processing 
+\begin_inset LatexCommand \citep{berger96maximum}
+
+\end_inset 
+
+
+\begin_deeper 
+\layout Standard
+
+A must read paper on applying maxent technique to Natural Language Processing.
+ This paper describes maxent in detail and presents an Increment Feature
+ Selection algorithm for increasingly construct a maxent model as well as
+ several example in statistical Machine Translation.
+ 
+\end_deeper 
+\layout Itemize
+
+Inducing Features of Random Fields 
+\begin_inset LatexCommand \citep{dellapietra97inducing}
+
+\end_inset 
+
+
+\begin_deeper 
+\layout Standard
+
+Another must read paper on maxent.
+ It deals with a more general frame work: 
+\emph on 
+Random Fields
+\emph default 
+ and proposes an 
+\emph on 
+Improved Iterative Scaling
+\emph default 
+ algorithm for estimating parameters of Random Fields.
+ This paper gives theoretical background to Random Fields (and hence Maxent
+ model).
+ A greedy 
+\emph on 
+Field Induction
+\emph default 
+ method is presented to automatically construct a detail random fields from
+ a set of atomic features.
+ An word morphology application for English is developed.
+\end_deeper 
+\layout Itemize
+
+Adaptive Statistical Language Modeling: A Maximum Entropy Approach 
+\begin_inset LatexCommand \citep{rosenfeld96maximum}
+
+\end_inset 
+
+
+\begin_deeper 
+\layout Standard
+
+This paper applied ME technique to statistical language modeling task.
+ More specifically, it built a conditional Maximum Entropy model that incorporat
+ed traditional N-gram, distant N-gram and trigger pair features.
+ Significantly perplexity reduction over baseline trigram model was reported.
+ Later, Rosenfeld and his group proposed a 
+\emph on 
+Whole Sentence Exponential Model
+\emph default 
+ that overcome the computation bottleneck of conditional ME model.
+ 
+\end_deeper 
+\layout Itemize
+
+Maximum Entropy Models For Natural Language Ambiguity Resolution 
+\begin_inset LatexCommand \citep{ratnaparkhi98maximum}
+
+\end_inset 
+
+
+\begin_deeper 
+\layout Standard
+
+This dissertation discussed the application of maxent model to various Natural
+ Language Dis-ambiguity tasks in detail.
+ Several problems were attacked within the ME framework: sentence boundary
+ detection, part-of-speech tagging, shallow parsing and text categorization.
+ Comparison with other machine learning technique (Naive Bayes, Transform
+ Based Learning, Decision Tree etc.) are given.
+ 
+\end_deeper 
+\layout Itemize
+
+The Improved Iterative Scaling Algorithm: A Gentle Introduction 
+\begin_inset LatexCommand \citep{berger97improved}
+
+\end_inset 
+
+
+\begin_deeper 
+\layout Standard
+
+This paper describes IIS algorithm in detail.
+ The description is easier to understand than 
+\begin_inset LatexCommand \citep{dellapietra97inducing}
+
+\end_inset 
+
+, which involves more mathematical notations.
+ 
+\end_deeper 
+\layout Itemize
+
+Stochastic Attribute-Value Grammars (Abney, 1997)
+\begin_deeper 
+\layout Standard
+
+Abney applied Improved Iterative Scaling algorithm to parameters estimation
+ of Attribute-Value grammars, which can not be corrected calculated by ERF
+ method (though it works on PCFG).
+ Random Fields is the model of choice here with a general Metropolis-Hasting
+ Sampling on calculating feature expectation under newly constructed model.
+ 
+\end_deeper 
+\layout Itemize
+
+A comparison of algorithms for maximum entropy parameter estimation 
+\begin_inset LatexCommand \citep{malouf-comparison}
+
+\end_inset 
+
+
+\begin_deeper 
+\layout Standard
+
+Four iterative parameter estimation algorithms were compared on several
+ NLP tasks.
+ L-BFGS was observed to be the most effective parameter estimation method
+ for Maximum Entropy model, much better than IIS and GIS.
+ 
+\begin_inset LatexCommand \citep{wallach-efficient}
+
+\end_inset 
+
+ reported similar results on parameter estimation of Conditional Random
+ Fields.
+ 
+\end_deeper 
+\layout Chapter
+
+Tutorial
+\layout Standard
+
+
+\begin_inset LatexCommand \label{chap:tutorial}
+
+\end_inset 
+
+ The purpose of this tutorial section is twofold: first, it covers the basic
+ steps required to build and use a Conditional Maximum Entropy Model with
+ this toolkit.
+ Second, it demonstrates the powerfulness of maxent modeling technique by
+ building an English part-of-speech tagger with the Python 
+\emph on 
+maxent
+\emph default 
+ extension.
+\layout Section
+
+Representing Features
+\layout Standard
+
+Follow the description of 
+\begin_inset LatexCommand \citep{ratnaparkhi98maximum}
+
+\end_inset 
+
+, the mathematical representation of a feature used in a Conditional Maximum
+ Entropy Model can be written as: 
+\begin_inset Formula \begin{equation}
+f_{cp,y'}(x,y)=\left\{ \begin{array}{ll}
+1 & \mbox{if }y=y'\mbox{ and }cp(x)=true\\
+0 & \mbox{otherwise}\end{array}\right.\label{eq:me_feature}\end{equation}
+
+\end_inset 
+
+ where 
+\begin_inset Formula $cp$
+\end_inset 
+
+ is the 
+\emph on 
+contextual predicate
+\emph default 
+ which maps a pair of 
+\emph on 
+outcome
+\emph default 
+ 
+\begin_inset Formula $y$
+\end_inset 
+
+ and 
+\emph on 
+context
+\emph default 
+ 
+\begin_inset Formula $x$
+\end_inset 
+
+ into 
+\begin_inset Formula $\{ true,false\}$
+\end_inset 
+
+.
+\layout Standard
+
+This kind of math notation must be expressed as features of literal string
+ in order to be used in this toolkit.
+ So a feature in part-of-speech tagger which has the form: 
+\begin_inset Formula \begin{equation}
+f_{previous\_ tag\_ is\_ DETERMINER,NOUN}(x,y)=\left\{ \begin{array}{ll}
+1 & \mbox{if }y=NOUN\mbox{ and }previous\_ tag\_ is\_ DETERMINER(x)=true\\
+0 & \mbox{otherwise}\end{array}\right.\end{equation}
+
+\end_inset 
+
+ can be written as a literal string: 
+\begin_inset Quotes eld
+\end_inset 
+
+tag-1=DETERMINER_NOUN
+\begin_inset Quotes erd
+\end_inset 
+
+.
+ You will see more concrete examples in Case Study section.
+\layout Section
+
+Create a Maxent Model Instance
+\layout Standard
+
+A 
+\emph on 
+maxent
+\emph default 
+ instance can be created by calling its constructor: 
+\newline 
+ In C++: 
+\layout LyX-Code
+
+#include <maxent/maxentmodel.hpp>
+\newline 
+using namespace maxent;
+\newline 
+MaxentModel m;
+\layout Standard
+
+This will create an instance of MaxentModel class called 
+\emph on 
+m
+\emph default 
+.
+ Please note that all classes and functions are in the namespace 
+\emph on 
+maxent
+\emph default 
+.
+ For illustration purpose, the include and using statements will be ignored
+ intentionally in the rest of this tutorial.
+\layout Standard
+
+In Python:
+\layout LyX-Code
+
+from maxent import MaxentModel
+\newline 
+m = MaxentModel()
+\layout Standard
+
+The first statement 
+\emph on 
+import
+\emph default 
+ imports our main class MaxentModel from 
+\emph on 
+maxent
+\emph default 
+ module into current scope.
+ The second statement creates an instance of MaxentModel class.
+ 
+\layout Section
+
+Adding Events to Model
+\layout Standard
+
+Typically, training data consists of a set of events (samples).
+ Each event has a 
+\emph on 
+context
+\emph default 
+, an 
+\emph on 
+outcome
+\emph default 
+, and a 
+\emph on 
+count
+\emph default 
+ indicating how many times this event occurs in training data.
+\layout Standard
+
+Remember that a 
+\emph on 
+context
+\emph default 
+ is just a group of 
+\emph on 
+context predicates
+\emph default 
+.
+ Thus an event will have the form: 
+\begin_inset Formula \[
+[(predicate_{1},predicate_{2},\dots,predicate_{n}),outcome,count]\]
+
+\end_inset 
+
+
+\layout Standard
+
+Suppose we want to add the following event to our model: 
+\begin_inset Formula \[
+[(predicate_{1},predicate_{2},predicate_{3}),outcome1,1]\]
+
+\end_inset 
+
+
+\layout Standard
+
+We need to first create a 
+\emph on 
+context
+\emph default 
+:
+\begin_inset Foot
+collapsed false
+
+\layout Standard
+
+It's possible to specify feature value (must be non-negative) in creating
+ a context: 
+\layout Standard
+
+In C++: 
+\layout LyX-Code
+
+std::vector<pair<std::string, float> > context
+\newline 
+context.append(make_pair(``predicate1'', 2.0));
+\newline 
+context.append(make_pair(``predicate2'', 3.0));
+\newline 
+context.append(make_pair(``predicate3'', 4.0));
+\newline 
+.
+ .
+ .
+\layout Standard
+
+This is simpler in Python: 
+\layout LyX-Code
+
+context = [('predicate1', 2.0), ('predicate2', 3.0), ('predicate3', 4.0)]
+\layout Standard
+
+For illustration purpose, we will only cover binary cases (which is more
+ common).
+ You can find more information on specifying real feature value in the API
+ section.
+\end_inset 
+
+
+\layout Standard
+
+In C++: 
+\layout LyX-Code
+
+std::vector<std::string> context
+\newline 
+context.append(``predicate1'');
+\newline 
+context.append(``predicate2'');
+\newline 
+context.append(``predicate3'');
+\newline 
+.
+ .
+ .
+\layout Standard
+
+In Python: 
+\layout LyX-Code
+
+context = ['predicate1', 'predicate2', 'predicate3']
+\layout Standard
+
+Before any event can be added, one must call 
+\emph on 
+begin_add_event()
+\emph default 
+ to inform the model the beginning of training.
+\layout Standard
+
+In C++:
+\layout LyX-Code
+
+m.begin_add_event();
+\layout Standard
+
+In Python: 
+\layout LyX-Code
+
+m.begin_add_event()
+\layout Standard
+
+Now we are ready to add events: In C++:
+\layout LyX-Code
+
+m.add_event(context, "outcome1", 1);
+\layout Standard
+
+In Python:
+\layout LyX-Code
+
+m.add_event(context, "outcome1", 1)
+\layout Standard
+
+The third argument of 
+\emph on 
+add_event()
+\emph default 
+ is the count of the event and can be ignored if the count is 1.
+\layout Standard
+
+One can repeatedly call 
+\emph on 
+add_event()
+\emph default 
+ until all events are added to the model.
+\layout Standard
+
+After adding the last event, 
+\emph on 
+end_add_event()
+\emph default 
+ must be called to inform the model the ending of adding events.
+ In C++:
+\layout LyX-Code
+
+m.end_add_event();
+\layout Standard
+
+In Python:
+\layout LyX-Code
+
+m.end_add_event()
+\layout Standard
+
+Additional arguments for 
+\emph on 
+end_add_event()
+\emph default 
+ are discussed in the API Reference.
+\layout Standard
+
+In addition to this manual, you can get online help from a python interpreter
+ using the 
+\family typewriter 
+help
+\family default 
+ command:
+\layout LyX-Code
+
+>>> help(MaxentModel)     # get help for all available functions
+\layout LyX-Code
+
+>>> help(MaxentModel.predict) # get help for a specific function
+\layout Section
+
+Training the Model
+\layout Standard
+
+Train a Maximum Entropy Model is relatively easy.
+ Here are some examples:
+\layout Standard
+
+For C++ and Python:
+\layout LyX-Code
+
+m.train(); // train the model with default training method
+\newline 
+m.train(30, "lbfgs"); // train the model with 30 iterations of L-BFGS method
+\newline 
+m.train(100, "gis", 2); // train the model with 100 iterations of GIS method
+\newline 
+and apply Gaussian Prior smoothing with a global variance of 2
+\newline 
+m.train(30, "lbfgs", 2, 1E-03); // set terminate tolerance to 1E-03
+\layout LyX-Code
+
+\layout Standard
+
+The training methods can be either 
+\begin_inset Quotes eld
+\end_inset 
+
+gis
+\begin_inset Quotes erd
+\end_inset 
+
+ or 
+\begin_inset Quotes eld
+\end_inset 
+
+lbfgs
+\begin_inset Quotes erd
+\end_inset 
+
+ (default).
+ The Gaussion prior 
+\begin_inset Formula $\sigma^{2}$
+\end_inset 
+
+ is used to regularize the model by seeking an MAP solution.
+ 
+\layout Standard
+
+Also, if m.verbose is set to 1 (default is 0) 
+\begin_inset Foot
+collapsed true
+
+\layout Standard
+
+The verbose flag can be turned on by setting maxent.verbose = 1 in C++, and
+ using 
+\family typewriter 
+maxent.set_verbose(1)
+\family default 
+ in python.)
+\end_inset 
+
+, training progress will be printed to stdout.
+ So you will see something like this on your screen:
+\layout LyX-Code
+
+Total 125997 training events added
+\newline 
+Total 0 heldout events added
+\newline 
+Reducing events (cutoff is 1)...
+\newline 
+Reduced to 65232 training events
+\newline 
+
+\newline 
+Starting L-BFGS iterations...
+\newline 
+Number of Predicates:  5827
+\newline 
+Number of Outcomes:    34
+\newline 
+Number of Parameters:  8202
+\newline 
+Number of Corrections: 5
+\newline 
+Tolerance: 1.000000E-05
+\newline 
+Gaussian Penalty: on
+\newline 
+Optimized version
+\newline 
+iter  eval     log-likelihood  training accuracy   heldout accuracy
+\newline 
+==================================================================
+\newline 
+  0      1-3.526361E+00  0.008%     N/A
+\newline 
+  0      1-3.387460E+00  40.380%     N/A
+\newline 
+  1      3-2.907289E+00  40.380%     N/A
+\newline 
+  2      4-2.266155E+00  44.352%     N/A
+\newline 
+  3      5-2.112264E+00  47.233%     N/A
+\newline 
+  4      6-1.946646E+00  51.902%     N/A
+\newline 
+  5      7-1.832639E+00  52.944%     N/A
+\newline 
+  6      8-1.718746E+00  53.109%     N/A
+\newline 
+  7      9-1.612014E+00  56.934%     N/A
+\newline 
+  8     10-1.467009E+00  62.744%     N/A
+\newline 
+  9     11-1.346299E+00  65.729%     N/A
+\newline 
+ 10     12-1.265980E+00  67.696%     N/A
+\newline 
+ 11     13-1.203896E+00  69.463%     N/A
+\newline 
+ 12     14-1.150394E+00  71.434%     N/A
+\newline 
+ 13     15-1.081878E+00  71.901%     N/A
+\newline 
+ 14     16-1.069843E+00  70.638%     N/A
+\newline 
+ 15     17-9.904556E-01  76.113%     N/A
+\newline 
+Maximum numbers of 15 iterations reached in 183.195 seconds
+\newline 
+Highest log-likelihood: -9.904556E-01
+\layout Standard
+
+You can save a trained model to a file and load it back later: In C++ and
+ Python:
+\layout LyX-Code
+
+m.save("new_model");
+\newline 
+m.load("new_model");
+\layout Standard
+
+A file named 
+\family typewriter 
+new_model
+\family default 
+ will be created.
+ The model contains the definition of context predicates, outcomes, mapping
+ between features and feature ids and the optimal parameter weight for each
+ feature.
+\layout Standard
+
+If the optional parameter 
+\emph on 
+binary
+\emph default 
+ is true and the library is compiled with zlib support, a compressed binary
+ model file will be saved which is much faster and smaller than plain text
+ model.
+ The format of model file will be detected automatically when loading: 
+\layout LyX-Code
+
+m.save("new_model", true); //save a (compressed) binary model
+\newline 
+m.load("new_model");       //load it from disk
+\layout Section
+
+Using the Model
+\layout Standard
+
+The use of the model is straightforward.
+ The 
+\emph on 
+eval()
+\emph default 
+ function will return the probability 
+\begin_inset Formula $p(y|x)$
+\end_inset 
+
+ of an outcome 
+\begin_inset Formula $y$
+\end_inset 
+
+ given some context 
+\begin_inset Formula $x$
+\end_inset 
+
+: In C++:
+\layout LyX-Code
+
+m.eval(context, outcome);
+\layout Standard
+
+
+\emph on 
+eval_all()
+\emph default 
+ is useful if we want to get the whole conditional distribution for a given
+ context: In C++:
+\layout LyX-Code
+
+std::vector<pair<std::string, double> > probs;
+\newline 
+m.eval_all(context, probs);
+\layout Standard
+
+
+\emph on 
+eval_all()
+\emph default 
+ will put the probability distribution into the vector 
+\family typewriter 
+probs
+\family default 
+.
+ The items in 
+\family typewriter 
+probs
+\family default 
+ are the outcome labels paired with their corresponding probabilities.
+ if the third parameter 
+\emph on 
+sort_result
+\emph default 
+ is true (default) 
+\emph on 
+eval_all()
+\emph default 
+ will automatically sort the output distribution in descendant order: the
+ first item will have the highest probability in the distribution.
+\layout Standard
+
+The Python binding has two slightly different 
+\family typewriter 
+eval()
+\family default 
+ methods.
+ The first is 
+\family typewriter 
+eval()
+\family default 
+ which returns the most probable class label for a given context:
+\layout LyX-Code
+
+label = m.eval(context)
+\layout LyX-Code
+
+\layout Standard
+
+The second is 
+\family typewriter 
+eval_all()
+\family default 
+ , which returns the whole conditional distributions in a list of (label,
+ probability) pairs.
+ This equals to the C++ 
+\family typewriter 
+eval()
+\family default 
+ function:
+\layout Standard
+
+
+\family typewriter 
+result = m.eval_all(context)
+\layout Standard
+
+Please consult API Reference for a detail explanation of each class and
+ function.
+\layout Section
+
+Case Study: Building a maxent Part-of-Speech Tagger
+\layout Standard
+
+This section discusses the steps involved in building a Part-of-Speech (POS)
+ tagger for English in detail.
+ A faithful implementation of the tagger described in 
+\begin_inset LatexCommand \citep{ratnaparkhi98maximum}
+
+\end_inset 
+
+ will be constructed with this toolkit in Python language.
+ When trained on 00-18 sections and tested on 19-24 sections of Wall Street
+ corpus, the final tagger achieves an accuracy of more than 96%.
+\layout Subsection
+
+The Tagging Model
+\layout Standard
+
+The task of POS tag assignment is to assign correct POS tags to a word stream
+ (typically a sentence).
+ The following table lists a word sequence and its corresponding tags (taken
+ form 
+\begin_inset LatexCommand \citep{ratnaparkhi98maximum}
+
+\end_inset 
+
+):
+\layout Standard
+
+
+\begin_inset Float table
+wide false
+collapsed false
+
+\layout Standard
+\align center 
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="8">
+<features>
+<column alignment="left" valignment="top" leftline="true" rightline="true" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" rightline="true" width="0pt">
+<row topline="true">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\emph on 
+Word:
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ the 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ stories 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ about 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ well-heeled 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ communities 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ and 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ developers 
+\end_inset 
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\emph on 
+Tag:
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ DT 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ NNS 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ IN 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ JJ 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ NNS 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ CC 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ NNS 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\emph on 
+Position:
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 1 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 2 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 3 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 4 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 5 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 6 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 7  
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\end_inset 
+
+
+\layout Standard
+
+To attack this problem with the Maximum Entropy Model, we can build a conditiona
+l model that calculates the probability of a tag 
+\begin_inset Formula $y$
+\end_inset 
+
+, given some contextual information 
+\begin_inset Formula $x$
+\end_inset 
+
+: 
+\begin_inset Formula \[
+p(y|x)=\frac{1}{Z(x)}\exp\left[\sum_{i=1}^{k}\lambda_{i}f_{i}(x,y)\right]\]
+
+\end_inset 
+
+ Thus the possibility of a tag sequence 
+\begin_inset Formula $\{ t_{1},t_{2},\dots,t_{n}\}$
+\end_inset 
+
+ over a sentence 
+\begin_inset Formula $\{ w_{1},w_{2},\dots,w_{n}\}$
+\end_inset 
+
+ can be represented as the product of each 
+\begin_inset Formula $p(y|x)$
+\end_inset 
+
+ with the assumption that the probability of each tag 
+\begin_inset Formula $y$
+\end_inset 
+
+ depends only on a limited context information 
+\begin_inset Formula $x$
+\end_inset 
+
+: 
+\begin_inset Formula \[
+p(t_{1},t_{2},\dots,t_{n}|w_{1},w_{2},\dots,w_{n})\approx\prod_{i=1}^{n}p(y_{i}|x_{i})\]
+
+\end_inset 
+
+ Given a sentence 
+\begin_inset Formula $\{ w_{1},w_{2},\dots,w_{n}\}$
+\end_inset 
+
+ we can generate 
+\begin_inset Formula $K$
+\end_inset 
+
+ highest probability tag sequence candidates up to that point in the sentence
+ and finally select the highest candidate as our tagging result.
+ 
+\layout Subsection
+
+Feature Selection
+\layout Standard
+
+Following 
+\begin_inset LatexCommand \citep{ratnaparkhi98maximum}
+
+\end_inset 
+
+, we select features used in the tagging model by applying a set of feature
+ templates to the training data.
+\layout Standard
+\align center 
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="13" columns="2">
+<features>
+<column alignment="left" valignment="top" leftline="true" rightline="true" width="0pt">
+<column alignment="left" valignment="top" rightline="true" width="0pt">
+<row topline="true" bottomline="true">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Condition 
+\end_inset 
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ Contextual Predicates 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Formula $w_{i}$
+\end_inset 
+
+ is not rare 
+\end_inset 
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\begin_inset Formula $w_{i}=X$
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Formula $w_{i}$
+\end_inset 
+
+ is rare 
+\end_inset 
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\begin_inset Formula $X$
+\end_inset 
+
+ is prefix of 
+\begin_inset Formula $w_{i}$
+\end_inset 
+
+, 
+\begin_inset Formula $|X|\leq4$
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\begin_inset Formula $X$
+\end_inset 
+
+ is suffix of 
+\begin_inset Formula $w_{i}$
+\end_inset 
+
+, 
+\begin_inset Formula $|X|\leq4$
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\begin_inset Formula $X$
+\end_inset 
+
+ contains number 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\begin_inset Formula $X$
+\end_inset 
+
+ contains uppercase character 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\begin_inset Formula $X$
+\end_inset 
+
+ contains hyphen 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Formula $\forall w_{i}$
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\begin_inset Formula $t_{i-1}=X$
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\begin_inset Formula $t_{i-w}t_{i-1}=XY$
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\begin_inset Formula $w_{i-1}=X$
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\begin_inset Formula $w_{i-2}=X$
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\begin_inset Formula $w_{i+1}=X$
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ 
+\begin_inset Formula $w_{i+2}=X$
+\end_inset 
+
+ 
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Standard
+
+Please note that if a word is rare (occurs less than 5 times in the training
+ set (WSJ corpus 00-18)) several additional contextual predicates are used
+ to help predict the tag based on the word's form.
+ A useful feature might be: 
+\begin_inset Formula \[
+f(x,y)=\left\{ \begin{array}{ll}
+1 & \mbox{if y=VBG and }current\_ suffix\_ is\_ ing(x)=true\\
+0 & \mbox{otherwise}\end{array}\right.\]
+
+\end_inset 
+
+ and is represented as a literal string: 
+\begin_inset Quotes eld
+\end_inset 
+
+suffix=ing_VBG
+\begin_inset Quotes erd
+\end_inset 
+
+.
+\layout Standard
+
+Here is a list of some features gathered form training data (WSJ corpus):
+\layout Standard
+
+
+\begin_inset Float table
+wide false
+collapsed false
+
+\layout Standard
+\align center 
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="16" columns="1">
+<features>
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0pt">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+curword=years 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+tag-1=CD 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+word-2=, 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+tag-1,2=,,CD 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+word+1=old 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+curword=old 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+word-1=years 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+tag-1=NNS 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+tag-1,2=CD,NNS 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+word+2=will 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+word-1=old 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+prefix=E 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+prefix=El 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+suffix=r 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+suffix=er 
+\end_inset 
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+suffix=ier  
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\end_inset 
+
+
+\layout Standard
+
+Only features occur more than 10 times are preserved.
+ Features for rare words are selected with a cutoff of 5 due to the definition
+ of rare words.
+ 
+\layout Subsection
+
+Training The Model
+\layout Standard
+
+Once the feature set is defined, it is easy to train a maxent tagging model
+ with this toolkit.
+\layout Standard
+
+First, we need to create a MaxentModel instance and add events to it: 
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+begin{verbatim}
+\newline 
+from maxent import MaxentModel
+\newline 
+m = MaxentModel()
+\newline 
+m.begin_add_event()
+\newline 
+m.add_event("suffix=ing", "VBG", 1)
+\newline 
+...
+\newline 
+m.end_add_event()
+\newline 
+
+\backslash 
+end{verbatim}
+\end_inset 
+
+ Next, let's call L-BFGS training routine to train a maxent model with 100
+ iterations: 
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+begin{verbatim}
+\newline 
+m.train(100, "lbfgs")
+\newline 
+
+\backslash 
+end{verbatim}
+\end_inset 
+
+
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+ 
+\backslash 
+begin{verbatim}
+\newline 
+Total 125997 training events added
+\newline 
+Total 0 heldout events added
+\newline 
+Reducing events (cutoff is 1)...
+\newline 
+Reduced to 65232 training events
+\newline 
+
+\newline 
+Starting L-BFGS iterations...
+\newline 
+Number of Predicates:  5827
+\newline 
+Number of Outcomes:    34
+\newline 
+Number of Parameters:  8202
+\newline 
+Number of Corrections: 5
+\newline 
+Tolerance: 1.000000E-05
+\newline 
+Gaussian Penalty: on
+\newline 
+Optimized version
+\newline 
+iter  eval     log-likelihood  training accuracy   heldout accuracy
+\newline 
+==================================================================
+\newline 
+  0      1-3.526361E+00  0.008%     N/A
+\newline 
+  0      1-3.387460E+00  40.380%     N/A
+\newline 
+  1      3-2.907289E+00  40.380%     N/A
+\newline 
+  2      4-2.266155E+00  44.352%     N/A
+\newline 
+  3      5-2.112264E+00  47.233%     N/A
+\newline 
+  4      6-1.946646E+00  51.902%     N/A
+\newline 
+  5      7-1.832639E+00  52.944%     N/A
+\newline 
+  6      8-1.718746E+00  53.109%     N/A
+\newline 
+  7      9-1.612014E+00  56.934%     N/A
+\newline 
+  8     10-1.467009E+00  62.744%     N/A
+\newline 
+  9     11-1.346299E+00  65.729%     N/A
+\newline 
+ 10     12-1.265980E+00  67.696%     N/A
+\newline 
+ 11     13-1.203896E+00  69.463%     N/A
+\newline 
+ 12     14-1.150394E+00  71.434%     N/A
+\newline 
+ 13     15-1.081878E+00  71.901%     N/A
+\newline 
+ 14     16-1.069843E+00  70.638%     N/A
+\newline 
+ 15     17-9.904556E-01  76.113%     N/A
+\newline 
+Maximum numbers of 15 iterations reached in 183.195 seconds
+\newline 
+Highest log-likelihood: -9.904556E-01
+\newline 
+
+\backslash 
+end{verbatim}
+\end_inset 
+
+ After training is finished, save the model to a file: 
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+begin{verbatim}
+\newline 
+m.save("tagger");
+\newline 
+
+\backslash 
+end{verbatim}
+\end_inset 
+
+ This will create a file called 
+\family typewriter 
+tagger
+\family default 
+ on disk.
+ 
+\layout Subsection
+
+Using The Tagger
+\layout Standard
+
+A state-of-the-art POS tagger that faithfully implements the search algorithm
+ described in 
+\begin_inset LatexCommand \citep{ratnaparkhi98maximum}
+
+\end_inset 
+
+, page 43 is included in the toolkit under 
+\family typewriter 
+example/postagger/
+\family default 
+ directory.
+\layout Standard
+
+When trained on 00-18 sections of WSJ corpus and tested on 19-24 sections
+ of WSJ corpus this tagger boasts word accuracy of 97.31% on known words
+ and 87.39% on unknown words with a sentence accuracy of 57.95% and an overall
+ 96.64% word accuracy.
+\layout Standard
+
+The main executable stript for training a tagger model is 
+\family typewriter 
+postrainer.py
+\family default 
+: 
+\layout LyX-Code
+
+usage: postrainer.py [options] model
+\newline 
+
+\newline 
+options:
+\newline 
+  -h, --help            show this help message and exit
+\newline 
+  -fFILE, --file=FILE   train a ME model with data from FILE
+\newline 
+  --heldout=FILE        use heldout events from FILE
+\newline 
+  --events_out=EVENTS_OUT
+\newline 
+                        write training(heldout) events to file
+\newline 
+  -mMETHOD, --method=METHOD
+\newline 
+                        select training method [lbfgs,gis]
+\newline 
+                        [default=lbfgs]
+\newline 
+  -cCUTOFF, --cutoff=CUTOFF
+\newline 
+                        discard feature with frequency < CUTOFF when training
+\newline 
+                        [default=10]
+\newline 
+  -rRARE, --rare=RARE   use special feature for rare word with frequency
+ < RARE
+\newline 
+                        [default=5]
+\newline 
+  -gGAUSSIAN, --gaussian=GAUSSIAN
+\newline 
+                        apply Gaussian penality when training
+\newline 
+                        [default=0.0]
+\newline 
+  -b, --binary          save events in binary format for fast loading
+\newline 
+                        [default=off]
+\newline 
+  --ev_cutoff=EV_CUTOFF
+\newline 
+                        discard event with frequency < CUTOFF when training
+\newline 
+                        [default=1]
+\newline 
+  --iters=ITERS         how many iterations are required for
+\newline 
+                        training[default=15]
+\newline 
+  --fast                use psyco to speed up training if possible
+\newline 
+  -TTYPE, --type=TYPE   choose context type [default for English]
+\layout Standard
+
+To train 00-18 sections of WSJ corpus (in file 00_18.sent, one sentence per
+ line) with 100 iterations of L-BFGS, Gaussian coefficient 0.8 and save result
+ model to 
+\begin_inset Quotes eld
+\end_inset 
+
+wsj
+\begin_inset Quotes erd
+\end_inset 
+
+:
+\layout LyX-Code
+
+./postrainer.py -f 00_18.sent --iters 100 -g 0.8 wsj
+\layout Standard
+
+The corresponding output during training is sent to stdout:
+\layout LyX-Code
+
+First pass: gather word frequency information
+\newline 
+1000 lines
+\newline 
+2000 lines
+\newline 
+3000 lines
+\newline 
+4000 lines
+\newline 
+.
+ .
+ .
+ 
+\newline 
+51000 lines
+\newline 
+44520 words found in training data
+\newline 
+Saving word frequence information to 00_18.sent.wordfreq
+\newline 
+
+\newline 
+Second pass: gather features and tag dict to be used in tagger
+\newline 
+feature cutoff:10
+\newline 
+rare word freq:5
+\newline 
+1000 lines
+\newline 
+2000 lines
+\newline 
+3000 lines
+\newline 
+4000 lines
+\newline 
+.
+ .
+ .
+\newline 
+51000 lines
+\newline 
+675386 features found
+\newline 
+12092 words found in pos dict
+\newline 
+Applying cutoff 10 to features
+\newline 
+66519 features remained after cutoff
+\newline 
+saving features to file wsj.features
+\newline 
+Saving tag dict object to wsj.tagdict done
+\newline 
+Third pass:training ME model...
+\newline 
+1000 lines
+\newline 
+2000 lines
+\newline 
+3000 lines
+\newline 
+4000 lines
+\newline 
+.
+ .
+ .
+\newline 
+51000 lines
+\newline 
+Total 969825 training events added
+\newline 
+Total 0 heldout events added
+\newline 
+Reducing events (cutoff is 1)...
+\newline 
+Reduced to 783427 training events
+\newline 
+
+\newline 
+Starting L-BFGS iterations...
+\newline 
+Number of Predicates:  28653
+\newline 
+Number of Outcomes:    45
+\newline 
+Number of Parameters:  66519
+\newline 
+Number of Corrections: 5
+\newline 
+Tolerance:             1.000000E-05
+\newline 
+Gaussian Penalty:      on
+\newline 
+Optimized version
+\newline 
+iter  eval     loglikelihood  training accuracy   heldout accuracy
+\newline 
+==================================================================
+\newline 
+  0      1-3.806662E+00  0.005%     N/A
+\newline 
+  0      1-3.636210E+00  47.771%     N/A
+\newline 
+  1      3-3.015621E+00  47.771%     N/A
+\newline 
+  2      4-2.326449E+00  50.274%     N/A
+\newline 
+  3      5-1.750152E+00  56.182%     N/A
+\newline 
+  4      6-1.497112E+00  61.177%     N/A
+\newline 
+  5      7-1.373379E+00  64.895%     N/A
+\newline 
+  .
+ .
+ .
+\newline 
+ 94     96-1.990776E-01  97.584%     N/A
+\newline 
+ 95     97-1.984520E-01  97.602%     N/A
+\newline 
+ 96     98-1.976996E-01  97.612%     N/A
+\newline 
+ 97     99-1.968460E-01  97.665%     N/A
+\newline 
+ 98    100-1.961286E-01  97.675%     N/A
+\newline 
+ 99    101-1.951691E-01  97.704%     N/A
+\newline 
+100    102-1.946537E-01  97.689%     N/A
+\newline 
+Maximum numbers of 100 iterations reached in 3817.37 seconds
+\newline 
+Highest loglikehood: -1.946537E-01
+\newline 
+training finished
+\newline 
+saving tagger model to wsj done
+\layout Standard
+
+A script 
+\emph on 
+maxent_tagger.py
+\emph default 
+ is provided to tag new sentences using previously trained tagger model:
+\layout Standard
+
+To tag new sentences using wsj model:
+\layout LyX-Code
+
+usage: maxent_tagger.py [options] -m model file
+\newline 
+
+\newline 
+options:
+\newline 
+  -h, --help            show this help message and exit
+\newline 
+  -oOUTPUT, --output=OUTPUT
+\newline 
+                        write tagged result to OUTPUT
+\newline 
+  -mMODEL, --model=MODEL
+\newline 
+                        load trained model from MODEL
+\newline 
+  -t, --test            test mode, include original tag in output
+\newline 
+  -v, --verbose         
+\newline 
+  -q, --quiet           
+\newline 
+  -TTYPE, --type=TYPE   choose context type
+\layout Standard
+
+The tagging result will be sent to stdout, one sentence per line.
+\layout Chapter
+
+Command Line Utility
+\layout Section
+
+The maxent Program
+\layout Standard
+
+For convenience, a command line program 
+\family typewriter 
+maxent
+\family default 
+ is provided to carry out some common operations like constructing ME model
+ from a data file, predicting labels of unseen data and performing N-fold
+ cross validation.
+ The source code 
+\family typewriter 
+src/maxent.cpp
+\family default 
+ also demonstrates the use of the C++ interface.
+\layout Section
+
+Data Format
+\layout Standard
+
+maxent uses a data format similar to other classifiers:
+\layout LyX-Code
+
+(BNF-like representation)
+\newline 
+<event>   .=.
+ <label> <feature>[:<fvalue>] <feature>[:<fvalue>] ...
+ 
+\newline 
+<feature> .=.
+ string
+\newline 
+<fvalue>  .=.
+ float (must be non-negative)
+\newline 
+<label>   .=.
+ string
+\newline 
+<line>    .=.
+ <event>
+\layout Standard
+
+Where label and feature are treated as literal 
+\begin_inset Quotes eld
+\end_inset 
+
+string
+\begin_inset Quotes erd
+\end_inset 
+
+s.
+ If a feature
+\begin_inset Foot
+collapsed true
+
+\layout Standard
+
+Stickily speaking, this is context predicate.
+\end_inset 
+
+ is followed with a ':' and a float value (must be non-negative), that number
+ is regarded as feature value.
+ Otherwise, the feature values are assumed to be 1 (binary feature).
+\layout Standard
+
+
+\series bold 
+Important:
+\series default 
+ You must either specify all feature values or omit all of them.
+ You can not mix them in a data file.
+\layout Standard
+
+Here's a sample data file:
+\layout LyX-Code
+
+Outdoor Sunny Happy 
+\newline 
+Outdoor Sunny Happy Dry 
+\newline 
+Outdoor Sunny Happy Humid 
+\newline 
+Outdoor Sunny Sad Dry 
+\newline 
+Indoor Rainy Happy Humid 
+\newline 
+Indoor Rainy Happy Dry 
+\newline 
+Indoor Rainy Sad Dry 
+\newline 
+.
+ .
+ .
+\layout Standard
+
+Here 
+\family typewriter 
+Outdoor
+\family default 
+ and 
+\family typewriter 
+Indoor
+\family default 
+ are both labels (outcomes) and all other strings are features (contextual
+ predicates).
+\layout Standard
+
+If numeric features are present, they are treated as feature values (must
+ be non-negative).
+ This format is compatible with that used by other classifiers such as libsvm
+ or svm-light where feature must be real value.
+ For example, the following data is taken from a Text Categorization task
+ in libsvm file format:
+\layout LyX-Code
+
++1 4:1.0 6:2 9:7 14:1 20:12 25:1 27:0.37 31:1 
+\newline 
++1 4:8 6:91 14:1 20:1 29:1 30:13 31:1 39:1 
+\newline 
++1 6:1 9:7 14:1 20:111 24:1 25:1 28:1 29:0.21
+\newline 
+-1 6:6 9:1 14:1 23:1 35:1 39:1 46:1 49:1
+\newline 
+-1 6:1 49:1 53:1 55:1 80:1 86:1 102:1
+\layout Section
+
+Examples
+\layout Standard
+
+Now assuming we have training data in train.txt and testing data in test.txt.
+ The following commands illustrate the typical useage of 
+\family typewriter 
+maxent
+\family default 
+ utility:
+\layout Standard
+
+Create a ME model named model1 from train.txt with 30 iterations of L-BFGS
+ (default)
+\begin_inset Foot
+collapsed true
+
+\layout Standard
+
+Cygwin users: due to a bug in Cygwin's implantation of getopt_long(), all
+ options passed after training filename is discarded.
+ You should specify all options 
+\emph on 
+before
+\emph default 
+ training filename: maxent -m model1 -i 30 train.txt.
+\end_inset 
+
+:
+\layout LyX-Code
+
+maxent train.txt -m model1 -i 30
+\layout Standard
+
+If -b flag is present then the model file is saved in binary format, which
+ is much faster to load/save than plain text format.
+ The format of model file is automatically detected when loading.
+ You need not specify -b to load a binary model.
+ If the library is compiled with 
+\family typewriter 
+zlib
+\family default 
+, binary model will be saved in gzip compressed format, saving lots of disk
+ space.
+\layout LyX-Code
+
+save a binary model:
+\newline 
+maxent train.txt -b -m model1 -i 30
+\newline 
+
+\newline 
+then predict new samples with the newly created model:
+\newline 
+maxent -p test.txt -m model1
+\layout Standard
+
+By default, 
+\family typewriter 
+maxent
+\family default 
+ will try to read data through 
+\family typewriter 
+mmap()
+\family default 
+ system call if available.
+ If this causes problems, 
+\family typewriter 
+--nommap
+\family default 
+ option will disable 
+\family typewriter 
+mmap()
+\family default 
+ call and use standard I/O instead (safer but slower).
+\layout Standard
+
+Sometimes we only want to know the testing accuracy of a model trained from
+ given training data.
+ The train/prediction steps can be combined into a single step without explicitl
+y saving/loading the model file:
+\layout LyX-Code
+
+maxent train.txt test.txt
+\layout Standard
+
+Performing 10-fold cross-validation on train.txt and report accuracy:
+\layout LyX-Code
+
+maxent -n 10 train.txt
+\layout Standard
+
+When 
+\family typewriter 
+-v
+\family default 
+ option is set, verbose messages will be printed to stdout: 
+\layout LyX-Code
+
+maxent train.txt -m model1 -v
+\newline 
+Total 180 training events added
+\newline 
+Total 0 heldout events added
+\newline 
+Reducing events (cutoff is 1)...
+\newline 
+Reduced to 177 training events
+\newline 
+
+\newline 
+Starting L-BFGS iterations...
+\newline 
+Number of Predicates:  9757
+\newline 
+Number of Outcomes:    2
+\newline 
+Number of Parameters:  11883
+\newline 
+Number of Corrections: 5
+\newline 
+Tolerance:             1.000000E-05
+\newline 
+Gaussian Penalty:      off
+\newline 
+Optimized version
+\newline 
+iter  eval     loglikelihood  training accuracy   heldout accuracy
+\newline 
+==================================================================
+\newline 
+  0      1-6.931472E-01  38.889%     N/A
+\newline 
+  1      2-2.440559E-01  86.111%     N/A
+\newline 
+  2      3-1.358731E-01  98.333%     N/A
+\newline 
+  3      4-1.058029E-01  98.889%     N/A
+\newline 
+  4      5-5.949606E-02  99.444%     N/A
+\newline 
+  5      6-3.263124E-02  100.000%     N/A
+\newline 
+  6      7-1.506045E-02  100.000%     N/A
+\newline 
+  7      8-7.390649E-03  100.000%     N/A
+\newline 
+  8      9-3.623262E-03  100.000%     N/A
+\newline 
+  9     10-1.661110E-03  100.000%     N/A
+\newline 
+ 10     11-6.882981E-04  100.000%     N/A
+\newline 
+ 11     12-4.081801E-04  100.000%     N/A
+\newline 
+ 12     13-1.907085E-04  100.000%     N/A
+\newline 
+ 13     14-9.775213E-05  100.000%     N/A
+\newline 
+ 14     15-4.831358E-05  100.000%     N/A
+\newline 
+ 15     16-2.423319E-05  100.000%     N/A
+\newline 
+ 16     17-1.666308E-05  100.000%     N/A
+\newline 
+ 17     18-5.449101E-06  100.000%     N/A
+\newline 
+ 18     19-3.448578E-06  100.000%     N/A
+\newline 
+ 19     20-1.600556E-06  100.000%     N/A
+\newline 
+ 20     21-8.334602E-07  100.000%     N/A
+\newline 
+ 21     22-4.137602E-07  100.000%     N/A
+\newline 
+Training terminats succesfully in 1.3125 seconds
+\newline 
+Highest log-likelihood: -2.068951E-07
+\layout Standard
+
+Predict data in test.txt with model1 and save predicated labels (outcome
+ label with highest probability) to output.txt, one label per line:
+\layout LyX-Code
+
+maxent -p -m model1 -o output.txt test.txt
+\layout Standard
+
+If the --detail flag is given in prediction mode, full distribution will
+ be outputted:
+\layout LyX-Code
+
+<outcome1> <prob1> <outcome2> <prob2> ...
+\newline 
+
+\newline 
+maxent -p -m model1 --detail -o output.txt test.txt 
+\layout Standard
+
+It is possible to specify a set of 
+\emph on 
+heldout
+\emph default 
+ data to monitor the performance of model in each iteration of training:
+ the decline of accuracy on heldout data may indicate some 
+\emph on 
+overfitting
+\emph default 
+.
+\layout LyX-Code
+
+maxent -m model1 train.txt --heldout heldout.txt -v
+\newline 
+Loading training events from train.txt
+\newline 
+.
+\newline 
+Loading heldout events from heldout.txt
+\newline 
+
+\newline 
+Total 1000 training events added
+\newline 
+Total 99 heldout events added
+\newline 
+Reducing events (cutoff is 1)...
+\newline 
+Reduced to 985 training events
+\newline 
+Reduced to 99 heldout events
+\newline 
+
+\newline 
+Starting L-BFGS iterations...
+\newline 
+Number of Predicates:  24999
+\newline 
+Number of Outcomes:    2
+\newline 
+Number of Parameters:  30304
+\newline 
+Number of Corrections: 5
+\newline 
+Tolerance:             1.000000E-05
+\newline 
+Gaussian Penalty:      off
+\newline 
+Optimized version
+\newline 
+iter  eval     loglikelihood  training accuracy   heldout accuracy
+\newline 
+==================================================================
+\newline 
+  0      1-6.931472E-01  43.300%     48.485%
+\newline 
+  1      2-3.821936E-01  74.400%     71.717%
+\newline 
+  2      3-1.723962E-01  95.600%     95.960%
+\newline 
+  3      4-1.465401E-01  97.100%     97.980%
+\newline 
+  4      5-1.196789E-01  97.600%     97.980%
+\newline 
+  5      6-9.371452E-02  97.800%     97.980%
+\newline 
+  6      7-6.035709E-02  98.700%     97.980%
+\newline 
+  7      8-3.297382E-02  99.700%     98.990%
+\newline 
+  8      9-1.777857E-02  99.800%     98.990%
+\newline 
+  9     10-9.939370E-03  99.900%     100.000%
+\newline 
+  9     10-8.610207E-02  95.900%     94.949%
+\newline 
+ 10     12-8.881104E-03  99.900%     98.990%
+\newline 
+ 11     13-4.874563E-03  99.900%     98.990%
+\newline 
+ 12     14-2.780725E-03  99.900%     98.990%
+\newline 
+ 13     15-1.139578E-03  100.000%     98.990%
+\newline 
+ 14     16-5.539811E-04  100.000%     98.990%
+\newline 
+ 15     17-2.344039E-04  100.000%     98.990%
+\newline 
+ 16     18-1.371225E-04  100.000%     98.990%
+\newline 
+Training terminats succesfully in 8.5625 seconds
+\newline 
+Highest log-likelihood: -9.583916E-08
+\layout Standard
+
+In this example, it seems performance peaks at iteration 9.
+ Further training actually brings down the accuracy on the heldout data,
+ although the training accuracy continues to increase.
+ Applying a Gaussian prior can help avoid overfitting, just use 
+\family typewriter 
+-g float
+\family default 
+ to specify the global Gaussian variance 
+\begin_inset Formula $\sigma^{2}$
+\end_inset 
+
+.
+\layout Standard
+
+Finally, 
+\family typewriter 
+-h
+\family default 
+ option will bring up a short help screen: 
+\layout LyX-Code
+
+maxent -h
+\newline 
+
+\newline 
+Purpose:
+\newline 
+  A command line utility to train (test) a maxent model from a file.
+\newline 
+
+\newline 
+Usage: maxent [OPTIONS]...
+ [FILES]...
+\newline 
+   -h         --help            Print help and exit
+\newline 
+   -V         --version         Print version and exit
+\newline 
+   -v         --verbose         verbose mode (default=off)
+\newline 
+   -mSTRING   --model=STRING    set model filename
+\newline 
+   -b         --binary          save model in binary format (default=off)
+\newline 
+   -oSTRING   --output=STRING   prediction output filename
+\newline 
+              --detail          output full distribution in prediction mode
+ (default=off)
+\newline 
+   -iINT      --iter=INT        iterations for training algorithm (default='30')
+\newline 
+   -gFLOAT    --gaussian=FLOAT  set Gaussian prior, disable if 0 (default='0.0')
+\newline 
+   -cINT      --cutoff=INT      set event cutoff (default='1')
+\newline 
+              --heldout=STRING  specify heldout data for training
+\newline 
+   -r         --random          randomizing data in cross validation (default=of
+f)
+\newline 
+              --nommap          do not use mmap() to read data (slow) (default=o
+ff)
+\newline 
+
+\newline 
+   Group: MODE
+\newline 
+   -p         --predict         prediction mode, default is training mode
+\newline 
+   -nINT      --cv=INT          N-fold cross-validation mode (default='0')
+\newline 
+
+\newline 
+   Group: Parameter Estimate Method
+\newline 
+              --lbfgs           use L-BFGS parameter estimation (default)
+\newline 
+              --gis             use GIS parameter estimation
+\layout Chapter
+
+API Reference
+\layout Standard
+
+
+\begin_inset LatexCommand \label{chap:api}
+
+\end_inset 
+
+
+\layout Section
+
+C++ API
+\layout Standard
+
+This section is generated automatically from C++ source code.
+ Unfortunately, sometimes the generated interfaces are too complex to be
+ understand by a human.
+ (to be honest, I never bother to read the generated API document).
+ A real compiler may like the wealthy information provided here.
+ I hope the Chapter 
+\begin_inset LatexCommand \ref{chap:tutorial}
+
+\end_inset 
+
+ is enough for most people.
+ 
+\layout Standard
+
+
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+input{namespacemaxent}
+\layout Standard
+
+\backslash 
+input{classmaxent_1_1MaxentModel}
+\layout Standard
+
+\backslash 
+input{classmaxent_1_1Trainer}
+\end_inset 
+
+
+\layout Section
+
+Python API
+\layout Standard
+
+This section is under construction
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+dots
+\end_inset 
+
+.
+\layout Chapter
+
+Acknowledgment
+\layout Standard
+
+The author owns his thanks to: 
+\layout Itemize
+
+developers of 
+\begin_inset LatexCommand \url{http://maxent.sourceforge.net}
+
+\end_inset 
+
+, the java implementation of MaxEnt with GIS training algorithm.
+ Actually, this toolkit evolves from an early attempt to port java maxent
+ to C++.
+ 
+\layout Itemize
+
+Robert Malouf.
+ Dr.
+ Malouf kindly answered my questions on maxent and provides his excellent
+ implementation on four maxent parameter estimation algorithm.
+ 
+\layout Itemize
+
+Jorge Nocedal, for the excellent Fortran L-BFGS implementation.
+\layout Itemize
+
+And of course all users who provided valuable feedback and bug reports.
+ 
+\layout Standard
+
+
+\begin_inset LatexCommand \BibTeX[plainnat]{maxent}
+
+\end_inset 
+
+
+\the_end

@@ -1,0 +1,16 @@
+#txt,maxent
+# only one context predicate
+# this is another line of comment
+1
+in
+4
+A
+B
+C
+D
+4 0 1 2 3
+4
+-0.17328785559748766
+-0.17328785559748766
+-0.17328785559748766
+0.51986356679246282

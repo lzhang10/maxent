@@ -1,0 +1,12 @@
+Readme file for orange interface
+Last Change : 24-Dec-2004.
+================================
+
+This directory contains an interface class to the python Orange Machine
+Learning environment (http://www.ailab.si/orange).
+
+'python orngMaxent.py' will run a simple unittest suit.
+
+Now it is considered to be beta quality. Use with caution.
+
+Zhang Le

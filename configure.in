@@ -1,0 +1,137 @@
+dnl   Copyright 2002-2004 by Zhang Le <ejoy@xinhuanet.com>
+dnl   Last Change : 04-Oct-2006.
+
+AC_INIT(Jamrules.in)
+
+AC_CONFIG_HEADER(config.h)
+AC_CONFIG_AUX_DIR(script)
+
+AC_DEFINE([CMDLINE_PARSER_VERSION],  ["version-devel"],  [package's version])
+
+dnl Check platform
+AC_CANONICAL_HOST
+
+dnl use C++ do lib checking
+AC_LANG_CPLUSPLUS
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_FC
+AC_FC_LIBRARY_LDFLAGS
+if test -n "$FC" ; then
+    AC_DEFINE([HAVE_FORTRAN],  [1],  [defined to 1 if a fortran compiler is found])
+fi
+
+# the two macro will cause strange linking problems
+# so they are disabled.
+# libg2c must be checked manually
+#AC_FC_DUMMY_MAIN
+#AC_FC_LIBRARY_LDFLAGS
+AC_C_BIGENDIAN
+
+wi_ARG_DISABLE_CCDV
+dnl check for compiler flags and debug options 
+AC_ARG_ENABLE(debug,
+    [  --enable-debug          compile for debug, useful for developers.[default=no]],
+    [if test "x$enableval" = "xyes"; then
+         enable_debug=yes
+     else
+         enable_debug=no
+     fi])
+
+AC_ARG_ENABLE(static,
+    [  --enable-static         build static binaries [default=no]],
+    [if test "x$enableval" = "xyes"; then
+         enable_static=yes
+     else
+         enable_static=no
+     fi])
+
+AC_ARG_ENABLE(system-boost-lib,
+    [  --disable-system-boost-lib   use boost shipped with this package [default=no]],
+    [if test "x$enableval" = "xyes"; then
+         use_builtin_boost=no
+     else
+         use_builtin_boost=yes
+     fi])
+
+dnl AC_CHECK_PROGS(MAKE, gmake make)
+dnl AC_SUBST(MAKE)
+wi_PROG_CCDV
+
+dnl Checks for header files.
+dnl AC_CHECK_HEADERS([fcntl.h string.h sys/ioctl.h termios.h unistd.h])
+AC_CHECK_HEADERS([ieeefp.h]) dnl finite() on sun os
+AC_CHECK_HEADER([boost/config.hpp], [], [use_builtin_boost=yes])
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+
+dnl Checks for library functions.
+AC_CHECK_FUNCS([gettimeofday getopt_long])
+# AC_CHECK_FUNC(srand)
+AC_FUNC_MMAP
+AC_CHECK_LIB(m, main)
+AC_CHECK_LIB(gnugetopt, getopt)
+AC_CHECK_LIB(z, main)
+#AC_CHECK_LIB(g2c, main)
+# TODO: if no fortran compiler is found, disable lbfgs and use GIS instead
+#if test "$ac_cv_lib_g2c_main" = 'no'; then
+#    echo "libg2c not found, this should be shipped with GNU Fortran compiler."
+#    echo "configure gives up."
+#    exit 1
+#fi
+
+if test "$use_builtin_boost" = 'yes'; then
+    echo "**info** configure will use boost lib shipped with this package"
+    BOOST_LIB='$(TOP)/lib/'
+fi
+
+if test "$enable_debug" = 'yes'; then
+    CFLAGS="$CFLAGS $CPPFLAGS -g -Wall -DHAVE_CONFIG_H" 
+    CXXFLAGS="$CXXFLAGS $CPPFLAGS -g -Wall -DHAVE_CONFIG_H" 
+    OPTIM="-O0"
+    TARGET_DIR=""
+else
+    CFLAGS="$CFLAGS $CPPFLAGS -Wall -DNDEBUG -DHAVE_CONFIG_H" 
+    CXXFLAGS="$CXXFLAGS $CPPFLAGS -Wall -DNDEBUG -DHAVE_CONFIG_H" 
+    OPTIM="-O3"
+    TARGET_DIR="src/opt"
+fi
+
+if test "$enable_static" = 'yes'; then
+    LINK="$CXX $LDFLAGS -static"
+else
+    LINK="$CXX $LDFLAGS"
+fi
+
+# show optional compoment information
+echo ""
+if test "$ac_cv_lib_z_main" = 'no'; then
+    echo "**info** zlib not found, compressed model file disabled!"
+    echo ""
+fi
+
+if test -z "$FC" ; then
+    echo "**info** Fortran compiler not found, LBFGS optimization module disabled!"
+    echo "**info** Only GIS training method is availiable."
+    echo ""
+fi
+
+AC_SUBST(OPTIM)
+AC_SUBST(LINK)
+AC_SUBST(TARGET_DIR)
+AC_SUBST(BOOST_LIB)
+AC_SUBST(host_cpu)
+AC_SUBST(host_os)
+AC_SUBST(host_vendor)
+
+dnl for use in python/setup.py.in
+#AC_SUBST(ac_cv_lib_g2c_main)
+AC_SUBST(ac_cv_lib_z_main)
+AC_SUBST(ac_cv_func_getopt_long)
+
+AC_OUTPUT(Jamrules python/setup.py)
+
+echo "configure complete, now type make to build."
+echo ""

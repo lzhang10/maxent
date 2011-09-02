@@ -1,0 +1,14 @@
+# to address privacy, the contributors' email addresses are rot13 encoded
+# to decode: in vim move cursor in <..> and type g?a> ;-)
+
+Jiří Marš<wvev.znefvx89@tznvy.pbz>
+    * Fixed a numerical stability bug in trainer that can lead to random crashes in LBFGS training
+
+Carmen Alvarez <pnezra.nyinerm@HZbagerny.PN>
+    * Fixing a bug when detecting "-Inf" in lbfgstrainer.cpp 
+    * Proposing a new std::map based algorithm for build_params() (much faster
+      when outcome set is large)
+
+Tom Morton <gfzbegba@pvf.hcraa.rqh>
+    * Fixing a bug in the parameter E_ref on calling newton() method in
+      gistrainer.cpp when applying GIS algorithm with Gaussian smoothing
