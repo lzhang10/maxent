@@ -58,7 +58,7 @@ setup(name = "maxent",
       version = "version-devel", 
       author = "Zhang Le",
       author_email = "ejoy@users.sourceforge.net",
-      url = "http://homepages.inf.ed.ac.uk/s0450736/maxent_toolkit.html", 
+      url = "http://homepages.inf.ed.ac.uk/lzhang10/maxent_toolkit.html", 
       description = "A Maximum Entropy Modeling toolkit in python",
       long_description = """Maxent is a powerful, flexible, and easy-to-use
 Maximum Entropy Modeling library for Python. The core engine is written in C++

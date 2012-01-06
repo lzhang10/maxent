@@ -145,6 +145,8 @@ char* test_event_space_destory() {
         context1->second = 1.0;
         Event ev1(context1,1, 2);
         es.push_back(ev1);
+        /*
+         * this test will cause segfault on some platform, so disabled here.
         es.push_back(ev1);
         es.push_back(ev1);
         cout << "*INFO* Two warnings on free() should be printed here (but not always, it depends on your libc)." << endl;
@@ -153,6 +155,7 @@ char* test_event_space_destory() {
         cout << endl;
         // test_event in free(): warning: chunk is already free
         // test_event in free(): warning: chunk is already free
+        */
     }
 
     return 0;
