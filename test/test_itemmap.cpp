@@ -35,8 +35,7 @@ char* test_constructor() {
 
 char* test_constructors() {
     char* a = test_constructor<StringItemMap>();
-    if (a)
-        return a;
+    return a;
 }
 
 template <typename T>
@@ -83,8 +82,7 @@ char* test_operation() {
 
 char* test_operations() {
     char* a = test_operation<StringItemMap>();
-    if (a)
-        return a;
+    return a;
 }
 
 
