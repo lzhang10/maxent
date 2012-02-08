@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002 by Zhang Le <ejoy@users.sourceforge.net>
  * Begin       : 31-Dec-2002
- * Last Change : 25-Dec-2004.
+ * Last Change : 08-Feb-2012.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -35,19 +35,14 @@
 #include <string>
 #include <functional>
 
-#include "hash_map.hpp"
+#include <tr1/unordered_map>
 
-#if !defined(_STLPORT_VERSION) && defined(_MSC_VER) && ((_MSC_VER >= 1300) || defined(__INTEL_COMPILER))
-    // workaround for MSVC7's hash_map declaration
-    template <typename T, typename HashFunc = hash_compare<T, _STD less<T> >, typename EqualKey = _STD allocator< _STD pair<const T, size_t> > >
-#else
-    template <typename T, typename HashFunc = hash<T>, typename EqualKey = std::equal_to<T> >
-#endif
+template <typename T>
 class ItemMap {
     public:
         typedef T      item_type;
         typedef size_t id_type;
-        typedef hash_map <T, id_type, HashFunc, EqualKey>         hash_map_type;
+        typedef std::tr1::unordered_map <T, id_type>         hash_map_type;
         // static const size_t null_id = ~(ItemMap::id_type)0;
         static const size_t null_id;
         typedef typename std::vector<T>::iterator       iterator;
@@ -102,9 +97,7 @@ class ItemMap {
         std::vector<T>        m_index;
 };
 
-template <typename T, typename HashFunc, typename EqualKey >
-const size_t ItemMap<T, HashFunc, EqualKey>::null_id =
-~(typename ItemMap<T, HashFunc, EqualKey>::id_type)(0); // -1 is null_id
-// (typename ItemMap<T, HashFunc, EqualKey>::id_type)(-1); // -1 is null_id
+template <typename T>
+const size_t ItemMap<T>::null_id = ~(typename ItemMap<T>::id_type)(0); // -1 is null_id
 #include "itemmap.tcc"
 #endif /* ifndef ITEMMAP_H */

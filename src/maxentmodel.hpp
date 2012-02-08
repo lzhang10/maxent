@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
  * Begin       : 01-Jan-2003
- * Last Change : 24-Dec-2004.
+ * Last Change : 08-Feb-2012.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -162,28 +162,12 @@ class MaxentModel /*: TODO: we need copyable? boost::noncopyable*/  {
     double build_params2(shared_ptr<me::ParamsType>& params, 
             size_t& n_theta) const;
 
-#if !defined(_STLPORT_VERSION) && defined(_MSC_VER) && (_MSC_VER >= 1300)
-            // for MSVC7's hash_map declaration
-            class featid_hasher : public stdext::hash_compare<pair<size_t, size_t> > {
-                public:
-                    size_t operator()(const pair<size_t, size_t>& p) const {
-                        return p.first + p.second;
-                    }
-
-                    bool operator()(const pair<size_t, size_t>& k1,
-                            const  pair<size_t, size_t>& k2) {
-                        return k1 < k2;
-                    }
-            };
-#else
-            // for hash_map of GCC & STLPORT
             struct featid_hasher {
                 size_t operator()(const pair<size_t, size_t>& p) const {
                     return p.first + p.second;
                 }
             };
 
-#endif
 
     struct cutoffed_event {
         cutoffed_event(size_t cutoff):m_cutoff(cutoff) {}

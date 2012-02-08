@@ -15,7 +15,7 @@
  *
  * Copyright (C) 2002 by Zhang Le <ejoy@users.sourceforge.net>
  * Begin       : 31-Dec-2002
- * Last Change : 01-Jul-2004.
+ * Last Change : 08-Feb-2012.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -55,28 +55,11 @@ namespace maxent{
         private:
             void init_trainer();
             double newton(double f_q, double f_ref, size_t i, double tol = 1.0E-6);
-#if !defined(_STLPORT_VERSION) && defined(_MSC_VER) && (_MSC_VER >= 1300)
-            // for MSVC7's hash_map declaration
-            class featid_hasher : public stdext::hash_compare<pair<size_t, size_t> > {
-                public:
-                    size_t operator()(const pair<size_t, size_t>& p) const {
-                        return p.first + p.second;
-                    }
-
-                    bool operator()(const pair<size_t, size_t>& k1,
-                            const  pair<size_t, size_t>& k2) {
-                        return k1 < k2;
-                    }
-            };
-#else
-            // for hash_map of GCC & STLPORT
             struct featid_hasher {
                 size_t operator()(const pair<size_t, size_t>& p) const {
                     return p.first + p.second;
                 }
             };
-
-#endif
 
             double m_correct_constant;
             shared_ptr<vector<vector<double> > > m_modifiers;

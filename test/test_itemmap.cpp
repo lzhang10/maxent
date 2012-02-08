@@ -5,18 +5,9 @@
 
 int tests_run = 0;
 
-struct eqstr
-{
-    bool operator()(const char* s1,  const char* s2) const
-    {
-        return strcmp(s1,  s2) == 0;
-    }
-};
 
 using namespace std;
 typedef ItemMap<string> StringItemMap;
-typedef ItemMap<char*, hash<char*>, eqstr> CStringItemMap;
-
 
 template <typename T>
 char* test_constructor() {
@@ -46,8 +37,6 @@ char* test_constructors() {
     char* a = test_constructor<StringItemMap>();
     if (a)
         return a;
-    char* b = test_constructor<CStringItemMap>();
-    return b;
 }
 
 template <typename T>
@@ -96,8 +85,6 @@ char* test_operations() {
     char* a = test_operation<StringItemMap>();
     if (a)
         return a;
-    char* b = test_operation<CStringItemMap>();
-    return b;
 }
 
 

@@ -7,7 +7,7 @@
  *
  * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
  * Begin       : 01-Jun-2003
- * Last Change : 17-Nov-2004.
+ * Last Change : 08-Feb-2012.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -44,21 +44,6 @@ class LBFGSTrainer : public Trainer {
         void init_trainer();
         double heldout_accuracy() const;
 
-#if !defined(_STLPORT_VERSION) && defined(_MSC_VER) && (_MSC_VER >= 1300)
-            // for MSVC7's hash_map declaration
-            class featid_hasher : public stdext::hash_compare<pair<size_t, size_t> > {
-                public:
-                    size_t operator()(const pair<size_t, size_t>& p) const {
-                        return p.first + p.second;
-                    }
-
-                    bool operator()(const pair<size_t, size_t>& k1,
-                            const  pair<size_t, size_t>& k2) {
-                        return k1 < k2;
-                    }
-            };
-#else
-            // for hash_map of GCC & STLPORT
             struct featid_hasher {
                 size_t operator()(const pair<size_t, size_t>& p) const {
                     return p.first + p.second;

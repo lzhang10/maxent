@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002 by Zhang Le <ejoy@users.sourceforge.net>
  * Begin       : 31-Dec-2002
- * Last Change : 11-Mar-2004.
+ * Last Change : 08-Feb-2012.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,18 +30,14 @@
 
 using namespace std;
 
-//ItemMap<T, HashFunc, typename EqualKey>::ItemMap(const string& filename)
-//{
-//    load(filename);
-//}
 
-template<typename T, typename HashFunc, typename EqualKey>
-ItemMap<T, HashFunc, EqualKey>::~ItemMap() {
+template<typename T> 
+ItemMap<T>::~ItemMap() {
     clear();
 }
 
-template<typename T, typename HashFunc, typename EqualKey>
-void ItemMap<T, HashFunc, EqualKey>::clear() {
+template<typename T>
+void ItemMap<T>::clear() {
     m_index.clear();
     m_hashdict.clear();
 }
@@ -115,8 +111,8 @@ void ItemMap<string>::save(ostream& os) {
 //    save(out);
 //}
 
-template<typename T, typename HashFunc, typename EqualKey>
-typename ItemMap<T, HashFunc, EqualKey>::id_type ItemMap<T, HashFunc, EqualKey>::add(const T& f) {
+template<typename T>
+typename ItemMap<T>::id_type ItemMap<T>::add(const T& f) {
     typename hash_map_type::const_iterator it = m_hashdict.find(f);
     if (it != m_hashdict.end())
         return it->second;
