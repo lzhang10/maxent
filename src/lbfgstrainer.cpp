@@ -11,7 +11,7 @@
  *
  * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
  * Begin       : 01-Jun-2003
- * Last Change : 24-Dec-2004.
+ * Last Change : 08-Feb-2012.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -37,6 +37,7 @@
 #include <cmath>
 #include <limits>
 #include <algorithm>
+#include <tr1/unordered_map>
 #include <boost/timer.hpp>
 #include <boost/scoped_array.hpp>
 #include "lbfgstrainer.hpp"
@@ -58,7 +59,7 @@ void LBFGSTrainer::init_trainer() {
     // calculate observed feature expectations
     // a hash map to hold the value of feature <pred, outcome> pair occured in event list
     // which is the sum of active feature f_i(a,b) in the training set
-    typedef hash_map <pair<size_t, size_t>, float, featid_hasher> FeatSumMap;
+    typedef std::tr1::unordered_map <pair<size_t, size_t>, float, featid_hasher> FeatSumMap;
     FeatSumMap feat_sum;
     for (vector<Event>::const_iterator it = m_es->begin();
             it != m_es->end(); ++it) {

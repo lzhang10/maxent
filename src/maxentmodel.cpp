@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
  * Begin       : 01-Jan-2003
- * Last Change : 02-Sep-2011.
+ * Last Change : 08-Feb-2012.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -39,7 +39,7 @@
 #include <set>
 #include <map>
 
-#include "hash_map.hpp"
+#include <tr1/unordered_map>
 
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
@@ -240,7 +240,7 @@ double MaxentModel::build_params(shared_ptr<ParamsType>& params,
         size_t& n_theta) const {
     boost::timer t;
     assert(m_es);
-    typedef hash_map <pair<size_t, size_t>, bool, featid_hasher> FeatMap;
+    typedef std::tr1::unordered_map <pair<size_t, size_t>, bool, featid_hasher> FeatMap;
 
     FeatMap feat_map;
     size_t len;
