@@ -8,7 +8,7 @@
 #
 # Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
 # Begin       : 11-Sep-2003
-# Last Change : 06-Jul-2004.
+# Last Change : 09-Feb-2012.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -51,7 +51,6 @@ boost_inc_path = '/usr/local/include'
 inc_path = None
 
 platform_specific_headers = [ 
-'detail/lwm_pthreads.hpp', 
 ]
 
 #def get_boost_headers(boost_dir):
@@ -132,14 +131,13 @@ def main ():
 
     # parsing options{{{
     usage = '''usage: %prog [options] dirs
-example: boostheaders.py src -Isrc --CPP="g++32 -E"'''
+example: boostheaders.py src -Isrc --CPP="c++ -E -g -Wall -DHAVE_CONFIG_H -I. -DBOOST_DISABLE_THREADS -b ~/Downloads/boost_1_48_0/ -o my_boost"'''
     parser = OptionParser(usage)
     parser.add_option("-b", "--boost", type="string", default="/usr/local/include", 
             help="local boost include directory, default=[/usr/local/include]")
     parser.add_option("--CPP", type="string", default="g++ -E", help="the name of C++ preprocessor to use, default=[cpp]")
     parser.add_option("-I", type="string", help="set additional include path for cpp")
-    parser.add_option("-o", "--output", type="string", default="boost.txt", 
-            help="output filename, default=[boost.txt]")
+    parser.add_option("-o", "--output", type="string", default="my_boost", help="output directory, default=[my_boost]")
     (options, args) = parser.parse_args()
     #}}}
 
@@ -165,13 +163,13 @@ example: boostheaders.py src -Isrc --CPP="g++32 -E"'''
     # add some additional headers required on other platforms
     boost_headers += [ '%s/boost/%s' % (boost_inc_path, x) for x in platform_specific_headers ]
 
-#    print 'Copying boost headers to %s' % options.output
-#    copy_boost_headers(boost_headers, options.output)
+    print 'Copying boost headers to %s' % options.output
+    copy_boost_headers(boost_headers, options.output)
 
-    f = open(options.output, 'w')
-    for h in sets.Set(boost_headers):
-        print >> f, h
-    print "file names saved to", options.output
+#    f = open(options.output, 'w')
+#    for h in sets.Set(boost_headers):
+#        print >> f, h
+#    print "file names saved to", options.output
 
 if __name__ == "__main__":
     main()
