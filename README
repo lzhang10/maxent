@@ -2,7 +2,7 @@ A Maximum Entropy Modeling Toolkit for Python and C++
 =====================================================
 
 
-http://homepages.inf.ed.ac.uk/lzhang10/maxent.html[]
+http://homepages.inf.ed.ac.uk/lzhang10/maxent.html
 
 What is this?
 -------------
@@ -29,7 +29,7 @@ This software is freeware and is released under LGPL. see LICENSE file for
 more information. 
 
 The adoption of LGPL is in accord with the license of java maxent project:
-http://maxent.sf.net[], from which the toolkit was derived.  LGPL makes it
+http://maxent.sf.net, from which the toolkit was derived.  LGPL makes it
 easier to share source code, as well as new ideas, between both projects.
 
 Misc Info
@@ -51,5 +51,5 @@ Please do not report them as bugs.
 Contact Author
 --------------
 Le Zhang <mailto:ejoy@users.sf.net[]> 
-http://homepages.inf.ed.ac.uk/lzhang10/[]
+http://homepages.inf.ed.ac.uk/lzhang10/
 Question and suggestion are always welcome.
