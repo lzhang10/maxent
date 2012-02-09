@@ -1,5 +1,5 @@
 dnl   Copyright 2002-2004 by Zhang Le <ejoy@xinhuanet.com>
-dnl   Last Change : 04-Oct-2006.
+dnl   Last Change : 09-Feb-2012.
 
 AC_INIT(Jamrules.in)
 
@@ -103,6 +103,9 @@ if test "$enable_static" = 'yes'; then
     LINK="$CXX $LDFLAGS -static"
 else
     LINK="$CXX $LDFLAGS"
+    CFLAGS="$CFLAGS -fPIC"
+    CXXFLAGS="$CXXFLAGS -fPIC"
+    FCFLAGS="$FCFLAGS -fPIC"
 fi
 
 # show optional compoment information

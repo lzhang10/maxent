@@ -6199,6 +6199,9 @@ if test "$enable_static" = 'yes'; then
     LINK="$CXX $LDFLAGS -static"
 else
     LINK="$CXX $LDFLAGS"
+    CFLAGS="$CFLAGS -fPIC"
+    CXXFLAGS="$CXXFLAGS -fPIC"
+    FCFLAGS="$FCFLAGS -fPIC"
 fi
 
 # show optional compoment information
@@ -7274,7 +7277,7 @@ do
     cat >>$CONFIG_STATUS <<_ACEOF
     # First, check the format of the line:
     cat >"\$tmp/defines.sed" <<\\CEOF
-/^[	 ]*#[	 ]*undef[	 ][	 ]*$ac_word_re[	 ]*\$/b def
+/^[	 ]*#[	 ]*undef[	 ][	 ]*$ac_word_re[	 ]*/b def
 /^[	 ]*#[	 ]*define[	 ][	 ]*$ac_word_re[(	 ]/b def
 b
 :def
