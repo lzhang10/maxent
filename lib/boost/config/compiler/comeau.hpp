@@ -14,14 +14,9 @@
 
 #include "boost/config/compiler/common_edg.hpp"
 
-#if (__COMO_VERSION__ <= 4245) || !defined(BOOST_STRICT_CONFIG)
-
-#  ifdef _WIN32
-#     define BOOST_NO_SWPRINTF
-#  endif
+#if (__COMO_VERSION__ <= 4245)
 
 #  if defined(_MSC_VER) && _MSC_VER <= 1300
-#     define BOOST_NO_STDC_NAMESPACE
 #     if _MSC_VER > 100
          // only set this in non-strict mode:
 #        define BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
@@ -29,8 +24,8 @@
 #  endif
 
 // Void returns don't work when emulating VC 6 (Peter Dimov)
-
-#  if defined(_MSC_VER) && (_MSC_VER == 1200)
+// TODO: look up if this doesn't apply to the whole 12xx range
+#  if defined(_MSC_VER) && (_MSC_VER < 1300)
 #     define BOOST_NO_VOID_RETURNS
 #  endif
 

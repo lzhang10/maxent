@@ -1,11 +1,9 @@
 // Boost token_iterator.hpp  -------------------------------------------------//
 
 // Copyright John R. Bandela 2001
-// Permission to copy, use, modify, sell and distribute this software
-// is granted provided this copyright notice appears in all
-// copies. This software is provided "as is" without express or
-// implied warranty, and with no claim as to its suitability for any
-// purpose.
+// Distributed under the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
 
 // See http://www.boost.org/libs/tokenizer for documentation.
 
@@ -20,12 +18,11 @@
 #ifndef BOOST_TOKENIZER_POLICY_JRB070303_HPP_
 #define BOOST_TOKENIZER_POLICY_JRB070303_HPP_
 
+#include<boost/assert.hpp>
 #include<boost/iterator/iterator_adaptor.hpp>
 #include<boost/iterator/detail/minimum_category.hpp>
 #include<boost/token_functions.hpp>
 #include<utility>
-#include<cassert>
-
 
 namespace boost
 {
@@ -51,12 +48,12 @@ namespace boost
       Type tok_;
 
       void increment(){
-          assert(valid_);
+          BOOST_ASSERT(valid_);
           valid_ = f_(begin_,end_,tok_);
       }
 
       const Type&  dereference() const {
-          assert(valid_);
+          BOOST_ASSERT(valid_);
           return tok_;
       }
       template<class Other>
@@ -87,7 +84,7 @@ namespace boost
             token_iterator<TokenizerFunc, OtherIter,Type> const& t
             , typename enable_if_convertible<OtherIter, Iterator>::type* = 0)
             : f_(t.tokenizer_function()),begin_(t.base())
-            ,end_(t.end()),valid_(t.at_end()),tok_(t.current_token()) {}
+            ,end_(t.end()),valid_(!t.at_end()),tok_(t.current_token()) {}
 
       Iterator base()const{return begin_;}
 
@@ -97,7 +94,7 @@ namespace boost
 
       Type current_token()const{return tok_;}
 
-      bool at_end()const{return valid_;}
+      bool at_end()const{return !valid_;}
 
 
 

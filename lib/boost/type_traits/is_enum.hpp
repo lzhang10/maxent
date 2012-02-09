@@ -11,25 +11,29 @@
 #ifndef BOOST_TT_IS_ENUM_HPP_INCLUDED
 #define BOOST_TT_IS_ENUM_HPP_INCLUDED
 
-#include "boost/type_traits/add_reference.hpp"
-#include "boost/type_traits/is_arithmetic.hpp"
-#include "boost/type_traits/is_reference.hpp"
-#include "boost/type_traits/is_convertible.hpp"
+#include <boost/type_traits/intrinsics.hpp>
+#ifndef BOOST_IS_ENUM
+#include <boost/type_traits/add_reference.hpp>
+#include <boost/type_traits/is_arithmetic.hpp>
+#include <boost/type_traits/is_reference.hpp>
+#include <boost/type_traits/is_convertible.hpp>
+#include <boost/type_traits/is_array.hpp>
 #ifdef __GNUC__
 #include <boost/type_traits/is_function.hpp>
 #endif
-#include "boost/type_traits/config.hpp"
+#include <boost/type_traits/config.hpp>
 #if defined(BOOST_TT_HAS_CONFORMING_IS_CLASS_IMPLEMENTATION) 
 #  include <boost/type_traits/is_class.hpp>
 #  include <boost/type_traits/is_union.hpp>
 #endif
-
+#endif
 
 // should be the last #include
-#include "boost/type_traits/detail/bool_trait_def.hpp"
+#include <boost/type_traits/detail/bool_trait_def.hpp>
 
 namespace boost {
 
+#ifndef BOOST_IS_ENUM
 #if !(defined(__BORLANDC__) && (__BORLANDC__ <= 0x551))
 
 namespace detail {
@@ -51,7 +55,7 @@ struct is_class_or_union
 template <typename T>
 struct is_class_or_union
 {
-# if BOOST_WORKAROUND(BOOST_MSVC, == 1200) || BOOST_WORKAROUND(__BORLANDC__, <= 0x570)// we simply can't detect it this way.
+# if BOOST_WORKAROUND(BOOST_MSVC, < 1300) || BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x581))// we simply can't detect it this way.
     BOOST_STATIC_CONSTANT(bool, value = false);
 # else
     template <class U> static ::boost::type_traits::yes_type is_class_or_union_tester(void(U::*)(void));
@@ -91,44 +95,53 @@ template <>
 struct is_enum_helper<false>
 {
     template <typename T> struct type
-        : ::boost::is_convertible<T,::boost::detail::int_convertible>
+       : public ::boost::is_convertible<typename boost::add_reference<T>::type,::boost::detail::int_convertible>
     {
     };
 };
 
 template <typename T> struct is_enum_impl
 {
-   typedef ::boost::add_reference<T> ar_t;
-   typedef typename ar_t::type r_type;
+   //typedef ::boost::add_reference<T> ar_t;
+   //typedef typename ar_t::type r_type;
 
 #if defined(__GNUC__)
 
 #ifdef BOOST_TT_HAS_CONFORMING_IS_CLASS_IMPLEMENTATION
+    
+   // We MUST check for is_class_or_union on conforming compilers in
+   // order to correctly deduce that noncopyable types are not enums
+   // (dwa 2002/04/15)...
    BOOST_STATIC_CONSTANT(bool, selector =
       (::boost::type_traits::ice_or<
            ::boost::is_arithmetic<T>::value
          , ::boost::is_reference<T>::value
          , ::boost::is_function<T>::value
          , is_class_or_union<T>::value
+         , is_array<T>::value
       >::value));
 #else
+   // ...however, not checking is_class_or_union on non-conforming
+   // compilers prevents a dependency recursion.
    BOOST_STATIC_CONSTANT(bool, selector =
       (::boost::type_traits::ice_or<
            ::boost::is_arithmetic<T>::value
          , ::boost::is_reference<T>::value
          , ::boost::is_function<T>::value
+         , is_array<T>::value
       >::value));
 #endif // BOOST_TT_HAS_CONFORMING_IS_CLASS_IMPLEMENTATION
 
-#else
+#else // !defined(__GNUC__):
+    
    BOOST_STATIC_CONSTANT(bool, selector =
       (::boost::type_traits::ice_or<
            ::boost::is_arithmetic<T>::value
          , ::boost::is_reference<T>::value
          , is_class_or_union<T>::value
-       // However, not doing this on non-conforming compilers prevents
-       // a dependency recursion.
+         , is_array<T>::value
       >::value));
+    
 #endif
 
 #if BOOST_WORKAROUND(__BORLANDC__, < 0x600)
@@ -139,7 +152,7 @@ template <typename T> struct is_enum_impl
     typedef ::boost::detail::is_enum_helper<selector> se_t;
 #endif
 
-    typedef typename se_t::template type<r_type> helper;
+    typedef typename se_t::template type<T> helper;
     BOOST_STATIC_CONSTANT(bool, value = helper::value);
 };
 
@@ -163,8 +176,14 @@ BOOST_TT_AUX_BOOL_TRAIT_DEF1(is_enum,T,false)
 
 #endif
 
+#else // BOOST_IS_ENUM
+
+BOOST_TT_AUX_BOOL_TRAIT_DEF1(is_enum,T,BOOST_IS_ENUM(T))
+
+#endif
+
 } // namespace boost
 
-#include "boost/type_traits/detail/bool_trait_undef.hpp"
+#include <boost/type_traits/detail/bool_trait_undef.hpp>
 
 #endif // BOOST_TT_IS_ENUM_HPP_INCLUDED

@@ -10,10 +10,20 @@
 //  STLPort standard library config:
 
 #if !defined(__SGI_STL_PORT) && !defined(_STLPORT_VERSION)
-#  include <utility>
+#  include <cstddef>
 #  if !defined(__SGI_STL_PORT) && !defined(_STLPORT_VERSION)
 #      error "This is not STLPort!"
 #  endif
+#endif
+
+// Apple doesn't seem to reliably defined a *unix* macro
+#if !defined(CYGWIN) && (  defined(__unix__)  \
+                        || defined(__unix)    \
+                        || defined(unix)      \
+                        || defined(__APPLE__) \
+                        || defined(__APPLE)   \
+                        || defined(APPLE))
+#  include <unistd.h>
 #endif
 
 //
@@ -52,7 +62,7 @@
 // then the io stream facets are not available in namespace std::
 //
 #ifdef _STLPORT_VERSION
-#  if !defined(_STLP_OWN_IOSTREAMS) && defined(_STLP_USE_NAMESPACES) && defined(BOOST_NO_USING_TEMPLATE) && !defined(__BORLANDC__)
+#  if !(_STLPORT_VERSION >= 0x500) && !defined(_STLP_OWN_IOSTREAMS) && defined(_STLP_USE_NAMESPACES) && defined(BOOST_NO_USING_TEMPLATE) && !defined(__BORLANDC__)
 #     define BOOST_NO_STD_LOCALE
 #  endif
 #else
@@ -61,6 +71,14 @@
 #  endif
 #endif
 
+#if defined(_STLPORT_VERSION) && ((_STLPORT_VERSION < 0x500) || (_STLPORT_VERSION >= 0x520))
+#  define BOOST_NO_STD_UNORDERED
+#endif
+
+#if defined(_STLPORT_VERSION) && (_STLPORT_VERSION >= 0x520)
+#  define BOOST_HAS_TR1_UNORDERED_SET
+#  define BOOST_HAS_TR1_UNORDERED_MAP
+#endif
 //
 // Without member template support enabled, their are no template
 // iterate constructors, and no std::allocator:
@@ -74,7 +92,7 @@
 //
 #define BOOST_HAS_PARTIAL_STD_ALLOCATOR
 
-#if !defined(_STLP_MEMBER_TEMPLATE_CLASSES)
+#if !defined(_STLP_MEMBER_TEMPLATE_CLASSES) || defined(_STLP_DONT_SUPPORT_REBIND_MEMBER_TEMPLATE)
 #  define BOOST_NO_STD_ALLOCATOR
 #endif
 
@@ -83,10 +101,25 @@
 #endif
 
 //
+// If STLport thinks there is no wchar_t at all, then we have to disable
+// the support for the relevant specilazations of std:: templates.
+//
+#if !defined(_STLP_HAS_WCHAR_T) && !defined(_STLP_WCHAR_T_IS_USHORT)
+#  ifndef  BOOST_NO_STD_WSTRING
+#     define BOOST_NO_STD_WSTRING
+#  endif
+#  ifndef  BOOST_NO_STD_WSTREAMBUF
+#     define BOOST_NO_STD_WSTREAMBUF
+#  endif
+#endif
+
+//
 // We always have SGI style hash_set, hash_map, and slist:
 //
+#ifndef _STLP_NO_EXTENSIONS
 #define BOOST_HAS_HASH
 #define BOOST_HAS_SLIST
+#endif
 
 //
 // STLport does a good job of importing names into namespace std::,
@@ -150,6 +183,16 @@ namespace std{ using _STLP_VENDOR_CSTD::strcmp; using _STLP_VENDOR_CSTD::strcpy;
 #endif
 
 //
+// If STLport for some reason was configured so that it thinks that wchar_t
+// is not an intrinsic type, then we have to disable the support for it as
+// well (we would be missing required specializations otherwise).
+//
+#if !defined( _STLP_HAS_WCHAR_T) || defined(_STLP_WCHAR_T_IS_USHORT)
+#  undef  BOOST_NO_INTRINSIC_WCHAR_T
+#  define BOOST_NO_INTRINSIC_WCHAR_T
+#endif
+
+//
 // Borland ships a version of STLport with C++ Builder 6 that lacks
 // hashtables and the like:
 //
@@ -157,6 +200,38 @@ namespace std{ using _STLP_VENDOR_CSTD::strcmp; using _STLP_VENDOR_CSTD::strcpy;
 #  undef BOOST_HAS_HASH
 #endif
 
+//
+// gcc-2.95.3/STLPort does not like the using declarations we use to get ADL with std::min/max
+//
+#if defined(__GNUC__) && (__GNUC__ < 3)
+#  include <algorithm> // for std::min and std::max
+#  define BOOST_USING_STD_MIN() ((void)0)
+#  define BOOST_USING_STD_MAX() ((void)0)
+namespace boost { using std::min; using std::max; }
+#endif
+
+//  C++0x headers not yet implemented
+//
+#  define BOOST_NO_0X_HDR_ARRAY
+#  define BOOST_NO_0X_HDR_CHRONO
+#  define BOOST_NO_0X_HDR_CODECVT
+#  define BOOST_NO_0X_HDR_CONDITION_VARIABLE
+#  define BOOST_NO_0X_HDR_FORWARD_LIST
+#  define BOOST_NO_0X_HDR_FUTURE
+#  define BOOST_NO_0X_HDR_INITIALIZER_LIST
+#  define BOOST_NO_0X_HDR_MUTEX
+#  define BOOST_NO_0X_HDR_RANDOM
+#  define BOOST_NO_0X_HDR_RATIO
+#  define BOOST_NO_0X_HDR_REGEX
+#  define BOOST_NO_0X_HDR_SYSTEM_ERROR
+#  define BOOST_NO_0X_HDR_THREAD
+#  define BOOST_NO_0X_HDR_TUPLE
+#  define BOOST_NO_0X_HDR_TYPE_TRAITS
+#  define BOOST_NO_0X_HDR_TYPEINDEX
+#  define BOOST_NO_STD_UNORDERED        // deprecated; see following
+#  define BOOST_NO_0X_HDR_UNORDERED_MAP
+#  define BOOST_NO_0X_HDR_UNORDERED_SET
+#  define BOOST_NO_NUMERIC_LIMITS_LOWEST
 
 #define BOOST_STDLIB "STLPort standard library version " BOOST_STRINGIZE(__SGI_STL_PORT)
 

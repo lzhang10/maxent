@@ -9,7 +9,7 @@
 
 //  generic BSD config options:
 
-#if !defined(__FreeBSD__) && !defined(__NetBSD__) && !defined(__OpenBSD__)
+#if !defined(__FreeBSD__) && !defined(__NetBSD__) && !defined(__OpenBSD__) && !defined(__DragonFly__)
 #error "This platform is not BSD"
 #endif
 
@@ -19,6 +19,8 @@
 #define BOOST_PLATFORM "NetBSD " BOOST_STRINGIZE(__NetBSD__)
 #elif defined(__OpenBSD__)
 #define BOOST_PLATFORM "OpenBSD " BOOST_STRINGIZE(__OpenBSD__)
+#elif defined(__DragonFly__)
+#define BOOST_PLATFORM "DragonFly " BOOST_STRINGIZE(__DragonFly__)
 #endif
 
 //
@@ -26,7 +28,7 @@
 // FreeBSD has <nl_types.h> but does not
 // advertise the fact in <unistd.h>:
 //
-#if defined(__FreeBSD__) && (__FreeBSD__ >= 3)
+#if (defined(__FreeBSD__) && (__FreeBSD__ >= 3)) || defined(__DragonFly__)
 #  define BOOST_HAS_NL_TYPES_H
 #endif
 
@@ -34,19 +36,35 @@
 // FreeBSD 3.x has pthreads support, but defines _POSIX_THREADS in <pthread.h>
 // and not in <unistd.h>
 //
-#if defined(__FreeBSD__) && (__FreeBSD__ <= 3)
+#if (defined(__FreeBSD__) && (__FreeBSD__ <= 3))\
+   || defined(__OpenBSD__) || defined(__DragonFly__) 
 #  define BOOST_HAS_PTHREADS
 #endif
 
 //
 // No wide character support in the BSD header files:
 //
-#define BOOST_NO_CWCHAR
+#if defined(__NetBSD__)
+#define __NetBSD_GCC__ (__GNUC__         * 1000000 \
+                       + __GNUC_MINOR__ *    1000 \
+                       + __GNUC_PATCHLEVEL__)
+// XXX - the following is required until c++config.h
+//       defines _GLIBCXX_HAVE_SWPRINTF and friends
+//       or the preprocessor conditionals are removed
+//       from the cwchar header.
+#define _GLIBCXX_HAVE_SWPRINTF 1
+#endif
 
+#if !((defined(__FreeBSD__) && (__FreeBSD__ >= 5)) \
+      || (defined(__NetBSD_GCC__) && (__NetBSD_GCC__ >= 2095003)) || defined(__DragonFly__))
+#  define BOOST_NO_CWCHAR
+#endif
 //
 // The BSD <ctype.h> has macros only, no functions:
 //
-#define BOOST_NO_CTYPE_FUNCTIONS
+#if !defined(__OpenBSD__) || defined(__DragonFly__)
+#  define BOOST_NO_CTYPE_FUNCTIONS
+#endif
 
 //
 // thread API's not auto detected:

@@ -9,7 +9,7 @@ Now go on:
 
 The following build dependancies are required:
  * Jam (included) (http://www.perforce.com/)
- * Boost C++ library version 1.31 or higher (included) (http://www.boost.org)
+ * Boost C++ library (subset of v1.48 included) (http://www.boost.org)
  * zlib library and headers (optional)
  * a fortran compiler (optional but highly recommended)
 

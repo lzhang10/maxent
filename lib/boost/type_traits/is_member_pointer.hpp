@@ -21,26 +21,28 @@
 #ifndef BOOST_TT_IS_MEMBER_POINTER_HPP_INCLUDED
 #define BOOST_TT_IS_MEMBER_POINTER_HPP_INCLUDED
 
-#include "boost/type_traits/config.hpp"
-#include "boost/detail/workaround.hpp"
+#include <boost/type_traits/config.hpp>
+#include <boost/detail/workaround.hpp>
 
 #if !defined(BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION) && !BOOST_WORKAROUND(__BORLANDC__, < 0x600)
-#   include "boost/type_traits/is_member_function_pointer.hpp"
+#   include <boost/type_traits/is_member_function_pointer.hpp>
 #else
-#   include "boost/type_traits/is_reference.hpp"
-#   include "boost/type_traits/is_array.hpp"
-#   include "boost/type_traits/detail/is_mem_fun_pointer_tester.hpp"
-#   include "boost/type_traits/detail/yes_no_type.hpp"
-#   include "boost/type_traits/detail/false_result.hpp"
-#   include "boost/type_traits/detail/ice_or.hpp"
+#   include <boost/type_traits/is_reference.hpp>
+#   include <boost/type_traits/is_array.hpp>
+#   include <boost/type_traits/detail/is_mem_fun_pointer_tester.hpp>
+#   include <boost/type_traits/detail/yes_no_type.hpp>
+#   include <boost/type_traits/detail/false_result.hpp>
+#   include <boost/type_traits/detail/ice_or.hpp>
 #endif
 
 // should be the last #include
-#include "boost/type_traits/detail/bool_trait_def.hpp"
+#include <boost/type_traits/detail/bool_trait_def.hpp>
 
 namespace boost {
 
-#if BOOST_WORKAROUND(__BORLANDC__, < 0x600)
+#if defined( __CODEGEARC__ )
+BOOST_TT_AUX_BOOL_TRAIT_DEF1(is_member_pointer,T,__is_member_pointer(T))
+#elif BOOST_WORKAROUND(__BORLANDC__, < 0x600)
 BOOST_TT_AUX_BOOL_TRAIT_DEF1(is_member_pointer,T,false)
 BOOST_TT_AUX_BOOL_TRAIT_PARTIAL_SPEC1_2(typename T,typename U,is_member_pointer,U T::*,true)
 
@@ -48,17 +50,23 @@ BOOST_TT_AUX_BOOL_TRAIT_PARTIAL_SPEC1_2(typename T,typename U,is_member_pointer,
 BOOST_TT_AUX_BOOL_TRAIT_DEF1(is_member_pointer,T,::boost::is_member_function_pointer<T>::value)
 BOOST_TT_AUX_BOOL_TRAIT_PARTIAL_SPEC1_2(typename T,typename U,is_member_pointer,U T::*,true)
 
+#if !BOOST_WORKAROUND(__MWERKS__,<=0x3003) && !BOOST_WORKAROUND(__IBMCPP__, <=600)
+BOOST_TT_AUX_BOOL_TRAIT_PARTIAL_SPEC1_2(typename T,typename U,is_member_pointer,U T::*const,true)
+BOOST_TT_AUX_BOOL_TRAIT_PARTIAL_SPEC1_2(typename T,typename U,is_member_pointer,U T::*volatile,true)
+BOOST_TT_AUX_BOOL_TRAIT_PARTIAL_SPEC1_2(typename T,typename U,is_member_pointer,U T::*const volatile,true)
+#endif
+
 #else // no partial template specialization
 
 namespace detail {
 
 template <typename R, typename T>
-::boost::type_traits::yes_type BOOST_TT_DECL is_member_pointer_tester(R T::*);
+::boost::type_traits::yes_type BOOST_TT_DECL is_member_pointer_tester(R T::*const volatile*);
 ::boost::type_traits::no_type BOOST_TT_DECL is_member_pointer_tester(...);
 
 template <bool>
 struct is_member_pointer_select
-    : ::boost::type_traits::false_result
+    : public ::boost::type_traits::false_result
 {
 };
 
@@ -67,7 +75,7 @@ struct is_member_pointer_select<false>
 {
     template <typename T> struct result_
     {
-        static T& make_t();
+        static T* make_t();
         BOOST_STATIC_CONSTANT(
             bool, value =
             (::boost::type_traits::ice_or<
@@ -79,7 +87,7 @@ struct is_member_pointer_select<false>
 
 template <typename T>
 struct is_member_pointer_impl
-    : is_member_pointer_select<
+    : public is_member_pointer_select<
           ::boost::type_traits::ice_or<
               ::boost::is_reference<T>::value
             , ::boost::is_array<T>::value
@@ -103,6 +111,6 @@ BOOST_TT_AUX_BOOL_TRAIT_DEF1(is_member_pointer,T,::boost::detail::is_member_poin
 
 } // namespace boost
 
-#include "boost/type_traits/detail/bool_trait_undef.hpp"
+#include <boost/type_traits/detail/bool_trait_undef.hpp>
 
 #endif // BOOST_TT_IS_MEMBER_POINTER_HPP_INCLUDED

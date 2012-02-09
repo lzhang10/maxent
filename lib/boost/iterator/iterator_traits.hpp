@@ -1,8 +1,7 @@
-// Copyright David Abrahams 2003. Permission to copy, use,
-// modify, sell and distribute this software is granted provided this
-// copyright notice appears in all copies. This software is provided
-// "as is" without express or implied warranty, and with no claim as
-// to its suitability for any purpose.
+// Copyright David Abrahams 2003.
+// Distributed under the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
 #ifndef ITERATOR_TRAITS_DWA200347_HPP
 # define ITERATOR_TRAITS_DWA200347_HPP
 
@@ -28,35 +27,35 @@ namespace boost {
 template <class Iterator>
 struct iterator_value
 {
-    typedef typename detail::iterator_traits<Iterator>::value_type type;
+    typedef typename boost::detail::iterator_traits<Iterator>::value_type type;
 };
   
 template <class Iterator>
 struct iterator_reference
 {
-    typedef typename detail::iterator_traits<Iterator>::reference type;
+    typedef typename boost::detail::iterator_traits<Iterator>::reference type;
 };
   
   
 template <class Iterator>
 struct iterator_pointer
 {
-    typedef typename detail::iterator_traits<Iterator>::pointer type;
+    typedef typename boost::detail::iterator_traits<Iterator>::pointer type;
 };
   
 template <class Iterator>
 struct iterator_difference
 {
-    typedef typename detail::iterator_traits<Iterator>::difference_type type;
+    typedef typename boost::detail::iterator_traits<Iterator>::difference_type type;
 };
 
 template <class Iterator>
 struct BOOST_ITERATOR_CATEGORY
 {
-    typedef typename detail::iterator_traits<Iterator>::iterator_category type;
+    typedef typename boost::detail::iterator_traits<Iterator>::iterator_category type;
 };
 
-# if BOOST_WORKAROUND(BOOST_MSVC, <= 1200)
+# if BOOST_WORKAROUND(BOOST_MSVC, < 1300)
 template <>
 struct iterator_value<int>
 {

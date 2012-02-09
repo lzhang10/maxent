@@ -21,14 +21,14 @@
 #ifndef BOOST_TT_IS_SAME_HPP_INCLUDED
 #define BOOST_TT_IS_SAME_HPP_INCLUDED
 
-#include "boost/type_traits/config.hpp"
+#include <boost/type_traits/config.hpp>
 #ifdef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
-#include "boost/type_traits/detail/yes_no_type.hpp"
-#include "boost/type_traits/detail/ice_and.hpp"
-#include "boost/type_traits/is_reference.hpp"
+#include <boost/type_traits/detail/yes_no_type.hpp>
+#include <boost/type_traits/detail/ice_and.hpp>
+#include <boost/type_traits/is_reference.hpp>
 #endif
 // should be the last #include
-#include "boost/type_traits/detail/bool_trait_def.hpp"
+#include <boost/type_traits/detail/bool_trait_def.hpp>
 
 namespace boost {
 
@@ -61,7 +61,7 @@ struct is_same_part_1
 template< typename T1, typename T2 >
 struct is_same_impl
 {
-    enum { value = detail::is_same_part_1<T1>::template part_2<T2>::value };
+    enum { value = boost::detail::is_same_part_1<T1>::template part_2<T2>::value };
 };
 
 #else // generic "no-partial-specialization" version
@@ -81,7 +81,7 @@ struct is_same_impl
 
    BOOST_STATIC_CONSTANT(bool, value =
       (::boost::type_traits::ice_and<
-         (sizeof(type_traits::yes_type) == sizeof(detail::is_same_tester(&t,&u))),
+         (sizeof(type_traits::yes_type) == sizeof(boost::detail::is_same_tester(&t,&u))),
          (::boost::is_reference<T>::value == ::boost::is_reference<U>::value),
          (sizeof(T) == sizeof(U))
         >::value));
@@ -97,7 +97,7 @@ BOOST_TT_AUX_BOOL_TRAIT_DEF2(is_same,T,U,(::boost::detail::is_same_impl<T,U>::va
 
 } // namespace boost
 
-#include "boost/type_traits/detail/bool_trait_undef.hpp"
+#include <boost/type_traits/detail/bool_trait_undef.hpp>
 
 #endif  // BOOST_TT_IS_SAME_HPP_INCLUDED
 

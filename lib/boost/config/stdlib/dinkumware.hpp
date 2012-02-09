@@ -12,7 +12,7 @@
 //  Dinkumware standard library config:
 
 #if !defined(_YVALS) && !defined(_CPPLIB_VER)
-#include <utility>
+#include <boost/config/no_tr1/utility.hpp>
 #if !defined(_YVALS) && !defined(_CPPLIB_VER)
 #error This is not the Dinkumware lib!
 #endif
@@ -29,7 +29,7 @@
 #     define BOOST_NO_STD_ALLOCATOR
 #  endif
 #  define BOOST_HAS_PARTIAL_STD_ALLOCATOR
-#  if (defined(_MSC_VER) && (_MSC_VER < 1300)) && !defined(__BORLANDC__)
+#  if defined(BOOST_MSVC) && (BOOST_MSVC < 1300)
       // if this lib version is set up for vc6 then there is no std::use_facet:
 #     define BOOST_NO_STD_USE_FACET
 #     define BOOST_HAS_TWO_ARG_USE_FACET
@@ -55,10 +55,21 @@
 #  define BOOST_HAS_MACRO_USE_FACET
 #  ifndef _CPPLIB_VER
       // Updated Dinkum library defines this, and provides
-      // its own min and max definitions.
-#     define BOOST_NO_STD_MIN_MAX
+      // its own min and max definitions, as does MTA version.
+#     ifndef __MTA__ 
+#        define BOOST_NO_STD_MIN_MAX
+#     endif
 #     define BOOST_NO_MS_INT64_NUMERIC_LIMITS
 #  endif
+#endif
+
+//
+// std extension namespace is stdext for vc7.1 and later, 
+// the same applies to other compilers that sit on top
+// of vc7.1 (Intel and Comeau):
+//
+#if defined(_MSC_VER) && (_MSC_VER >= 1310) && !defined(__BORLANDC__)
+#  define BOOST_STD_EXTENSION_NAMESPACE stdext
 #endif
 
 
@@ -69,11 +80,48 @@
 #  define BOOST_NO_STD_ITERATOR_TRAITS
 #endif
 
-#if defined(__ICL) && defined(_CPPLIB_VER) && (_CPPLIB_VER <= 310)
+#if defined(__ICL) && (__ICL < 800) && defined(_CPPLIB_VER) && (_CPPLIB_VER <= 310)
 // Intel C++ chokes over any non-trivial use of <locale>
 // this may be an overly restrictive define, but regex fails without it:
 #  define BOOST_NO_STD_LOCALE
 #endif
+
+#include <typeinfo>
+#if ( (!_HAS_EXCEPTIONS && !defined(__ghs__)) || (!_HAS_NAMESPACE && defined(__ghs__)) ) 
+#  define BOOST_NO_STD_TYPEINFO    
+#endif  
+
+//  C++0x headers implemented in 520 (as shipped by Microsoft)
+//
+#if !defined(_CPPLIB_VER) || _CPPLIB_VER < 520
+#  define BOOST_NO_0X_HDR_ARRAY
+#  define BOOST_NO_0X_HDR_CODECVT
+#  define BOOST_NO_0X_HDR_FORWARD_LIST
+#  define BOOST_NO_0X_HDR_INITIALIZER_LIST
+#  define BOOST_NO_0X_HDR_RANDOM
+#  define BOOST_NO_0X_HDR_REGEX
+#  define BOOST_NO_0X_HDR_SYSTEM_ERROR
+#  define BOOST_NO_STD_UNORDERED        // deprecated; see following
+#  define BOOST_NO_0X_HDR_UNORDERED_MAP
+#  define BOOST_NO_0X_HDR_UNORDERED_SET
+#  define BOOST_NO_0X_HDR_TUPLE
+#  define BOOST_NO_0X_HDR_TYPEINDEX
+#  define BOOST_NO_NUMERIC_LIMITS_LOWEST
+#endif
+
+#if !defined(_HAS_TR1_IMPORTS) && !defined(BOOST_NO_0X_HDR_TUPLE)
+#  define BOOST_NO_0X_HDR_TUPLE
+#endif
+//
+//  C++0x headers not yet (fully) implemented:
+//
+#  define BOOST_NO_0X_HDR_TYPE_TRAITS
+#  define BOOST_NO_0X_HDR_CHRONO
+#  define BOOST_NO_0X_HDR_CONDITION_VARIABLE
+#  define BOOST_NO_0X_HDR_FUTURE
+#  define BOOST_NO_0X_HDR_MUTEX
+#  define BOOST_NO_0X_HDR_RATIO
+#  define BOOST_NO_0X_HDR_THREAD
 
 #ifdef _CPPLIB_VER
 #  define BOOST_DINKUMWARE_STDLIB _CPPLIB_VER
@@ -86,6 +134,7 @@
 #else
 #  define BOOST_STDLIB "Dinkumware standard library version 1.x"
 #endif
+
 
 
 

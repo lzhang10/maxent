@@ -1,5 +1,5 @@
 
-//  Copyright (c) 2001-2003 Aleksey Gurtovoy.
+//  Copyright 2001-2003 Aleksey Gurtovoy.
 //  Use, modification and distribution are subject to the Boost Software License,
 //  Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt).
@@ -9,8 +9,8 @@
 #ifndef BOOST_TT_BROKEN_COMPILER_SPEC_HPP_INCLUDED
 #define BOOST_TT_BROKEN_COMPILER_SPEC_HPP_INCLUDED
 
-#include "boost/mpl/aux_/lambda_support.hpp"
-#include "boost/config.hpp"
+#include <boost/mpl/aux_/lambda_support.hpp>
+#include <boost/config.hpp>
 
 // these are needed regardless of BOOST_TT_NO_BROKEN_COMPILER_SPEC 
 #if defined(BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION)
@@ -88,7 +88,7 @@ template<> struct trait##_impl<spec> \
     }}                                                                              \
     /**/
 
-#   include "boost/type_traits/detail/type_trait_undef.hpp"
+#   include <boost/type_traits/detail/type_trait_undef.hpp>
 
 #endif // BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
 

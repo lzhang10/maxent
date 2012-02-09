@@ -1,11 +1,9 @@
 // (C) Copyright David Abrahams 2002.
 // (C) Copyright Jeremy Siek    2002.
 // (C) Copyright Thomas Witt    2002.
-// Permission to copy, use, modify,
-// sell and distribute this software is granted provided this
-// copyright notice appears in all copies. This software is provided
-// "as is" without express or implied warranty, and with no claim as
-// to its suitability for any purpose.
+// Distributed under the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
 
 // no include guard multiple inclusion intended
 
@@ -24,7 +22,11 @@
 # define BOOST_ITERATOR_CONFIG_DEF
 #endif 
 
-#if defined(BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION)           \
+// We enable this always now.  Otherwise, the simple case in
+// libs/iterator/test/constant_iterator_arrow.cpp fails to compile
+// because the operator-> return is improperly deduced as a non-const
+// pointer.
+#if 1 || defined(BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION)           \
     || BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x531))
 
 // Recall that in general, compilers without partial specialization
@@ -38,15 +40,18 @@
 // end up using a proxy for operator[] when we otherwise shouldn't.
 // Using reference constness gives it an extra hint that it can
 // return the value_type from operator[] directly, but is not
-// strictly neccessary.  Not sure how best to resolve this one.
+// strictly necessary.  Not sure how best to resolve this one.
 
 # define BOOST_ITERATOR_REF_CONSTNESS_KILLS_WRITABILITY 1
 
 #endif
 
 #if BOOST_WORKAROUND(BOOST_MSVC, <= 1300)                                       \
-    || BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x531))                   \
-    || (BOOST_WORKAROUND(BOOST_INTEL_CXX_VERSION, <= 700) && defined(_MSC_VER))
+    || BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x5A0))                   \
+    || (BOOST_WORKAROUND(BOOST_INTEL_CXX_VERSION, <= 700) && defined(_MSC_VER)) \
+    || BOOST_WORKAROUND(__DECCXX_VER, BOOST_TESTED_AT(60590042))                \
+    || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
+    
 # define BOOST_NO_LVALUE_RETURN_DETECTION
 
 # if 0 // test code
@@ -106,13 +111,8 @@
 
 #endif
 
-#if BOOST_WORKAROUND(__GNUC__, == 2 && __GNUC_MINOR__ == 95)    \
-  || BOOST_WORKAROUND(__MWERKS__, <= 0x2407)                    \
-  || BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x551))
-# define BOOST_ITERATOR_NO_MPL_AUX_HAS_XXX  // "MPL's has_xxx facility doesn't work"
-#endif 
 
-#if defined(BOOST_NO_SFINAE) || defined(BOOST_NO_IS_CONVERTIBLE) || defined(BOOST_NO_IS_CONVERTIBLE_TEMPLATE)
+#if !defined(BOOST_MSVC) && (defined(BOOST_NO_SFINAE) || defined(BOOST_NO_IS_CONVERTIBLE) || defined(BOOST_NO_IS_CONVERTIBLE_TEMPLATE))
 # define BOOST_NO_STRICT_ITERATOR_INTEROPERABILITY
 #endif 
 

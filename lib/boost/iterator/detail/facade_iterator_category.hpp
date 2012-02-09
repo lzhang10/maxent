@@ -6,13 +6,12 @@
 
 # include <boost/iterator/iterator_categories.hpp>
 
-# include <boost/static_assert.hpp>
-
 # include <boost/mpl/or.hpp>  // used in iterator_tag inheritance logic
 # include <boost/mpl/and.hpp>
 # include <boost/mpl/if.hpp>
-# include <boost/mpl/apply_if.hpp>
+# include <boost/mpl/eval_if.hpp>
 # include <boost/mpl/identity.hpp>
+# include <boost/mpl/assert.hpp>
 
 # include <boost/type_traits/is_same.hpp>
 # include <boost/type_traits/is_const.hpp>
@@ -24,7 +23,7 @@
 # include <boost/iterator/detail/config_def.hpp> // try to keep this last
 
 # ifdef BOOST_ITERATOR_REF_CONSTNESS_KILLS_WRITABILITY
-#  include <boost/python/detail/indirect_traits.hpp>
+#  include <boost/detail/indirect_traits.hpp>
 # endif
 
 //
@@ -61,7 +60,7 @@ struct iterator_writability_disabled
 # ifdef BOOST_ITERATOR_REF_CONSTNESS_KILLS_WRITABILITY // Adding Thomas' logic?
   : mpl::or_<
         is_const<Reference>
-      , python::detail::is_reference_to_const<Reference>
+      , boost::detail::indirect_traits::is_reference_to_const<Reference>
       , is_const<ValueParam>
     >
 # else 
@@ -86,12 +85,12 @@ struct iterator_writability_disabled
 //
 template <class Traversal, class ValueParam, class Reference>
 struct iterator_facade_default_category
-  : mpl::apply_if<
+  : mpl::eval_if<
         mpl::and_<
             is_reference<Reference>
           , is_convertible<Traversal,forward_traversal_tag>
         >
-      , mpl::apply_if<
+      , mpl::eval_if<
             is_convertible<Traversal,random_access_traversal_tag>
           , mpl::identity<std::random_access_iterator_tag>
           , mpl::if_<
@@ -100,20 +99,15 @@ struct iterator_facade_default_category
               , std::forward_iterator_tag
             >
         >
-      , typename mpl::apply_if<
+      , typename mpl::eval_if<
             mpl::and_<
                 is_convertible<Traversal, single_pass_traversal_tag>
                 
                 // check for readability
               , is_convertible<Reference, ValueParam>
             >
-          , mpl::if_<
-                iterator_writability_disabled<ValueParam,Reference>
-              , std::input_iterator_tag
-              , input_output_iterator_tag
-            >
-            
-          , mpl::identity<std::output_iterator_tag>
+          , mpl::identity<std::input_iterator_tag>
+          , mpl::identity<Traversal>
         >
     >
 {
@@ -144,29 +138,21 @@ template <class Category, class Traversal>
 struct iterator_category_with_traversal
   : Category, Traversal
 {
-# if 0
-    // Because of limitations on multiple user-defined conversions,
-    // this should be a good test of whether convertibility is enough
-    // in the spec, or whether we need to specify inheritance.
-    operator Category() const { return Category(); }
-    operator Traversal() const { return Traversal(); }
-# endif
-    
 # if !BOOST_WORKAROUND(BOOST_MSVC, <= 1300)
     // Make sure this isn't used to build any categories where
     // convertibility to Traversal is redundant.  Should just use the
     // Category element in that case.
-    BOOST_STATIC_ASSERT(
-        !(is_convertible<
+    BOOST_MPL_ASSERT_NOT((
+        is_convertible<
               typename iterator_category_to_traversal<Category>::type
             , Traversal
-          >::value));
+          >));
 
-    BOOST_STATIC_ASSERT(is_iterator_category<Category>::value);
-    BOOST_STATIC_ASSERT(!is_iterator_category<Traversal>::value);
-    BOOST_STATIC_ASSERT(!is_iterator_traversal<Category>::value);
+    BOOST_MPL_ASSERT((is_iterator_category<Category>));
+    BOOST_MPL_ASSERT_NOT((is_iterator_category<Traversal>));
+    BOOST_MPL_ASSERT_NOT((is_iterator_traversal<Category>));
 #  if !BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1310))
-    BOOST_STATIC_ASSERT(is_iterator_traversal<Traversal>::value);
+    BOOST_MPL_ASSERT((is_iterator_traversal<Traversal>));
 #  endif 
 # endif 
 };
@@ -177,7 +163,7 @@ template <class Traversal, class ValueParam, class Reference>
 struct facade_iterator_category_impl
 {
 # if !BOOST_WORKAROUND(BOOST_MSVC, <= 1300)
-    BOOST_STATIC_ASSERT(!is_iterator_category<Traversal>::value);
+    BOOST_MPL_ASSERT_NOT((is_iterator_category<Traversal>));
 # endif 
     
     typedef typename iterator_facade_default_category<
@@ -199,7 +185,7 @@ struct facade_iterator_category_impl
 //
 template <class CategoryOrTraversal, class ValueParam, class Reference>
 struct facade_iterator_category
-  : mpl::apply_if<
+  : mpl::eval_if<
         is_iterator_category<CategoryOrTraversal>
       , mpl::identity<CategoryOrTraversal> // old-style categories are fine as-is
       , facade_iterator_category_impl<CategoryOrTraversal,ValueParam,Reference>

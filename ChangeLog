@@ -1,121 +1,125 @@
-2011-09-02 Zhang Le <ejoy@users.sourceforge.net>
+2012-02-09 Le Zhang <ejoy@users.sourceforge.net>
+	* Fixed: compile warnings on recent platforms. Also upgrade the included boost lib
+			to a newer version.
+
+2011-09-02 Le Zhang <ejoy@users.sourceforge.net>
 	* Fixed: compile warning in src/maxent.cpp
 
-2011-05-16 Zhang Le <ejoy@users.sourceforge.net>
+2011-05-16 Le Zhang <ejoy@users.sourceforge.net>
 	* Fixed: incorporated patch provided by Jiří Marší: numerically stable
 	  fix for probability overflow, which can lead to crash in LBFGS training. 
 
-2006-10-04 Zhang Le <ejoy@users.sourceforge.net>
+2006-10-04 Le Zhang <ejoy@users.sourceforge.net>
     * Fixed: autoconf problem when using gcc4.0 with g77 replaced by gfortran
 
-2005-03-22 Zhang Le <ejoy@users.sourceforge.net>
+2005-03-22 Le Zhang <ejoy@users.sourceforge.net>
     * Added: docstring support to python binding
 
-2004-12-25 Zhang Le <ejoy@users.sourceforge.net>
+2004-12-25 Le Zhang <ejoy@users.sourceforge.net>
     * Ported to Sun Solaris platform
     * Ported to gcc 3.4.3
     * Python swig binding ported to win32
 
-2004-12-24 Zhang Le <ejoy@users.sourceforge.net>
+2004-12-24 Le Zhang <ejoy@users.sourceforge.net>
     * Added: unittest test for orange binding, setup.py for orngMaxent.py
     * Change the meaning of -g from sigma to sigma^2
     * Dox fix: about -g gaussian option, swig python installation, python::eval_all()
 
-2004-11-17 Zhang Le <ejoy@users.sourceforge.net>
+2004-11-17 Le Zhang <ejoy@users.sourceforge.net>
     * Added: C interface wrapper code for lbfgs.f, with a driver sdriver.c
     * Added: replace the heavy boost test unit with light weight minunit in
              test/
 
-2004-10-06 Zhang Le <ejoy@users.sourceforge.net>
+2004-10-06 Le Zhang <ejoy@users.sourceforge.net>
     * Fixed: An overflow caused by zero feature value in gis estimation code,
              which can cause "nan" appear in the model file.
     * Added: SWIG python binding now fully functions under Linux. Will replace
              Boost.Python in furture releases.
 
-2004-09-30 Zhang Le <ejoy@users.sourceforge.net>
+2004-09-30 Le Zhang <ejoy@users.sourceforge.net>
     * Doc fix for a maintenance release.
 
-2004-07-08 Zhang Le <ejoy@users.sourceforge.net>
+2004-07-08 Le Zhang <ejoy@users.sourceforge.net>
     * Added: Detail instructions on buliding on win32 were added in the
              document.
     * Added: Install headers in src/Jamfile
 
-2004-07-06 Zhang Le <ejoy@users.sourceforge.net>
+2004-07-06 Le Zhang <ejoy@users.sourceforge.net>
     * Fixed: wrongly display time measure on win32 platform in gistrainer.cpp
 	     and lbfgstrainer.cpp
     * Added: a timer for loading events data in MaxentModel
 
-2004-07-04 Zhang Le <ejoy@users.sourceforge.net>
+2004-07-04 Le Zhang <ejoy@users.sourceforge.net>
     * Remove the use of boost::format lib, which is pretty heavy for this
     application and can cause trouble on some C++ compilers.
     * Use own getopt implementation on Win32 platforms, which fixes file name
     bugs of command line program.
 
-2004-07-03 Zhang Le <ejoy@users.sourceforge.net>
+2004-07-03 Le Zhang <ejoy@users.sourceforge.net>
     * Fixed: use fabs instead of abs, a crucial bug in gistrainer.cpp
 
-2004-07-01 Zhang Le <ejoy@users.sourceforge.net>
+2004-07-01 Le Zhang <ejoy@users.sourceforge.net>
     * Ported to MSVC 7.1 with or without stlport
     * Ported to Intel C++ 8.0 with MSVC 7.1's lib & headers
     * Fixed: win32 getopt limitation by using own getopt.c on win32 platform
 
 
-2004-06-25 Zhang Le <ejoy@users.sourceforge.net>
+2004-06-25 Le Zhang <ejoy@users.sourceforge.net>
     * Automatically disable lbfgs routine on system without fortran compiler
 
-2004-06-09 Zhang Le <ejoy@users.sourceforge.net>
+2004-06-09 Le Zhang <ejoy@users.sourceforge.net>
     * Fixed: GIS now supports non-binary features
 
-2004-05-29 Zhang Le <ejoy@users.sourceforge.net>
+2004-05-29 Le Zhang <ejoy@users.sourceforge.net>
     * rewrite mmap supporting routines.
     * now the toolkit can be cross-compiled into native win32 executable using
       cross-mingw toolchain (gcc 3.2) on FreeBSD.
 
-2004-05-28 Zhang Le <ejoy@users.sourceforge.net>
+2004-05-28 Le Zhang <ejoy@users.sourceforge.net>
     * initial port to autoconf/jam building system, SCons is abandoned.
 
-2004-04-27 Zhang Le <ejoy@users.sourceforge.net>
+2004-04-27 Le Zhang <ejoy@users.sourceforge.net>
     * Fixed: a potential bug when reading non-binary feature value using
              mmap() call in maxent.cpp::get_sample(). The old code tries to
              call atof() with two more bytes beyond the feature value string.
              This works most time, but can cause a bus error.
 
-2004-04-11 Zhang Le <ejoy@users.sourceforge.net>
+2004-04-11 Le Zhang <ejoy@users.sourceforge.net>
     * detect gnugetopt lib with a CheckLib call in src/SConscript
 
-2004-03-13 Zhang Le <ejoy@users.sourceforge.net>
+2004-03-13 Le Zhang <ejoy@users.sourceforge.net>
     * Revised user manual
 
-2004-03-12 Zhang Le <ejoy@users.sourceforge.net>
+2004-03-12 Le Zhang <ejoy@users.sourceforge.net>
     * Fixed: re-arrange python binding and tagger code to python/ dir.
     * Added: maxent can now use heldout data (--heldout)
     * Added: maxent can now do prediction over test data directly after model
              training: maxent [options] train.data test.data 
 
-2004-02-29 Zhang Le <ejoy@users.sourceforge.net>
+2004-02-29 Le Zhang <ejoy@users.sourceforge.net>
     * Fixed: possible damage to training data when calling msync() in
              mmapfile.cpp
 
-2004-02-28 Zhang Le <ejoy@users.sourceforge.net>
+2004-02-28 Le Zhang <ejoy@users.sourceforge.net>
     * Fixed: E_ref parameter of gistrainer's newton() method when using
              Gaussian smoothing. Reported by Tom Morton
     * Changed: license is changed to LGPL
 
-2004-02-25 Zhang Le <ejoy@users.sourceforge.net>
+2004-02-25 Le Zhang <ejoy@users.sourceforge.net>
     * Use numeric_limits<double>::epsilon() instead of hardcoded eps
 
-2003-10-06 Zhang Le <ejoy@users.sourceforge.net>
+2003-10-06 Le Zhang <ejoy@users.sourceforge.net>
     * Update document and add ChangeLog, THANKS
     * Added: test for mmap() in src/SConscript
     * Added: add_heldout_event() now works
 
-2003-10-05 Zhang Le <ejoy@users.sourceforge.net>
+2003-10-05 Le Zhang <ejoy@users.sourceforge.net>
     * Added: fast mmap() file I/O, much faster than standard iostream
     * Added: line_mem_iterator.hpp and token_mem_iterator.hpp
 
-2003-10-04 Zhang Le <ejoy@users.sourceforge.net>
+2003-10-04 Le Zhang <ejoy@users.sourceforge.net>
     * Added: new build_params() suggested by Carmen Alvarez
 
-2003-09-27 Zhang Le <ejoy@users.sourceforge.net>
+2003-09-27 Le Zhang <ejoy@users.sourceforge.net>
     * Added: non-binary feature is now fullly supported
     * Added: test suites for pymaxent and mmapfile

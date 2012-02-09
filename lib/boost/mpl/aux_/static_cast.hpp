@@ -2,23 +2,19 @@
 #ifndef BOOST_MPL_AUX_STATIC_CAST_HPP_INCLUDED
 #define BOOST_MPL_AUX_STATIC_CAST_HPP_INCLUDED
 
-// + file: boost/mpl/aux_/static_cast.hpp
-// + last modified: 02/may/03
-
-// Copyright (c) 2001-03
-// Aleksey Gurtovoy
+// Copyright Aleksey Gurtovoy 2001-2004
 //
-// Permission to use, copy, modify, distribute and sell this software
-// and its documentation for any purpose is hereby granted without fee, 
-// provided that the above copyright notice appears in all copies and 
-// that both the copyright notice and this permission notice appear in 
-// supporting documentation. No representations are made about the 
-// suitability of this software for any purpose. It is provided "as is" 
-// without express or implied warranty.
+// Distributed under the Boost Software License, Version 1.0. 
+// (See accompanying file LICENSE_1_0.txt or copy at 
+// http://www.boost.org/LICENSE_1_0.txt)
 //
 // See http://www.boost.org/libs/mpl for documentation.
 
-#include "boost/mpl/aux_/config/workaround.hpp"
+// $Id: static_cast.hpp 49267 2008-10-11 06:19:02Z agurtovoy $
+// $Date: 2008-10-11 02:19:02 -0400 (Sat, 11 Oct 2008) $
+// $Revision: 49267 $
+
+#include <boost/mpl/aux_/config/workaround.hpp>
 
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x561)) \
  || BOOST_WORKAROUND(__GNUC__, < 3) \

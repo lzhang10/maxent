@@ -1,28 +1,25 @@
 
-// + file: boost/mpl/aux_/intergal_wrapper.hpp
-// + last modified: 12/apr/03
-
-// Copyright (c) 2000-03
-// Aleksey Gurtovoy
+// Copyright Aleksey Gurtovoy 2000-2006
 //
-// Permission to use, copy, modify, distribute and sell this software
-// and its documentation for any purpose is hereby granted without fee, 
-// provided that the above copyright notice appears in all copies and 
-// that both the copyright notice and this permission notice appear in 
-// supporting documentation. No representations are made about the 
-// suitability of this software for any purpose. It is provided "as is" 
-// without express or implied warranty.
+// Distributed under the Boost Software License, Version 1.0. 
+// (See accompanying file LICENSE_1_0.txt or copy at 
+// http://www.boost.org/LICENSE_1_0.txt)
 //
 // See http://www.boost.org/libs/mpl for documentation.
 
-// no include guards, the header is intended for multiple inclusion!
+// $Id: integral_wrapper.hpp 49267 2008-10-11 06:19:02Z agurtovoy $
+// $Date: 2008-10-11 02:19:02 -0400 (Sat, 11 Oct 2008) $
+// $Revision: 49267 $
 
-#include "boost/mpl/aux_/static_cast.hpp"
-#include "boost/mpl/aux_/config/nttp.hpp"
-#include "boost/mpl/aux_/config/static_constant.hpp"
-#include "boost/mpl/aux_/config/workaround.hpp"
+// NO INCLUDE GUARDS, THE HEADER IS INTENDED FOR MULTIPLE INCLUSION!
 
-#include "boost/preprocessor/cat.hpp"
+#include <boost/mpl/integral_c_tag.hpp>
+#include <boost/mpl/aux_/static_cast.hpp>
+#include <boost/mpl/aux_/nttp_decl.hpp>
+#include <boost/mpl/aux_/config/static_constant.hpp>
+#include <boost/mpl/aux_/config/workaround.hpp>
+
+#include <boost/preprocessor/cat.hpp>
 
 #if !defined(AUX_WRAPPER_NAME)
 #   define AUX_WRAPPER_NAME BOOST_PP_CAT(AUX_WRAPPER_VALUE_TYPE,_)
@@ -36,11 +33,11 @@
 #   if BOOST_WORKAROUND(__MWERKS__, <= 0x2407)
 #       define AUX_WRAPPER_INST(value) AUX_WRAPPER_NAME< value >
 #   else 
-#       define AUX_WRAPPER_INST(value) mpl::AUX_WRAPPER_NAME< value >
+#       define AUX_WRAPPER_INST(value) BOOST_MPL_AUX_ADL_BARRIER_NAMESPACE::AUX_WRAPPER_NAME< value >
 #   endif
 #endif
 
-namespace boost { namespace mpl {
+BOOST_MPL_AUX_ADL_BARRIER_NAMESPACE_OPEN
 
 template< AUX_WRAPPER_PARAMS(N) >
 struct AUX_WRAPPER_NAME
@@ -54,6 +51,7 @@ struct AUX_WRAPPER_NAME
     typedef AUX_WRAPPER_NAME type;
 #endif
     typedef AUX_WRAPPER_VALUE_TYPE value_type;
+    typedef integral_c_tag tag;
 
 // have to #ifdef here: some compilers don't like the 'N + 1' form (MSVC),
 // while some other don't like 'value + 1' (Borland), and some don't like
@@ -67,7 +65,7 @@ struct AUX_WRAPPER_NAME
     typedef AUX_WRAPPER_INST(prior_value) prior;
 #elif BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x561)) \
     || BOOST_WORKAROUND(__IBMCPP__, BOOST_TESTED_AT(502)) \
-    || BOOST_WORKAROUND(__HP_aCC, BOOST_TESTED_AT(53800))
+    || (BOOST_WORKAROUND(__HP_aCC, <= 53800) && (BOOST_WORKAROUND(__hpxstd98, != 1)))
     typedef AUX_WRAPPER_INST( BOOST_MPL_AUX_STATIC_CAST(AUX_WRAPPER_VALUE_TYPE, (N + 1)) ) next;
     typedef AUX_WRAPPER_INST( BOOST_MPL_AUX_STATIC_CAST(AUX_WRAPPER_VALUE_TYPE, (N - 1)) ) prior;
 #else
@@ -87,7 +85,7 @@ template< AUX_WRAPPER_PARAMS(N) >
 AUX_WRAPPER_VALUE_TYPE const AUX_WRAPPER_INST(N)::value;
 #endif
 
-}} // namespace boost::mpl
+BOOST_MPL_AUX_ADL_BARRIER_NAMESPACE_CLOSE
 
 #undef AUX_WRAPPER_NAME
 #undef AUX_WRAPPER_PARAMS
