@@ -22,11 +22,11 @@ test_constructor() {
     BOOST_CHECK_THROW(f.outcome_map(), runtime_error);
     */
 
+    // empty model
+    /*
     shared_ptr<ParamsType> params;
     size_t n_theta;
     shared_array<double> theta;
-    // empty model
-    /*
     BOOST_CHECK_THROW(f.params(params, n_theta, theta), runtime_error);
     */
 
@@ -124,11 +124,13 @@ test_constructor() {
 
     // BOOST_CHECK_THROW(f.feat_map(), runtime_error);
 
+    /*
     double Z;
     size_t n_theta;
     shared_array<double> theta;
     // error on empty model
     // BOOST_CHECK_THROW(f.params(Z, n_theta, theta), runtime_error);
+    */
     return 0;
 }
 
