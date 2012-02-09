@@ -7,7 +7,7 @@
  *
  * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
  * Begin       : 01-Jun-2003
- * Last Change : 08-Feb-2012.
+ * Last Change : 09-Feb-2012.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -44,13 +44,11 @@ class LBFGSTrainer : public Trainer {
         void init_trainer();
         double heldout_accuracy() const;
 
-            struct featid_hasher {
-                size_t operator()(const pair<size_t, size_t>& p) const {
-                    return p.first + p.second;
-                }
-            };
-
-#endif
+        struct featid_hasher {
+            size_t operator()(const pair<size_t, size_t>& p) const {
+                return p.first + p.second;
+            }
+        };
 
         shared_array<double>  m_observed_expects;
 };

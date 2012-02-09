@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002 by Zhang Le <ejoy@users.sourceforge.net>
  * Begin       : 31-Dec-2002
- * Last Change : 08-Feb-2012.
+ * Last Change : 09-Feb-2012.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,15 +31,27 @@
 using namespace std;
 
 
-template<typename T> 
-ItemMap<T>::~ItemMap() {
+template <typename T, typename _Hash, typename _Pred>
+ItemMap<T, _Hash, _Pred>::~ItemMap() {
     clear();
 }
 
-template<typename T>
-void ItemMap<T>::clear() {
+template <typename T, typename _Hash, typename _Pred>
+void ItemMap<T, _Hash, _Pred>::clear() {
     m_index.clear();
     m_hashdict.clear();
+}
+
+template <typename T, typename _Hash, typename _Pred>
+typename ItemMap<T, _Hash, _Pred>::id_type ItemMap<T, _Hash, _Pred>::add(const T& f) {
+    typename hash_map_type::const_iterator it = m_hashdict.find(f);
+    if (it != m_hashdict.end())
+        return it->second;
+
+    id_type id = m_index.size();
+    m_hashdict[f] = id;
+    m_index.push_back(f);
+    return id;
 }
 
 /**
@@ -111,15 +123,4 @@ void ItemMap<string>::save(ostream& os) {
 //    save(out);
 //}
 
-template<typename T>
-typename ItemMap<T>::id_type ItemMap<T>::add(const T& f) {
-    typename hash_map_type::const_iterator it = m_hashdict.find(f);
-    if (it != m_hashdict.end())
-        return it->second;
-
-    id_type id = m_index.size();
-    m_hashdict[f] = id;
-    m_index.push_back(f);
-    return id;
-}
 

@@ -13,9 +13,9 @@ The following build dependancies are required:
  * zlib library and headers (optional)
  * a fortran compiler (optional but highly recommended)
 
-The boost lib shipped with this package is a subset of the full boost lib:
-only headers used during compilation with gcc 3.2 on Linux/FreeBSD/Cygwin are
-included. 
+The boost lib shipped with this package is a subset of the full boost lib. If
+you encounter building errors then please download the latest boost lib and 
+try again.
 
 You need to have a working Fortran compiler in order to take advantage of
 LBFGS code. On OS X you can get gfortran installed using Homebrew:

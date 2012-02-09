@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002 by Zhang Le <ejoy@users.sourceforge.net>
  * Begin       : 31-Dec-2002
- * Last Change : 08-Feb-2012.
+ * Last Change : 09-Feb-2012.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -37,13 +37,14 @@
 
 #include <tr1/unordered_map>
 
-template <typename T>
+template <typename T,
+         typename _Hash = std::tr1::hash<T>,
+         typename _Pred = std::equal_to<T> >
 class ItemMap {
     public:
         typedef T      item_type;
         typedef size_t id_type;
-        typedef std::tr1::unordered_map <T, id_type>         hash_map_type;
-        // static const size_t null_id = ~(ItemMap::id_type)0;
+        typedef std::tr1::unordered_map <T, id_type, _Hash, _Pred>         hash_map_type;
         static const size_t null_id;
         typedef typename std::vector<T>::iterator       iterator;
         typedef typename std::vector<T>::const_iterator const_iterator;
@@ -97,7 +98,9 @@ class ItemMap {
         std::vector<T>        m_index;
 };
 
-template <typename T>
-const size_t ItemMap<T>::null_id = ~(typename ItemMap<T>::id_type)(0); // -1 is null_id
+
+template <typename T, typename _Hash, typename _Pred>
+const size_t ItemMap<T, _Hash, _Pred>::null_id = 
+~(typename ItemMap<T, _Hash, _Pred>::id_type)(0); // -1 is null_id
 #include "itemmap.tcc"
 #endif /* ifndef ITEMMAP_H */
