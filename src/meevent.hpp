@@ -30,7 +30,7 @@
 #include "config.h"
 #endif
 
-#include <ext_algorithm.hpp>
+#include "ext_algorithm.hpp"
 
 #include "eventspace.hpp"
 
