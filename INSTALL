@@ -28,8 +28,11 @@ configure the toolkit, just type:
 $ ./configure
 
 (NOTE: the leading '$' character is used to represent a shell prompt.  DO NOT
-actually type that in!) This will run the `configure' script which will try to
-figure out the configuration of your compilers automatically.
+actually type that in! And you'd better check the format of 'configure' and 
+shells in directory 'script' and tools, if their format is not 'unix', you'd
+better convert their format by using some editors like UltraEdit.) This will 
+run the `configure' script which will try tofigure out the configuration of 
+your compilers automatically.
 
 Now you can build the package by calling:
 
