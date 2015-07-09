@@ -13,14 +13,16 @@ more.
 
 Building maxent python extension module
 =======================================
-First, make sure you have successfully built the C++ maxent lib. 
+First, make sure you have successfully built the C++ maxent lib and installed
+python header files:
+    sudo apt-get install python-dev
 Then proceed with the following command to build the maxent module:
 
 $ python setup.py build
 
 If no error occurs then proceed with:
 
-$ python setup.py install
+$ sudo python setup.py install
 
 to install the python extension to your python site-package directory.
 
@@ -48,5 +50,3 @@ can obtain a pre-built extension module that is available from the toolkit's
 homepage.  Just download then run a GUI setup program.
 
 Have fun!
-
-Zhang Le
