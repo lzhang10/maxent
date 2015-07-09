@@ -82,8 +82,10 @@ AC_CHECK_LIB(z, main)
 #    exit 1
 #fi
 
+echo ""
 if test "$use_builtin_boost" = 'yes'; then
-    echo "**info** configure will use boost lib shipped with this package"
+    echo "**INFO** boost library not available, which can be installed via 'sudo apt-get install libboost-dev'"
+    echo "**INFO** This is Ok. configure will use boost lib shipped with this package (v1.48)"
     BOOST_LIB='$(TOP)/lib/'
 fi
 
@@ -111,13 +113,14 @@ fi
 # show optional compoment information
 echo ""
 if test "$ac_cv_lib_z_main" = 'no'; then
-    echo "**info** zlib not found, compressed model file disabled!"
+    echo "**INFO** zlib not found, compressed model file disabled!"
     echo ""
 fi
 
 if test -z "$FC" ; then
-    echo "**info** Fortran compiler not found, LBFGS optimization module disabled!"
-    echo "**info** Only GIS training method is availiable."
+    echo "**INFO** Fortran compiler not found, LBFGS optimization module disabled!"
+    echo "**INFO** Only GIS training method is availiable."
+    echo "**INFO** You can install Fortran via 'sudo apt-get install gfortran'"
     echo ""
 fi
 

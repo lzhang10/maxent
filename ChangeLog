@@ -1,3 +1,7 @@
+2015-07-09 Le Zhang <ejoy@users.sourceforge.net>
+	* this file will no longer be maintained since the project was moved to github.
+	Please use 'git log' command to view the commit history instead.
+
 2012-02-09 Le Zhang <ejoy@users.sourceforge.net>
 	* Fixed: compile warnings on recent platforms. Also upgrade the included boost lib
 			to a newer version.
