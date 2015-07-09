@@ -168,7 +168,7 @@ void MaxentModelFile::load_model_txt(const string& model) {
     m_pred_map.reset(new me::PredMapType);
     m_outcome_map.reset(new me::OutcomeMapType);
     m_params.reset(new me::ParamsType);
-    m_theta.reset(0);
+    m_theta.reset();
 
     // skip header comments
     getline(f, line);
@@ -242,7 +242,7 @@ void MaxentModelFile::load_model_bin(const string& model) {
     m_pred_map.reset(new me::PredMapType);
     m_outcome_map.reset(new me::OutcomeMapType);
     m_params.reset(new me::ParamsType);
-    m_theta.reset(0);
+    m_theta.reset();
 
     size_t count;
     size_t len;
@@ -444,7 +444,7 @@ void RandomFieldModelFile::load_model_txt(const string& model) {
     string line;
 
     m_feat_map.reset(new rf::featmap_type);
-    m_theta.reset(0);
+    m_theta.reset();
 
     // skip header comments
     getline(f, line);
@@ -489,7 +489,7 @@ void RandomFieldModelFile::load_model_bin(const string& model) {
     gzseek(f, header_len, 0);
 
     m_feat_map.reset(new rf::featmap_type);
-    m_theta.reset(0);
+    m_theta.reset();
 
     size_t count;
     size_t len;
@@ -596,7 +596,7 @@ void RandomFieldModelFile::load_model_bin(const string& model, const string& par
     m_feat_map.reset(new FeatMapType);
     m_outcome_map.reset(new OutcomeMapType);
     m_params.reset(new ParamsType);
-    m_theta.reset(0);
+    m_theta.reset();
 
     // load theta {{{
     {
