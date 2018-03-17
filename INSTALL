@@ -13,6 +13,10 @@ The following build dependancies are required:
  * zlib library and headers (optional)
  * a fortran compiler (optional but highly recommended)
 
+You can install these dependancies by executing:
+
+$ sudo apt-get install jam libboost-all-dev zlib1g-dev gfortran
+
 The boost lib shipped with this package is a subset of the full boost lib. If
 you encounter building errors then please download the latest boost lib and 
 try again.
