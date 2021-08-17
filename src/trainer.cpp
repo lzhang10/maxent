@@ -33,8 +33,14 @@
 #include <cmath>
 #include <limits>
 #include <algorithm>
-#include <boost/progress.hpp>
 #include <boost/tokenizer.hpp>
+
+#if (BOOST_VERSION >= 107200)
+#include <boost/timer/progress_display.hpp>
+#else
+#include <boost/progress.hpp>
+#endif
+
 #include "trainer.hpp"
 #include "modelfile.hpp"
 #include "finite.h"

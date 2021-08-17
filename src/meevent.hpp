@@ -30,6 +30,12 @@
 #include "config.h"
 #endif
 
+#ifdef __GNUC__
+#  define UNUSED(x) UNUSED_ ## x __attribute__((__unused__))
+#else
+#  define UNUSED(x) UNUSED_ ## x
+#endif
+
 #include "ext_algorithm.hpp"
 
 #include "eventspace.hpp"
@@ -87,7 +93,7 @@ struct Event {
     }
 
     void set_outcome(outcome_id_type oid) { m_outcome = oid; }
-    void set_prior(const double p) {}
+    void set_prior(const double UNUSED(p)) {}
 };
 
 typedef size_t outcome_id_type;

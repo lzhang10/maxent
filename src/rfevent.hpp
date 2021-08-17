@@ -30,7 +30,12 @@
 #include "config.h"
 #endif
 
-#include <ext_algorithm.hpp>
+#ifdef __GNUC__
+#  define UNUSED(x) UNUSED_ ## x __attribute__((__unused__))
+#else
+#  define UNUSED(x) UNUSED_ ## x
+#endif
+
 #include "eventspace.hpp"
 
 namespace maxent {
@@ -85,7 +90,7 @@ struct Event {
                 rhs.m_context, rhs.m_context + rhs.m_context_size) == 0);
     }
 
-    void set_outcome(outcome_id_type oid) {}
+    void set_outcome(outcome_id_type UNUSED(oid)) {}
 
     void set_prior(const double p) {m_prior = p;}
 };

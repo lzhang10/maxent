@@ -35,15 +35,16 @@
 #include <boost/utility.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/shared_array.hpp>
+#include <boost/timer/timer.hpp>
 #include <ostream>
 #include <iostream>
 
 #include "itemmap.hpp"
 #include "meevent.hpp"
 
-namespace boost {
-    class timer;
-}
+// namespace boost {
+//     class timer;
+// }
 
 /**
  * All classes and functions are placed in the namespace maxent.
@@ -192,7 +193,7 @@ class MaxentModel /*: TODO: we need copyable? boost::noncopyable*/  {
     shared_ptr<me::ParamsType> m_params;
     shared_array<double> m_theta; // feature weights
 
-    shared_ptr<boost::timer> m_timer;
+    shared_ptr<boost::timer::cpu_timer> m_timer;
 
     struct param_hasher {
         size_t operator()(const pair<size_t,size_t>& v) const {

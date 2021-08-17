@@ -38,7 +38,7 @@
 #include <limits>
 #include <algorithm>
 #include <tr1/unordered_map>
-#include <boost/timer.hpp>
+#include <boost/timer/timer.hpp>
 #include <boost/scoped_array.hpp>
 #include "lbfgstrainer.hpp"
 #include "display.hpp"
@@ -125,7 +125,7 @@ void LBFGSTrainer::train(size_t iter, double eps) {
     double f     = 0.0;
     size_t correct;
     double heldout_acc = -1.0;
-    boost::timer t;
+    boost::timer::cpu_timer t;
 
     lbfgs_t* opt = lbfgs_create(n, m, eps);
     if (!opt)
@@ -193,7 +193,7 @@ void LBFGSTrainer::train(size_t iter, double eps) {
             lbfgs_destory(opt);
             throw runtime_error("lbfgs routine stops with an error");
         } else if (iflag == 0) {
-            display("Training terminats succesfully in %.2f seconds", t.elapsed());
+            display("Training terminats succesfully in %s seconds", boost::timer::format(t.elapsed(), 2, "%w").c_str());
             break;
         } else {
             // continue evaluations
@@ -209,8 +209,8 @@ void LBFGSTrainer::train(size_t iter, double eps) {
     }
 
     if (opt->niter >= (int)iter)
-        display("Maximum numbers of %d iterations reached in %.2f seconds", iter
-                , t.elapsed());
+        display("Maximum numbers of %d iterations reached in %s seconds", iter
+                , boost::timer::format(t.elapsed(), 2, "%w").c_str());
     display("Highest log-likelihood: %E", (-f/m_N));
 
     lbfgs_destory(opt);

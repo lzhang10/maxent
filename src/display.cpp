@@ -48,7 +48,7 @@ void displayA(const char *msg, ... ) {
         char buf[1024];
         buf[1023] = '\0';
         va_list ap;
-        va_start(ap, msg);			// use variable arg list
+        va_start(ap, msg);  // use variable arg list
         vsnprintf(buf, 1023, msg, ap);
         va_end(ap);
         std::cout << buf << std::flush;
@@ -61,7 +61,7 @@ void display(const char *msg, ... ) {
         char buf[1024];
         buf[1023] = '\0';
         va_list ap;
-        va_start(ap, msg);			// use variable arg list
+        va_start(ap, msg);  // use variable arg list
         vsnprintf(buf, 1023, msg, ap);
         va_end(ap);
         std::cout << buf << std::endl;

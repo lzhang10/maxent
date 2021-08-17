@@ -24,7 +24,7 @@ test_constructor() {
 
     // empty model
     /*
-    shared_ptr<ParamsType> params;
+    boost::shared_ptr<ParamsType> params;
     size_t n_theta;
     shared_array<double> theta;
     BOOST_CHECK_THROW(f.params(params, n_theta, theta), runtime_error);
@@ -42,9 +42,9 @@ load_model(const string& file) {
 
 char* 
 check_model(MaxentModelFile& f) {
-    shared_ptr<PredMapType>    pred_map;
-    shared_ptr<OutcomeMapType> outcome_map;
-    shared_ptr<ParamsType>     params;
+    boost::shared_ptr<PredMapType>    pred_map;
+    boost::shared_ptr<OutcomeMapType> outcome_map;
+    boost::shared_ptr<ParamsType>     params;
     shared_array<double>       theta;
     size_t n_theta;
 
@@ -143,7 +143,7 @@ load_model(const string& file) {
 
 char*
 check_model(RandomFieldModelFile& f) {
-    shared_ptr<FeatMapType> feat_map;
+    boost::shared_ptr<FeatMapType> feat_map;
     double                  Z;
     size_t                  n_theta;
     shared_array<double>    theta;

@@ -36,9 +36,13 @@
 #include <cmath>
 #include <algorithm>
 #include <boost/tokenizer.hpp>
+
+#if (BOOST_VERSION >= 107200)
+#include <boost/timer/progress_display.hpp>
+#else
 #include <boost/progress.hpp>
-// #include "mmapfile.hpp"
-// #include "display.hpp"
+#endif
+
 #ifdef HAVE_LIBZ
     #include <zlib.h>
 #else
