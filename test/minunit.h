@@ -1,7 +1,7 @@
 /* file: minunit.h */
 /* A minimal unit testing framework for C (improved)
  *
- * by Zhang Le <ejoy@users.sourceforge.net>
+ * by Le Zhang <ejoy@users.sourceforge.net>
  *
  * This file is based on an article titled:
  * << MinUnit -- a minimal unit testing framework for C >>

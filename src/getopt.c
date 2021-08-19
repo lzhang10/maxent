@@ -208,7 +208,7 @@ static char *posixly_correct;
 /* Avoid depending on library functions or files
    whose names are inconsistent.  */
 
-#if defined(__BORLANDC__)     /* added by Zhang Le, for win32 BCC55 getenv(), 20040702 */
+#if defined(__BORLANDC__)     /* added by Le Zhang, for win32 BCC55 getenv(), 20040702 */
     #include <stdlib.h>
 #endif
 

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.5)
 
 # set the project name
 project(maxent)
@@ -20,13 +20,12 @@ else()
 endif()
 
 set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-#set(BUILD_SHARED_LIBS OFF)
 set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.48.0 REQUIRED COMPONENTS timer)
+find_package(Boost 1.48.0 REQUIRED COMPONENTS timer chrono)
 include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
 # zlib1g-dev on debian
-find_package( ZLIB REQUIRED )
+find_package(ZLIB REQUIRED)
 include_directories( ${ZLIB_INCLUDE_DIRS})
 link_libraries(${ZLIB_LIBRARIES})
 

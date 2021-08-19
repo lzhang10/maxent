@@ -4,7 +4,7 @@
  *
  * event.cpp  -  EventSpace used in Maxent/RandomField framework
  *
- * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2003 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 29-Oct-2003
  * Last Change : 12-Jun-2006.
  * 

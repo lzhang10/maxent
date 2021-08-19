@@ -9,7 +9,7 @@
  *   "Limited Memory BFGS Method for Large Scale Optimization"
  *                      by Jorge Nocedal
  *
- * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2003 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 01-Jun-2003
  * Last Change : 08-Feb-2012.
  *

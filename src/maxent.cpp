@@ -5,7 +5,7 @@
  * maxent.cpp  -  A handy command line maxent utility built on top of the
  * maxent library.
  *
- * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2003 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 02-Sep-2003
  * Last Change : 02-Sep-2011.
  *

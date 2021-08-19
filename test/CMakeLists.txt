@@ -1,5 +1,5 @@
 include_directories(${CMAKE_SOURCE_DIR}/src)
-link_libraries(maxent Boost::timer)
+link_libraries(maxent Boost::timer Boost::chrono)
 
 add_executable(test_display test_display.cpp)
 add_executable(test_event test_event.cpp)

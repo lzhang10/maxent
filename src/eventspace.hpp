@@ -4,7 +4,7 @@
  *
  * eventspace.hpp  -  An event space is made up of events and feature mapping
  *
- * Copyright (C) 2004 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2004 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 01-Mar-2004
  * Last Change : 10-Mar-2004.
  *

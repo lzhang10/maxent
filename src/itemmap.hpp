@@ -4,7 +4,7 @@
  *
  * itemmap.hpp  -  generic item <--> id map class
  *
- * Copyright (C) 2002 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2002 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 31-Dec-2002
  * Last Change : 09-Feb-2012.
  *

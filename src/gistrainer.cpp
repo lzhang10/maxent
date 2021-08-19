@@ -20,7 +20,7 @@
  * Without the computation of correction parameter, the new GIS algorithm is
  * much faster, making the already simple algorithm simpler.
  *
- * Copyright (C) 2002 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2002 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 31-Dec-2002
  * Last Change : 08-Feb-2012.
  *

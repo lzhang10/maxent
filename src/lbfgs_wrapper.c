@@ -9,7 +9,7 @@
  *
  * For detail usage, please consult the comment in the beginning of lbfgs.f.
  *
- * Copyright (C) 2004 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2004 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 17-Nov-2004
  * Last Change : 17-Nov-2004.
  *

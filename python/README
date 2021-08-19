@@ -1,37 +1,32 @@
 Python extension (binding) of the C++ Maximum Entropy Modeling Toolkit
 ======================================================================
-This directory contains source codes for building python extension of the C++
+This directory contains source codes for building Python3 extension of the C++
 library. More detail instructions can be found in the PDF manual:
 ../doc/manual.pdf.
 
-The python binding code is now generated with SWIG (http://www.swig.org), and
-is in fact more likely to work than the previously Boost.Python solution.
-(Getting Boost.Python to work is not a trivial task itself). The wrapping code
-is tuned by hand in order to be as efficient as possible. There are some loss
-in using the new wrapping approach, however, there is no pickle support any
-more.
+The python binding code is generated with SWIG (http://www.swig.org). The
+wrapper code is tuned by hand in order to be as efficient as possible. 
 
 Building maxent python extension module
 =======================================
-First, make sure you have successfully built the C++ maxent lib and installed
-python header files:
-    sudo apt-get install python-dev
+First, make sure you have successfully built the C++ maxent lib in <top-directory>/build/.
+
+Install Python header files:
+    sudo apt-get install python3-dev
+
 Then proceed with the following command to build the maxent module:
 
-$ python setup.py build
-
-If no error occurs then proceed with:
-
-$ sudo python setup.py install
-
-to install the python extension to your python site-package directory.
+$ python3 setup.py build
 
 Optionally, you may want to run some test routines to see if it works:
-enter ../test/ directory and run:
+enter <top-directory>/test directory and run:
 
-$ python test_pyext.py
+# replacing lib.linux-x86_64-3.9 with the actual path on disk
+$ PYTHONPATH=../python/build/lib.linux-x86_64-3.9 python3 test_pyext.py
 
-If all unit tests passed, the python binding is read for use.
+If all unit tests passed, the python binding is read for use and you can install it to your python site-package directory:
+
+$ sudo python3 setup.py install
 
 Important note for Win32 platform!
 ==================================
@@ -48,5 +43,3 @@ win32 platform is MSVC7 (tested on msvc71 + intel fortran 8 + stlport 4.6).
 If you still have problem in building the extension on win32, don't worry. You
 can obtain a pre-built extension module that is available from the toolkit's
 homepage.  Just download then run a GUI setup program.
-
-Have fun!

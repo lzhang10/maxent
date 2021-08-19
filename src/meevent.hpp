@@ -4,7 +4,7 @@
  *
  * meevent.hpp  -  define the Event (samples) the Maxent framework
  *
- * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2003 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 01-Jan-2003
  * Last Change : 26-Jun-2004.
  *

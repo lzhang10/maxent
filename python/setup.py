@@ -43,16 +43,19 @@ else: # unix
     if ac_cv_lib_z_main == 'yes':
         opt_lib.append('z')
 
-    fclibs = "@FCLIBS@"
+    fclibs = "/usr/lib/x86_64-linux-gnu/libboost_chrono.a"
+    opt_lib_path.append("/usr/lib/x86_64-linux-gnu/")
+    opt_lib.append('boost_chrono')
+    opt_lib.append('boost_timer')
 
-    if fclibs != '':
-        for s in fclibs.split():
-            if s[:2] == '-L':
-                opt_lib_path.append(s[2:])
-            elif s[:2] == '-l':
-                opt_lib.append(s[2:])
-            else:
-                raise 'unknow FCLIBS item: %s' % s
+    # if fclibs != '':
+    #     for s in fclibs.split():
+    #         if s[:2] == '-L':
+    #             opt_lib_path.append(s[2:])
+    #         elif s[:2] == '-l':
+    #             opt_lib.append(s[2:])
+    #         else:
+    #             raise 'unknow FCLIBS item: %s' % s
 
 setup(name = "maxent",
       version = "version-devel", 
@@ -76,15 +79,11 @@ STLPort 4.6.
           ["maxent_wrap.cxx"],
 
           include_dirs=[
-          "../lib", 
           "../src",
-          "/usr/local/include", 
           ], 
 
           library_dirs=[
-          "../src/opt",
-          "../src",
-          "/usr/local/lib",
+          "../build/src",
           ] + opt_lib_path,
 
           libraries = [libmaxent_name] + opt_lib,

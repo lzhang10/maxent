@@ -5,7 +5,7 @@
  * mmapfile.hpp  -  C++ wrapper for a mmap wrapper in C. See file `mmapfile.h'
  * for detail.
  *
- * Copyright (C) 2004 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2004 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 29-May-2004
  * Last Change : 30-May-2004.
  *

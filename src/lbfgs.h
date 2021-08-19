@@ -11,7 +11,7 @@
  *
  * sdriver.c provides a simple use of the C interface.
  *
- * Copyright (C) 2004 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2004 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 17-Nov-2004
  * Last Change : 26-Apr-2005.
  * 
