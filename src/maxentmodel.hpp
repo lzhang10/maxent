@@ -75,10 +75,8 @@ class MaxentModel /*: TODO: we need copyable? boost::noncopyable*/  {
     // virtual ~MaxentModel();
 
     public:
-//    typedef std::string feature_type;
-//    typedef std::string outcome_type;
     typedef me::feature_type feature_type;
-    typedef me::feature_type outcome_type;
+    typedef me::outcome_type outcome_type;
     typedef std::vector<pair<feature_type, float> > context_type;
 
     MaxentModel();

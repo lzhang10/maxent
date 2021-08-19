@@ -63,7 +63,7 @@ class ItemMap: #{{{
     def __str__(self):
         # TODO: avoid using += for speed
         s = '[ItemMap]\n'
-        for i in xrange(len(self.index)):
+        for i in range(len(self.index)):
             s += '%d: %s\n' % (i,self.index[i])
         return s
 
@@ -83,7 +83,7 @@ class ItemMap: #{{{
             return None
 
     def add(self, item):
-        if self.dict.has_key(item):
+        if item in self.dict:
             return self.dict[item]
         else:
             i = len(self.index)
@@ -109,7 +109,7 @@ class MaxentModel:
             return 'Empty Model (Python Version)'
 
         n = 0
-        for i in xrange(len(self.params)):
+        for i in range(len(self.params)):
             n += len(self.params[i])
 
         return"""Conditional Maximum Entropy Model (Python Version)
@@ -187,6 +187,7 @@ class MaxentModel:
         for param in self.params:
             for i in range(len(param)):
                 param[i] = (param[i][0], theta[param[i][1]])
+        f.close()
 
     def eval(self, context):
         """Evaluates given context and return a outcome distribution.
@@ -200,7 +201,7 @@ class MaxentModel:
         the return list is sorted on their probabilities in descendant order.
         """
 
-        assert type(context) == types.ListType or type(context) == types.TupleType
+        assert type(context) == list or type(context) == tuple
         n_outcome = len(self.outcome_map)
         probs = [0.0] * n_outcome
         #outcome_sum = zeros(len(self.outcome_map), float)
@@ -225,8 +226,7 @@ class MaxentModel:
         outcomes = []
         for i in range(n_outcome):
             outcomes.append((self.outcome_map[i], probs[i]))
-        outcomes.sort(lambda x,y: -cmp(x[1], y[1]))
-        return outcomes
+        return sorted(outcomes, key=lambda x: x[1], reverse=True)
 
     def predict(self, context):
         """Evaluates given context and return the most possible outcome y
