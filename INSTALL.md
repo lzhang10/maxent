@@ -24,7 +24,7 @@ sudo apt install build-essential gfortran libboost-all-dev python3-dev zlib1g-de
 
 ## Build
 
-Replace <top-dir> below with the directory you put the source tree in.
+Replace `<top-dir>` below with the directory you put the source tree in.
 
 ### C++ binary
 ```sh
