@@ -4,7 +4,7 @@
  *
  * fc_dummy_main.cpp  -  dummy main definition for linking with fortran lib
  *
- * Copyright (C) 2004 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2004 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 24-Apr-2004
  * Last Change : 04-Oct-2006.
  *

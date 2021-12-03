@@ -4,7 +4,7 @@
  *
  * mmapfile.c  -  A platform independent mmap wrapper
  *
- * Copyright (C) 2004 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2004 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 29-May-2004
  * Last Change : 22-May-2005.
  * 

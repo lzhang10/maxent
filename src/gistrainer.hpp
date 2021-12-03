@@ -13,7 +13,7 @@
  * with the help of developers from java maxent.
  * see http://maxent.sf.net
  *
- * Copyright (C) 2002 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2002 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 31-Dec-2002
  * Last Change : 08-Feb-2012.
  *

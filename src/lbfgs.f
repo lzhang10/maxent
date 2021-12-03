@@ -5,7 +5,7 @@ C     ****************
 C     LBFGS SUBROUTINE
 C     ****************
 C
-C     added by Zhang Le:
+C     added by Le Zhang:
 C     NITER returns the number of iterations performed so far
 C     NFUNS returns the number of function evaluations performed so far
       SUBROUTINE LBFGS(N,M,X,F,G,DIAGCO,DIAG,IPRINT,EPS,XTOL,W,IFLAG,

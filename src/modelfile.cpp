@@ -5,7 +5,7 @@
  * modelfile.cpp  -  helper classes for loading and saving Maxent/RandomField
  * Model
  *
- * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2003 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 28-May-2003
  * Last Change : 24-Apr-2004.
  *
@@ -36,9 +36,13 @@
 #include <cmath>
 #include <algorithm>
 #include <boost/tokenizer.hpp>
+
+#if (BOOST_VERSION >= 107200)
+#include <boost/timer/progress_display.hpp>
+#else
 #include <boost/progress.hpp>
-// #include "mmapfile.hpp"
-// #include "display.hpp"
+#endif
+
 #ifdef HAVE_LIBZ
     #include <zlib.h>
 #else

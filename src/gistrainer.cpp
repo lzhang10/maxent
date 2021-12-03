@@ -20,7 +20,7 @@
  * Without the computation of correction parameter, the new GIS algorithm is
  * much faster, making the already simple algorithm simpler.
  *
- * Copyright (C) 2002 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2002 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 31-Dec-2002
  * Last Change : 08-Feb-2012.
  *
@@ -49,7 +49,7 @@
 #include <cstdlib>
 #include <limits>
 #include <tr1/unordered_map>
-#include <boost/timer.hpp>
+#include <boost/timer/timer.hpp>
 #include "gistrainer.hpp"
 #include "display.hpp"
 #include "finite.h"
@@ -176,7 +176,7 @@ void GISTrainer::train(size_t iter, double tol) {
     size_t correct;
     size_t best_oid;
     vector<double> q(m_n_outcomes); // q(y|x)
-    boost::timer t;
+    boost::timer::cpu_timer t;
     size_t niter = 0;
 
     display("");
@@ -255,13 +255,13 @@ void GISTrainer::train(size_t iter, double tol) {
         display("%3d\t%E\t  %.3f%%\t     %s",
                 niter , (new_loglikelihood/m_N) , (acc*100) ,  "N/A");
         if (fabs((old_loglikelihood - new_loglikelihood)/old_loglikelihood) < tol) {
-            display("Training terminats succesfully in %.2f seconds", t.elapsed());
+            display(boost::timer::format(t.elapsed(), 2, "Training terminats succesfully in %w seconds").c_str());
             break;
         }
         old_loglikelihood = new_loglikelihood;
     }
     if (niter >= iter)
-        display("Maximum numbers of %d iterations reached in %.2f seconds", iter , t.elapsed());
+        display("Maximum numbers of %d iterations reached in %s seconds", iter , boost::timer::format(t.elapsed(), 2, "%w").c_str());
 
     // kill a bunch of these big objects now that we don't need them
     m_modifiers.reset();

@@ -8,7 +8,7 @@
  * After inclusion of this file non-standard STL algorithms like
  * lexicographical_compare_3way are exported into the global namespace.
  *
- * Copyright (C) 2004 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2004 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 26-Jun-2004
  * Last Change : 01-Jul-2004.
  *

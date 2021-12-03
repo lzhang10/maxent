@@ -4,7 +4,7 @@
  *
  * maxentmodel.cpp  -  a Conditional Maximun Entropy Model
  *
- * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2003 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 01-Jan-2003
  * Last Change : 08-Feb-2012.
  *
@@ -44,7 +44,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
 #include <boost/scoped_ptr.hpp>
-#include <boost/timer.hpp>
+#include <boost/timer/timer.hpp>
 
 #include "display.hpp"
 #include "gistrainer.hpp"
@@ -87,7 +87,7 @@ void MaxentModel::begin_add_event() {
     m_outcome_map = m_es->outcome_map();
     m_heldout_es.reset(new MEEventSpace(m_pred_map, m_outcome_map));
     m_params.reset(new ParamsType);
-    m_timer.reset(new boost::timer());
+    m_timer.reset(new boost::timer::cpu_timer());
 }
 
 /**
@@ -174,8 +174,8 @@ void MaxentModel::end_add_event(size_t cutoff) {
     assert(m_es && m_heldout_es);
 
     //remove duplicate events and update event count
-    display("Total %d training events and %d heldout events added in %.2f s",
-            m_es->size(), m_heldout_es->size(), m_timer->elapsed());
+    display("Total %d training events and %d heldout events added in %s seconds",
+            m_es->size(), m_heldout_es->size(), boost::timer::format(m_timer->elapsed(), 2, "%w").c_str());
     display("Reducing events (cutoff is %d)...", cutoff);
 
     m_es->merge_events(cutoff);
@@ -238,7 +238,6 @@ void MaxentModel::dump_events(const string& model, bool binary) const {
 
 double MaxentModel::build_params(shared_ptr<ParamsType>& params,
         size_t& n_theta) const {
-    boost::timer t;
     assert(m_es);
     typedef std::tr1::unordered_map <pair<size_t, size_t>, bool, featid_hasher> FeatMap;
 
@@ -260,7 +259,7 @@ double MaxentModel::build_params(shared_ptr<ParamsType>& params,
             if (feat_map.find(make_pair(pid, oid)) != feat_map.end())
                 param.push_back(make_pair(oid, n_theta++));
     }
-    return t.elapsed();
+    return 0.0;
 }
 
 // the same as build_params() but specially designed for large outcome set.
@@ -268,7 +267,7 @@ double MaxentModel::build_params(shared_ptr<ParamsType>& params,
 // set
 double MaxentModel::build_params2(shared_ptr<ParamsType>& params, 
         size_t& n_theta) const {
-    boost::timer t;
+    //boost::timer::cpu_timer t;
     assert(m_es);
     //map: predicate -> set of outcomes
     //i.e., pred1->{out1, out2, out3, ...}
@@ -303,7 +302,8 @@ double MaxentModel::build_params2(shared_ptr<ParamsType>& params,
                 oidIt != pidIt->second.end(); oidIt++)
             param.push_back(make_pair(*oidIt, n_theta++));
     }
-    return t.elapsed();
+    //return t.elapsed();
+    return 0.0;
 }
 
 /**
@@ -436,7 +436,8 @@ double MaxentModel::eval(const context_type& context,
     static vector<double> probs;
     if (probs.size() != m_outcome_map->size())
         probs.resize(m_outcome_map->size());
-        fill(probs.begin(), probs.end(), 0.0);
+
+    fill(probs.begin(), probs.end(), 0.0);
 
     size_t pid;
     for (size_t i = 0; i < context.size(); ++i) {

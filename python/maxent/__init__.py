@@ -2,7 +2,7 @@
 # XXX: I do not know how to set/get variable "verbose" in the natural way
 # so use two functions here.
 try:
-    import cmaxent
+    from . import cmaxent
     MaxentModel = cmaxent.MaxentModel
     def verbose():
         return cmaxent.cvar.verbose
@@ -10,8 +10,8 @@ try:
         cmaxent.cvar.verbose = x
 except ImportError:
     import sys
-    import pymaxent
-    print >> sys.stderr, 'cmaxent module not found, fall back to python implementation.'
+    from . import pymaxent
+    print('cmaxent module not found, fall back to python implementation.', file=sys.stderr)
     MaxentModel = pymaxent.MaxentModel
     def verbose():
         return pymaxent.verbose

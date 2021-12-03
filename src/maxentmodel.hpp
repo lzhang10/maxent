@@ -4,7 +4,7 @@
  *
  * maxentmodel.hpp  -  A Conditional Maximun Entropy Model
  *
- * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2003 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 01-Jan-2003
  * Last Change : 08-Feb-2012.
  *
@@ -35,15 +35,16 @@
 #include <boost/utility.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/shared_array.hpp>
+#include <boost/timer/timer.hpp>
 #include <ostream>
 #include <iostream>
 
 #include "itemmap.hpp"
 #include "meevent.hpp"
 
-namespace boost {
-    class timer;
-}
+// namespace boost {
+//     class timer;
+// }
 
 /**
  * All classes and functions are placed in the namespace maxent.
@@ -74,10 +75,8 @@ class MaxentModel /*: TODO: we need copyable? boost::noncopyable*/  {
     // virtual ~MaxentModel();
 
     public:
-//    typedef std::string feature_type;
-//    typedef std::string outcome_type;
     typedef me::feature_type feature_type;
-    typedef me::feature_type outcome_type;
+    typedef me::outcome_type outcome_type;
     typedef std::vector<pair<feature_type, float> > context_type;
 
     MaxentModel();
@@ -192,7 +191,7 @@ class MaxentModel /*: TODO: we need copyable? boost::noncopyable*/  {
     shared_ptr<me::ParamsType> m_params;
     shared_array<double> m_theta; // feature weights
 
-    shared_ptr<boost::timer> m_timer;
+    shared_ptr<boost::timer::cpu_timer> m_timer;
 
     struct param_hasher {
         size_t operator()(const pair<size_t,size_t>& v) const {

@@ -4,7 +4,7 @@
  *
  * meevent.hpp  -  define the Event (samples) the Maxent framework
  *
- * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2003 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 01-Jan-2003
  * Last Change : 26-Jun-2004.
  *
@@ -28,6 +28,12 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif
+
+#ifdef __GNUC__
+#  define UNUSED(x) UNUSED_ ## x __attribute__((__unused__))
+#else
+#  define UNUSED(x) UNUSED_ ## x
 #endif
 
 #include "ext_algorithm.hpp"
@@ -87,7 +93,7 @@ struct Event {
     }
 
     void set_outcome(outcome_id_type oid) { m_outcome = oid; }
-    void set_prior(const double p) {}
+    void set_prior(const double UNUSED(p)) {}
 };
 
 typedef size_t outcome_id_type;

@@ -4,7 +4,7 @@
  *
  * rfevent.hpp  -  define the Event (sample) in the RandomField framework
  *
- * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2003 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 01-Jan-2003
  * Last Change : 10-Mar-2004.
  *
@@ -30,7 +30,12 @@
 #include "config.h"
 #endif
 
-#include <ext_algorithm.hpp>
+#ifdef __GNUC__
+#  define UNUSED(x) UNUSED_ ## x __attribute__((__unused__))
+#else
+#  define UNUSED(x) UNUSED_ ## x
+#endif
+
 #include "eventspace.hpp"
 
 namespace maxent {
@@ -85,7 +90,7 @@ struct Event {
                 rhs.m_context, rhs.m_context + rhs.m_context_size) == 0);
     }
 
-    void set_outcome(outcome_id_type oid) {}
+    void set_outcome(outcome_id_type UNUSED(oid)) {}
 
     void set_prior(const double p) {m_prior = p;}
 };

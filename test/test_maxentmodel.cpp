@@ -130,9 +130,9 @@ char* test_gis3() { return test_model3("gis"); }
     // test_model3("gis"); // non-binary feature is not ready for gis 
 
 char* check_model(MaxentModelFile& f) {
-    shared_ptr<PredMapType>    pred_map;
-    shared_ptr<OutcomeMapType> outcome_map;
-    shared_ptr<ParamsType> params;
+    boost::shared_ptr<PredMapType>    pred_map;
+    boost::shared_ptr<OutcomeMapType> outcome_map;
+    boost::shared_ptr<ParamsType> params;
     size_t n_theta;
     shared_array<double> theta;
 

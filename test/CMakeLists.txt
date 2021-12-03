@@ -1,0 +1,22 @@
+include_directories(${CMAKE_SOURCE_DIR}/src)
+link_libraries(maxent Boost::timer Boost::chrono)
+
+add_executable(test_display test_display.cpp)
+add_executable(test_event test_event.cpp)
+add_executable(test_gistrainer test_gistrainer.cpp)
+add_executable(test_itemmap test_itemmap.cpp)
+add_executable(test_lbfgstrainer test_lbfgstrainer.cpp)
+add_executable(test_modelfile test_modelfile.cpp)
+add_executable(test_mmapfile test_mmapfile.cpp)
+add_executable(test_maxentmodel test_maxentmodel.cpp)
+
+enable_testing()
+add_test(NAME test_display COMMAND test_display)
+add_test(NAME test_event COMMAND test_event)
+add_test(NAME test_itemmap COMMAND test_itemmap)
+add_test(NAME test_mmapfile COMMAND test_mmapfile)
+
+add_test(NAME test_modelfile COMMAND test_modelfile WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+add_test(NAME test_maxentmodel COMMAND test_maxentmodel WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+add_test(NAME test_gistrainer COMMAND test_gistrainer WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+add_test(NAME test_lbfgstrainer COMMAND test_lbfgstrainer WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)

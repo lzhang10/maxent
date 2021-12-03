@@ -1,3 +1,6 @@
+2021-12-03 Le Zhang <ejoy@users.sourceforge.net>
+	* Updated repo to use cmake to build.
+
 2015-07-09 Le Zhang <ejoy@users.sourceforge.net>
 	* this file will no longer be maintained since the project was moved to github.
 	Please use 'git log' command to view the commit history instead.

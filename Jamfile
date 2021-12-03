@@ -1,7 +1,0 @@
-SubDir TOP ;
-SubInclude TOP src ;
-
-if $(BUILD_TEST) = yes
-{
-    SubInclude TOP test ;
-}

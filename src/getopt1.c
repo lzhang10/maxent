@@ -26,7 +26,7 @@
 
 #if !defined __STDC__ || !__STDC__ \
 
-#if !defined(__BORLANDC__) /* added by Zhang Le, for compiled under BCC55's C++
+#if !defined(__BORLANDC__) /* added by Le Zhang, for compiled under BCC55's C++
 			      mode, 20040702. Seems to be a bug of BCC */
 /* This is a separate conditional since some stdc systems
    reject `defined (const)'.  */

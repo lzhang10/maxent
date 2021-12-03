@@ -5,7 +5,7 @@
  * lbfgstrainer.hpp  -  a conditional ME trainer using Limited Memory BFGS
  * algorithm
  *
- * Copyright (C) 2003 by Zhang Le <ejoy@users.sourceforge.net>
+ * Copyright (C) 2003 by Le Zhang <ejoy@users.sourceforge.net>
  * Begin       : 01-Jun-2003
  * Last Change : 09-Feb-2012.
  *

@@ -60,12 +60,12 @@ char* test_load_events() {
 
 char* test_training() {
     LBFGSTrainer t;
-    shared_ptr<MEEventSpace> es(new MEEventSpace);
+    boost::shared_ptr<MEEventSpace> es(new MEEventSpace);
     load_events_txt("data/me_gis_train.ev", *es);
 
     MaxentModelFile m;
     m.load("data/me_model.txt");
-    shared_ptr<ParamsType> params;
+    boost::shared_ptr<ParamsType> params;
     size_t n_theta;
     shared_array<double> theta;
     shared_array<double> sigma;
@@ -89,12 +89,12 @@ char* test_training() {
 
 char* test_training2() {
     LBFGSTrainer t;
-    shared_ptr<MEEventSpace> es(new MEEventSpace);
+    boost::shared_ptr<MEEventSpace> es(new MEEventSpace);
     load_events_txt("data/me_gis_train2.ev", *es);
 
     MaxentModelFile m;
     m.load("data/me_model2.txt");
-    shared_ptr<ParamsType> params;
+    boost::shared_ptr<ParamsType> params;
     size_t n_theta;
     shared_array<double> theta;
     shared_array<double> sigma;

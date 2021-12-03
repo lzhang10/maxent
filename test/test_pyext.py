@@ -10,8 +10,8 @@ import maxent.pymaxent as pymaxent
 
 try:
     import maxent.cmaxent as cmaxent
-except ImportError, NameError:
-    print 'cmaxent not found, C++ python extension will not be tested!'
+except ImportError:
+    print('cmaxent not found, C++ python extension will not be tested!')
     cmaxent = None
 
 import unittest
@@ -21,7 +21,7 @@ class TestMaxent(unittest.TestCase):
         "only cmaxent specific routine is tested here"
         if cmaxent is None:
             return
-        print 'testing cmaxent'
+        print('testing cmaxent')
         m = cmaxent.MaxentModel()
         m.begin_add_event()
         m.add_event(['in'], 'A')
@@ -30,7 +30,7 @@ class TestMaxent(unittest.TestCase):
         m.add_event([('in', 1.0)], 'D', 2)
         m.end_add_event()
         m.train(15, 'gis', 0, 1E-05)
-        print m
+        print(m)
 
         places = 5
 
@@ -48,10 +48,10 @@ class TestMaxent(unittest.TestCase):
 
     def test_pymaxent(self):
         "only pymaxent specific routine is tested here"
-        print 'testing pymaxent'
+        print('testing pymaxent')
         m = pymaxent.MaxentModel()
         m.load('data/me_model2.txt')
-        print m
+        print(m)
 
         places = 5
         result = m.eval(['in'])
